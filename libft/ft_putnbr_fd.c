@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 10:44:02 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/16 10:44:17 by mchrispe         ###   ########.fr       */
+/*   Created: 2025/04/16 10:47:09 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/04/16 10:47:52 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// malloc de len de s ?
-
-
-char    *ft_strmapi(char const *s, char (*f)(unsigned int, char))
+void    ft_putnbr_fd(int n, int fd)
 {
-    int i;
+    char    *nbr;
 
-    i = 0;
-    while (s[i] != '\0')
-    {
-
-    }
+    nbr = ft_itoa(n);
+    write(fd, nbr, ft_strlen(nbr));
 }

@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 10:44:02 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/16 10:44:17 by mchrispe         ###   ########.fr       */
+/*   Created: 2025/04/16 13:10:43 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/04/16 13:11:03 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// malloc de len de s ?
-
-
-char    *ft_strmapi(char const *s, char (*f)(unsigned int, char))
+int ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-    int i;
+	unsigned char	*us1;
+	unsigned char	*us2;
+    size_t  i;
 
     i = 0;
-    while (s[i] != '\0')
+    us1 = (unsigned char *)s1;
+    us2 = (unsigned char *)s2;
+    while (i < n)
     {
-
+        if (us1[i] != us2[i])
+            return ((unsigned char)us1[i] - (unsigned char)us2[i]);
+        i++;
     }
+    return (0);
 }
