@@ -27,3 +27,17 @@ void    *memchr(const void *s, int c, size_t n)
     }
     return (NULL);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char str[] = "Hello, world!";
+    printf("Custom: %s | Standard: %s\n", (char *)memchr(str, 'w', 13), (char *)memchr(str, 'w', 13));
+    printf("Custom: %s | Standard: %s\n", (char *)memchr(str, 'z', 13), (char *)memchr(str, 'z', 13));
+    printf("Custom: %s | Standard: %s\n", (char *)memchr(str, 'o', 5), (char *)memchr(str, 'o', 5));
+    printf("Custom: %s | Standard: %s\n", (char *)memchr(str, '\0', 13), (char *)memchr(str, '\0', 13));
+    return 0;
+}
+*/

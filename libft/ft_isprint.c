@@ -15,3 +15,17 @@ int	ft_isprint(int c)
 		return (1);
 	return (0);
 }
+/*
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+	printf("Custom: %d | Standard: %d\n", ft_isprint('A'), isprint('A'));
+	printf("Custom: %d | Standard: %d\n", ft_isprint(' '), isprint(' '));
+	printf("Custom: %d | Standard: %d\n", ft_isprint(127), isprint(127));
+	printf("Custom: %d | Standard: %d\n", ft_isprint('~'), isprint('~'));
+	printf("Custom: %d | Standard: %d\n", ft_isprint(31), isprint(31));
+	return (0);
+}
+*/

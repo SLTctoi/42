@@ -25,3 +25,30 @@ void    *ft_memcpy(void *dest, const void *src, size_t n)
     }
     return (dest);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char src1[] = "Hello, World!";
+    char dest1[20];
+    char dest2[20];
+
+    printf("Custom: %s | Standard: %s\n", (char *)ft_memcpy(dest1, src1, 13), (char *)memcpy(dest2, src1, 13));
+
+    char src2[] = "";
+    char dest3[10];
+    char dest4[10];
+
+    printf("Custom: %s | Standard: %s\n", (char *)ft_memcpy(dest3, src2, 1), (char *)memcpy(dest4, src2, 1));
+
+    char src3[] = "42";
+    char dest5[10];
+    char dest6[10];
+
+    printf("Custom: %s | Standard: %s\n", (char *)ft_memcpy(dest5, src3, 3), (char *)memcpy(dest6, src3, 3));
+
+    return 0;
+}
+*/

@@ -50,3 +50,17 @@ char *ft_itoa(int n)
     }
     return s1;
 }
+/*
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    printf("Custom: %s | Standard: %s\n", ft_itoa(42), "42");
+    printf("Custom: %s | Standard: %s\n", ft_itoa(-42), "-42");
+    printf("Custom: %s | Standard: %s\n", ft_itoa(0), "0");
+    printf("Custom: %s | Standard: %s\n", ft_itoa(123456), "123456");
+    printf("Custom: %s | Standard: %s\n", ft_itoa(-123456), "-123456");
+    return 0;
+}
+*/

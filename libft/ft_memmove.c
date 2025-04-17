@@ -29,3 +29,28 @@ void    *ft_memmove(void *dest, const void *src, size_t n)
     }
     return (dest);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char dest1[50] = "Hello, World!";
+    char dest2[50] = "Hello, World!";
+    char src[] = "42 Cursus";
+
+    printf("Custom: %s | Standard: %s\n", (char *)ft_memmove(dest1 + 6, src, 9), (char *)memmove(dest2 + 6, src, 9));
+
+    char overlap1[50] = "Overlap Test";
+    char overlap2[50] = "Overlap Test";
+
+    printf("Custom: %s | Standard: %s\n", (char *)ft_memmove(overlap1 + 3, overlap1, 7), (char *)memmove(overlap2 + 3, overlap2, 7));
+
+    char reverse1[50] = "Reverse Copy";
+    char reverse2[50] = "Reverse Copy";
+
+    printf("Custom: %s | Standard: %s\n", (char *)ft_memmove(reverse1, reverse1 + 3, 7), (char *)memmove(reverse2, reverse2 + 3, 7));
+
+    return 0;
+}
+*/

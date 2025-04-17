@@ -15,3 +15,17 @@ int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
+/*
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+	printf("Custom: %d | Standard: %d\n", ft_isdigit('0'), isdigit('0'));
+	printf("Custom: %d | Standard: %d\n", ft_isdigit('9'), isdigit('9'));
+	printf("Custom: %d | Standard: %d\n", ft_isdigit('a'), isdigit('a'));
+	printf("Custom: %d | Standard: %d\n", ft_isdigit(' '), isdigit(' '));
+	printf("Custom: %d | Standard: %d\n", ft_isdigit(5), isdigit(5));
+	return 0;
+}
+*/

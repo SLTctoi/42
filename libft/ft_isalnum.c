@@ -17,3 +17,18 @@ int	ft_alnum(int c)
 		return (1);
 	return (0);
 }
+/*
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+	printf("Custom: %d | Standard: %d\n", ft_alnum('A'), isalnum('A'));
+	printf("Custom: %d | Standard: %d\n", ft_alnum('z'), isalnum('z'));
+	printf("Custom: %d | Standard: %d\n", ft_alnum('5'), isalnum('5'));
+	printf("Custom: %d | Standard: %d\n", ft_alnum('@'), isalnum('@'));
+	printf("Custom: %d | Standard: %d\n", ft_alnum(' '), isalnum(' '));
+	printf("Custom: %d | Standard: %d\n", ft_alnum(0), isalnum(0));
+	return 0;
+}
+*/

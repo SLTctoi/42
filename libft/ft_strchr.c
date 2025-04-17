@@ -25,3 +25,17 @@ char    *ft_strchr(const char *s, int c)
         return ((char *)s);
     return (NULL);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    printf("Custom: %s | Standard: %s\n", ft_strchr("Hello, world!", 'o'), strchr("Hello, world!", 'o'));
+    printf("Custom: %s | Standard: %s\n", ft_strchr("Hello, world!", 'z'), strchr("Hello, world!", 'z'));
+    printf("Custom: %s | Standard: %s\n", ft_strchr("Hello, world!", '\0'), strchr("Hello, world!", '\0'));
+    printf("Custom: %s | Standard: %s\n", ft_strchr("", 'a'), strchr("", 'a'));
+    printf("Custom: %s | Standard: %s\n", ft_strchr("42", '2'), strchr("42", '2'));
+    return 0;
+}
+*/

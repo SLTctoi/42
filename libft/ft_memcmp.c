@@ -27,3 +27,17 @@ int ft_memcmp(const void *s1, const void *s2, size_t n)
     }
     return (0);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    printf("Custom: %d | Standard: %d\n", ft_memcmp("abc", "abc", 3), memcmp("abc", "abc", 3));
+    printf("Custom: %d | Standard: %d\n", ft_memcmp("abc", "abd", 3), memcmp("abc", "abd", 3));
+    printf("Custom: %d | Standard: %d\n", ft_memcmp("abc", "abc", 0), memcmp("abc", "abc", 0));
+    printf("Custom: %d | Standard: %d\n", ft_memcmp("abc", "ab", 3), memcmp("abc", "ab", 3));
+    printf("Custom: %d | Standard: %d\n", ft_memcmp("", "", 1), memcmp("", "", 1));
+    return 0;
+}
+*/

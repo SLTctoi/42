@@ -23,3 +23,27 @@ void    *ft_memset(void *s, int c, size_t n)
     }
     return (s);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char custom[50];
+    char standard[50];
+
+    ft_memset(custom, 'A', 10);
+    memset(standard, 'A', 10);
+    printf("Custom: %.*s | Standard: %.*s\n", 10, custom, 10, standard);
+
+    ft_memset(custom, 'B', 5);
+    memset(standard, 'B', 5);
+    printf("Custom: %.*s | Standard: %.*s\n", 10, custom, 10, standard);
+
+    ft_memset(custom, 0, 10);
+    memset(standard, 0, 10);
+    printf("Custom: %.*s | Standard: %.*s\n", 10, custom, 10, standard);
+
+    return 0;
+}
+*/

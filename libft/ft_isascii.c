@@ -15,3 +15,17 @@ int	ft_isascii(int c)
 		return (1);
 	return (0);
 }
+/*
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+	printf("Custom: %d | Standard: %d\n", ft_isascii('A'), isascii('A'));
+	printf("Custom: %d | Standard: %d\n", ft_isascii(128), isascii(128));
+	printf("Custom: %d | Standard: %d\n", ft_isascii(0), isascii(0));
+	printf("Custom: %d | Standard: %d\n", ft_isascii(127), isascii(127));
+	printf("Custom: %d | Standard: %d\n", ft_isascii(-1), isascii(-1));
+	return 0;
+}
+*/

@@ -67,3 +67,43 @@ char	**ft_split(char const *s, char c)
     }
     return (result);
 }
+/*
+#include <stdio.h>
+#include <stdlib.h>
+
+int	main(void)
+{
+    char **result;
+    size_t i;
+
+    result = ft_split("Hello world 42", ' ');
+    for (i = 0; result[i]; i++)
+        printf("Custom: %s\n", result[i]);
+    for (i = 0; result[i]; i++)
+        free(result[i]);
+    free(result);
+
+    result = ft_split(",,,42,,,cursus,,,", ',');
+    for (i = 0; result[i]; i++)
+        printf("Custom: %s\n", result[i]);
+    for (i = 0; result[i]; i++)
+        free(result[i]);
+    free(result);
+
+    result = ft_split("", ',');
+    for (i = 0; result[i]; i++)
+        printf("Custom: %s\n", result[i]);
+    for (i = 0; result[i]; i++)
+        free(result[i]);
+    free(result);
+
+    result = ft_split("42", ' ');
+    for (i = 0; result[i]; i++)
+        printf("Custom: %s\n", result[i]);
+    for (i = 0; result[i]; i++)
+        free(result[i]);
+    free(result);
+
+    return (0);
+}
+*/

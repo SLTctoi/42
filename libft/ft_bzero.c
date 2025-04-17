@@ -22,3 +22,36 @@ void	ft_bzero(void *s, size_t n)
         i++;
     }
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char custom[10] = "abcdef";
+    char standard[10] = "abcdef";
+
+    ft_bzero(custom, 3);
+    bzero(standard, 3);
+
+    printf("Custom: %s | Standard: %s\n", custom, standard);
+
+    char custom2[10] = "123456";
+    char standard2[10] = "123456";
+
+    ft_bzero(custom2, 6);
+    bzero(standard2, 6);
+
+    printf("Custom: %s | Standard: %s\n", custom2, standard2);
+
+    char custom3[10] = "hello";
+    char standard3[10] = "hello";
+
+    ft_bzero(custom3, 0);
+    bzero(standard3, 0);
+
+    printf("Custom: %s | Standard: %s\n", custom3, standard3);
+
+    return 0;
+}
+*/
