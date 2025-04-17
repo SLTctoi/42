@@ -9,35 +9,39 @@
 /*   Updated: 2025/04/16 10:42:31 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-char    *ft_strtrim(char const *s1, char const *set)
+static int is_in_set(char c, const char *set)
 {
-    int i;
-    int j;
-    int k;
-    int inset;
-    char *s2;
-
-    if (!(s2 = malloc(sizeof(char) * (ft_strlen(s1) + 1))))
-        return (NULL);
-    i = 0;
-    k = 0;
-    while (s1[i] != '\0')
+    while (*set)
     {
-        inset = 0;
-        j = 0;
-        while (set[j] != '\0')
-        {
-            if (s1[i] = set[j])
-                inset = 1;
-            j++;
-        }
-        if (!inset)
-        {
-            s2[k] = s1[i]
-            k++;
-        }
-        i++;
+        if (c == *set)
+            return (1);
+        set++;
     }
-    s2[k] = '\0';
-    return (s2);
+    return (0);
+}
+
+char *ft_strtrim(char const *s1, char const *set)
+{
+    size_t start;
+    size_t end;
+    size_t len;
+    char *trim;
+
+    if (!s1 || !set)
+        return (NULL);
+
+    start = 0;
+    while (s1[start] && is_in_set(s1[start], set))
+        start++;
+    end = ft_strlen(s1);
+    while (end > start && is_in_set(s1[end - 1], set))
+        end--;
+
+    len = end - start;
+    trim = (char *)malloc(sizeof(char) * (len + 1));
+    if (!trim)
+        return (NULL);
+
+    ft_strlcpy(trim, s1 + start, len + 1);
+    return (trim);
 }

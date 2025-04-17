@@ -9,7 +9,6 @@
 /*   Updated: 2025/04/16 13:39:42 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-// !! -2147483648
 int ft_atoi(const char *nptr)
 {
     int i;
@@ -24,13 +23,13 @@ int ft_atoi(const char *nptr)
     if (nptr[i] == '-' || nptr[i] == '+')
     {
         if (nptr[i] == '-')
-            sign *= -1;
+            sign = -1;
         i++;
     }
     while (nptr[i] >= '0' && nptr[i] <= '9')
     {
-        nb *= 10 + (nptr[i] - '0');
+        nb = nb * 10 + (nptr[i] - '0');
         i++;
     }
-    return (sign + result);
+    return (sign * nb);
 }

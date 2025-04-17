@@ -12,20 +12,20 @@
 // si chevauchement on copie de la fin vers le debut sinon debut vers la fin
 void    *ft_memmove(void *dest, const void *src, size_t n)
 {
-    unsigned char *d;
-    unsigned char *s;
+    unsigned char *ud;
+    unsigned char *us;
 
-    d = (unsigned char *)dest;
-    s = (unsigned char *)src;
-    if (s < d && d < s + n)
+    ud = (unsigned char *)dest;
+    us = (unsigned char *)src;
+    if (us < ud && ud < us + n)
     {
         while (n--)
-            d[n] = s[n]
+            ud[n] = us[n];
     }
     else
     {
         while (n--)
-            *d++ = *s++;
+            *ud++ = *us++;
     }
     return (dest);
 }

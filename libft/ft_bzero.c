@@ -11,12 +11,14 @@
 /* ************************************************************************** */
 void	ft_bzero(void *s, size_t n)
 {
-    int i;
+    size_t i;
+    char  *dest;
 
-    i = n;
-    while (i != '/0')
+    dest = s;
+    i = 0;
+    while (i < n)
     {
-        s[i] = '/0';
+        dest[i] = '\0';
         i++;
     }
 }

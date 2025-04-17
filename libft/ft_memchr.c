@@ -14,14 +14,16 @@ void    *memchr(const void *s, int c, size_t n)
 {
     unsigned char *ptr;
     unsigned char uc;
+    size_t i;
 
     ptr = (unsigned char *)s;
-    uc = (unsigned char)c
-    for (size_t i = 0; i < n; i++) {
-        if (ptr[i] == uc) {
+    uc = (unsigned char)c;
+    i = 0;
+    while (i < n)
+    {
+        if (ptr[i] == uc)
             return (ptr + i);
-        }
+        i++;
     }
-
     return (NULL);
 }
