@@ -9,6 +9,8 @@
 /*   Updated: 2025/04/16 10:42:31 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
+
 static int	is_in_set(char c, const char *set)
 {
 	while (*set)

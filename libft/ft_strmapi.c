@@ -9,7 +9,7 @@
 /*   Updated: 2025/04/16 10:44:17 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+#include "libft.h"
 // malloc de len de s ?
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))

@@ -6,9 +6,11 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:05:07 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/18 12:09:12 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/04/18 11:05:26 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
+
 static int	ft_word_count(const char *s, char c)
 {
 	int	count;

@@ -9,6 +9,8 @@
 /*   Updated: 2025/04/18 11:06:00 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	len1;

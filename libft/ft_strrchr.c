@@ -9,6 +9,8 @@
 /*   Updated: 2025/04/16 12:33:28 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
+
 char	*ft_strrchr(const char *s, int c)
 {
 	char	*last_c;
