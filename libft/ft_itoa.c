@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:43:17 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/16 10:43:40 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/04/18 13:09:40 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -15,6 +15,7 @@ static int	ft_intlen(int n)
 {
 	int	len;
 
+	len = 0;
 	if (n <= 0)
 		len++;
 	while (n != 0)
