@@ -16,10 +16,10 @@ int	ft_isprint(int c)
 	return (0);
 }
 /*
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
-int main(void)
+int	main(void)
 {
 	printf("Custom: %d | Standard: %d\n", ft_isprint('A'), isprint('A'));
 	printf("Custom: %d | Standard: %d\n", ft_isprint(' '), isprint(' '));

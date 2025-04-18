@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 11:52:17 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/04/18 11:55:21 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 
@@ -46,8 +58,8 @@ void	ft_putnbr_fd(int n, int fd);
 // Bonus: Fonctions pour les listes chaînées
 typedef struct s_list
 {
-    void			*content;
-    struct s_list	*next;
+	void			*content;
+	struct s_list	*next;
 }	t_list;
 
 t_list	*ft_lstnew(void *content);

@@ -11,17 +11,17 @@
 /* ************************************************************************** */
 int	ft_alnum(int c)
 {
-	if ((c >= 0 && c <= 9) ||
-		(c >= 'a' && c <= 'z') ||
-		(c >= 'a' && c <= 'z'))
+	if ((c >= 0 && c <= 9)
+		|| (c >= 'a' && c <= 'z')
+		|| (c >= 'a' && c <= 'z'))
 		return (1);
 	return (0);
 }
 /*
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
-int main(void)
+int	main(void)
 {
 	printf("Custom: %d | Standard: %d\n", ft_alnum('A'), isalnum('A'));
 	printf("Custom: %d | Standard: %d\n", ft_alnum('z'), isalnum('z'));
@@ -29,6 +29,6 @@ int main(void)
 	printf("Custom: %d | Standard: %d\n", ft_alnum('@'), isalnum('@'));
 	printf("Custom: %d | Standard: %d\n", ft_alnum(' '), isalnum(' '));
 	printf("Custom: %d | Standard: %d\n", ft_alnum(0), isalnum(0));
-	return 0;
+	return (0);
 }
 */

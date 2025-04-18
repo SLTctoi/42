@@ -10,34 +10,39 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void    *memchr(const void *s, int c, size_t n)
+void	*memchr(const void *s, int c, size_t n)
 {
-    unsigned char *ptr;
-    unsigned char uc;
-    size_t i;
+	unsigned char	*ptr;
+	unsigned char	uc;
+	size_t			i;
 
-    ptr = (unsigned char *)s;
-    uc = (unsigned char)c;
-    i = 0;
-    while (i < n)
-    {
-        if (ptr[i] == uc)
-            return (ptr + i);
-        i++;
-    }
-    return (NULL);
+	ptr = (unsigned char *)s;
+	uc = (unsigned char)c;
+	i = 0;
+	while (i < n)
+	{
+		if (ptr[i] == uc)
+			return (ptr + i);
+		i++;
+	}
+	return (NULL);
 }
 /*
 #include <stdio.h>
 #include <string.h>
 
-int main(void)
+int	main(void)
 {
-    char str[] = "Hello, world!";
-    printf("Custom: %s | Standard: %s\n", (char *)memchr(str, 'w', 13), (char *)memchr(str, 'w', 13));
-    printf("Custom: %s | Standard: %s\n", (char *)memchr(str, 'z', 13), (char *)memchr(str, 'z', 13));
-    printf("Custom: %s | Standard: %s\n", (char *)memchr(str, 'o', 5), (char *)memchr(str, 'o', 5));
-    printf("Custom: %s | Standard: %s\n", (char *)memchr(str, '\0', 13), (char *)memchr(str, '\0', 13));
-    return 0;
+	char	str[] = "Hello, world!";
+
+	printf("Custom: %s | Standard: %s\n", (char *)memchr(str, 'w', 13),
+		(char *)memchr(str, 'w', 13));
+	printf("Custom: %s | Standard: %s\n", (char *)memchr(str, 'z', 13),
+		(char *)memchr(str, 'z', 13));
+	printf("Custom: %s | Standard: %s\n", (char *)memchr(str, 'o', 5),
+		(char *)memchr(str, 'o', 5));
+	printf("Custom: %s | Standard: %s\n", (char *)memchr(str, '\0', 13),
+		(char *)memchr(str, '\0', 13));
+	return (0);
 }
 */

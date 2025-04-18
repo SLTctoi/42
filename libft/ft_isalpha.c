@@ -17,10 +17,10 @@ int	ft_isalpha(int c)
 	return (0);
 }
 /*
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
-int main(void)
+int	main(void)
 {
 	printf("Custom: %d | Standard: %d\n", ft_isalpha('a'), isalpha('a'));
 	printf("Custom: %d | Standard: %d\n", ft_isalpha('Z'), isalpha('Z'));
@@ -28,6 +28,6 @@ int main(void)
 	printf("Custom: %d | Standard: %d\n", ft_isalpha(' '), isalpha(' '));
 	printf("Custom: %d | Standard: %d\n", ft_isalpha('z'), isalpha('z'));
 	printf("Custom: %d | Standard: %d\n", ft_isalpha(0), isalpha(0));
-	return 0;
+	return (0);
 }
 */

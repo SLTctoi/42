@@ -9,9 +9,9 @@
 /*   Updated: 2025/04/16 10:37:17 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-int ft_tolower(int c)
+int	ft_tolower(int c)
 {
-    if (c >= 'A' && c <= 'Z')
-        return (c + 32);
-    return (c);
+	if (c >= 'A' && c <= 'Z')
+		return (c + 32);
+	return (c);
 }
