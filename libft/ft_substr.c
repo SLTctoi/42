@@ -46,3 +46,38 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	result[i] = '\0';
 	return (result);
 }
+/*
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(void)
+{
+    char *result;
+
+    result = ft_substr("Hello, world!", 0, 5);
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    result = ft_substr("Hello, world!", 7, 5);
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    result = ft_substr("Hello, world!", 13, 5);
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    result = ft_substr("Hello, world!", 0, 20);
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    result = ft_substr("", 0, 5);
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    result = ft_substr("Hello, world!", 20, 5);
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    return 0;
+}
+*/

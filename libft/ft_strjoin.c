@@ -33,3 +33,34 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	result[i] = '\0';
 	return (result);
 }
+/*
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(void)
+{
+    char *result;
+
+    result = ft_strjoin("Hello, ", "world!");
+    printf("Custom: %s\n", result);
+    free(result);
+
+    result = ft_strjoin("42", "Cursus");
+    printf("Custom: %s\n", result);
+    free(result);
+
+    result = ft_strjoin("", "Test");
+    printf("Custom: %s\n", result);
+    free(result);
+
+    result = ft_strjoin("Test", "");
+    printf("Custom: %s\n", result);
+    free(result);
+
+    result = ft_strjoin("", "");
+    printf("Custom: %s\n", result);
+    free(result);
+
+    return 0;
+}
+*/

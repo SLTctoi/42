@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
-// malloc de len de s ?
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
@@ -31,3 +30,32 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	result[i] = '\0';
 	return (result);
 }
+/*
+#include <stdio.h>
+#include <stdlib.h>
+char to_uppercase(unsigned int index, char c)
+{
+    if (c >= 'a' && c <= 'z')
+        return (c - 'a' + 'A');
+    return c;
+}
+
+int main(void)
+{
+    char *result;
+
+    result = ft_strmapi("Hello, world!", to_uppercase);
+    printf("Custom: %s\n", result);
+    free(result);
+
+    result = ft_strmapi("42Cursus", to_uppercase);
+    printf("Custom: %s\n", result);
+    free(result);
+
+    result = ft_strmapi("", to_uppercase);
+    printf("Custom: %s\n", result);
+    free(result);
+
+    return 0;
+}
+*/

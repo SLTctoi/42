@@ -26,3 +26,18 @@ char	*ft_strrchr(const char *s, int c)
 		return ((char *)s);
 	return (last_c);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    printf("Custom: %s | Standard: %s\n", ft_strrchr("Hello, world!", 'o'), strrchr("Hello, world!", 'o'));
+    printf("Custom: %s | Standard: %s\n", ft_strrchr("Hello, world!", 'z'), strrchr("Hello, world!", 'z'));
+    printf("Custom: %s | Standard: %s\n", ft_strrchr("Hello, world!", '\0'), strrchr("Hello, world!", '\0'));
+    printf("Custom: %s | Standard: %s\n", ft_strrchr("", 'a'), strrchr("", 'a'));
+    printf("Custom: %s | Standard: %s\n", ft_strrchr("42", '2'), strrchr("42", '2'));
+
+    return 0;
+}
+*/

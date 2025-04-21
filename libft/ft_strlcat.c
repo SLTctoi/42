@@ -35,3 +35,34 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	dest[i] = '\0';
 	return (dest_len + src_len);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+int main(void)
+{
+    char dest1[20] = "Hello";
+    char dest2[20] = "Hello";
+    char dest3[5] = "Hello";
+    char dest4[20] = "";
+    char dest5[20] = "Short";
+
+    size_t result;
+
+    result = ft_strlcat(dest1, " world!", 20);
+    printf("Custom: %s | Return: %zu\n", dest1, result);
+
+    result = ft_strlcat(dest2, " world!", 10);
+    printf("Custom: %s | Return: %zu\n", dest2, result);
+
+    result = ft_strlcat(dest3, " world!", 5);
+    printf("Custom: %s | Return: %zu\n", dest3, result);
+
+    result = ft_strlcat(dest4, "Test", 20);
+    printf("Custom: %s | Return: %zu\n", dest4, result);
+
+    result = ft_strlcat(dest5, " string", 7);
+    printf("Custom: %s | Return: %zu\n", dest5, result);
+
+    return 0;
+}
+*/

@@ -15,8 +15,10 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 
-	if (!src || !dst)
+	if (!src)
 		return (0);
+	if (!dst)
+        return (ft_strlen(src));
 	i = 0;
 	if (size > 0)
 	{
@@ -29,3 +31,34 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	}
 	return (ft_strlen(src));
 }
+/*
+#include <stdio.h>
+#include <string.h>
+int main(void)
+{
+    char dest1[20];
+    char dest2[5];
+    char dest3[20];
+    char dest4[10];
+    char dest5[20];
+
+    size_t result;
+
+    result = ft_strlcpy(dest1, "Hello, world!", 20);
+    printf("Custom: %s | Return: %zu\n", dest1, result);
+
+    result = ft_strlcpy(dest2, "Hello, world!", 5);
+    printf("Custom: %s | Return: %zu\n", dest2, result);
+
+    result = ft_strlcpy(dest3, "", 20);
+    printf("Custom: %s | Return: %zu\n", dest3, result);
+
+    result = ft_strlcpy(dest4, "Hello, world!", 10);
+    printf("Custom: %s | Return: %zu\n", dest4, result);
+
+    result = ft_strlcpy(dest5, "", 20);
+    printf("Custom: %s | Return: %zu\n", dest5, result);
+
+    return 0;
+}
+*/

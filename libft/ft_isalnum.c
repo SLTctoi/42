@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-int	ft_alnum(int c)
+int	ft_isalnum(int c)
 {
 	if ((c >= '0' && c <= '9')
 		|| (c >= 'a' && c <= 'z')
@@ -25,12 +25,12 @@ int	ft_alnum(int c)
 
 int	main(void)
 {
-	printf("Custom: %d | Standard: %d\n", ft_alnum('A'), isalnum('A'));
-	printf("Custom: %d | Standard: %d\n", ft_alnum('z'), isalnum('z'));
-	printf("Custom: %d | Standard: %d\n", ft_alnum('5'), isalnum('5'));
-	printf("Custom: %d | Standard: %d\n", ft_alnum('@'), isalnum('@'));
-	printf("Custom: %d | Standard: %d\n", ft_alnum(' '), isalnum(' '));
-	printf("Custom: %d | Standard: %d\n", ft_alnum(0), isalnum(0));
+	printf("Custom: %d | Standard: %d\n", ft_isalnum('A'), isalnum('A'));
+	printf("Custom: %d | Standard: %d\n", ft_isalnum('z'), isalnum('z'));
+	printf("Custom: %d | Standard: %d\n", ft_isalnum('5'), isalnum('5'));
+	printf("Custom: %d | Standard: %d\n", ft_isalnum('@'), isalnum('@'));
+	printf("Custom: %d | Standard: %d\n", ft_isalnum(' '), isalnum(' '));
+	printf("Custom: %d | Standard: %d\n", ft_isalnum(0), isalnum(0));
 	return (0);
 }
 */

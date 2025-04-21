@@ -24,3 +24,33 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 		i++;
 	}
 }
+/*
+#include <stdio.h>
+
+void to_uppercase(unsigned int index, char *c)
+{
+    if (*c >= 'a' && *c <= 'z')
+        *c = *c - 'a' + 'A';
+}
+
+int main(void)
+{
+    char str1[] = "Hello, world!";
+    char str2[] = "42Cursus";
+    char str3[] = "";
+
+    printf("Original: %s\n", str1);
+    ft_striteri(str1, to_uppercase);
+    printf("Modified: %s\n", str1);
+
+    printf("Original: %s\n", str2);
+    ft_striteri(str2, to_uppercase);
+    printf("Modified: %s\n", str2);
+
+    printf("Original: %s\n", str3);
+    ft_striteri(str3, to_uppercase);
+    printf("Modified: %s\n", str3);
+
+    return 0;
+}
+*/

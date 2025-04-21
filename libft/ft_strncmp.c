@@ -26,3 +26,19 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	return (0);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    printf("Custom: %d | Standard: %d\n", ft_strncmp("Hello, world!", "Hello, universe!", 7), strncmp("Hello, world!", "Hello, universe!", 7));
+    printf("Custom: %d | Standard: %d\n", ft_strncmp("Hello, world!", "Hello, universe!", 13), strncmp("Hello, world!", "Hello, universe!", 13));
+    printf("Custom: %d | Standard: %d\n", ft_strncmp("Hello, world!", "Hello, world!", 13), strncmp("Hello, world!", "Hello, world!", 13));
+    printf("Custom: %d | Standard: %d\n", ft_strncmp("Test", "Tester", 4), strncmp("Test", "Tester", 4));
+    printf("Custom: %d | Standard: %d\n", ft_strncmp("Test", "Tester", 5), strncmp("Test", "Tester", 5));
+    printf("Custom: %d | Standard: %d\n", ft_strncmp("", "", 1), strncmp("", "", 1));
+
+    return 0;
+}
+*/

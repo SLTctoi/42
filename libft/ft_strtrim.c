@@ -44,3 +44,34 @@ char	*ft_strtrim(char const *s1, char const *set)
 	ft_strlcpy(trim, s1 + start, len + 1);
 	return (trim);
 }
+/*
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main(void)
+{
+    char *result;
+
+    result = ft_strtrim("   Hello, world!   ", " ");
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    result = ft_strtrim("xxxHello, world!xxx", "x");
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    result = ft_strtrim("Hello, world!", "x");
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    result = ft_strtrim("", "x");
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    result = ft_strtrim("   ", " ");
+    printf("Custom: '%s'\n", result);
+    free(result);
+
+    return 0;
+}
+*/

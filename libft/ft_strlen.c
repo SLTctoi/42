@@ -20,3 +20,22 @@ size_t	ft_strlen(const char *c)
 		i++;
 	return (i);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    const char *str1 = "Hello, world!";
+    const char *str2 = "42";
+    const char *str3 = "";
+    const char *str4 = "A longer string to test";
+
+    printf("Custom: %zu | Standard: %zu\n", ft_strlen(str1), strlen(str1));
+    printf("Custom: %zu | Standard: %zu\n", ft_strlen(str2), strlen(str2));
+    printf("Custom: %zu | Standard: %zu\n", ft_strlen(str3), strlen(str3));
+    printf("Custom: %zu | Standard: %zu\n", ft_strlen(str4), strlen(str4));
+
+    return 0;
+}
+*/
