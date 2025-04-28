@@ -6,16 +6,18 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:52:54 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/16 10:53:15 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:59:07 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	unsigned char	*ud;
+	unsigned char		*ud;
 	const unsigned char	*us;
 
+	if (dest == NULL && src == NULL)
+		return (dest);
 	ud = (unsigned char *)dest;
 	us = (const unsigned char *)src;
 	if (us < ud && ud < us + n)

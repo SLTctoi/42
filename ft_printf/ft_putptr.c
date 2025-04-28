@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 10:46:37 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/16 10:46:56 by mchrispe         ###   ########.fr       */
+/*   Created: 2025/04/28 11:28:44 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/04/28 11:28:56 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+#include "ft_printf.h"
+
+int	ft_putptr(void *ptr)
 {
-	if (!s || !fd)
-		return ;
-	write(fd, s, ft_strlen(s));
-	write(fd, "\n", 1);
+	unsigned long	addr;
+	int				count;
+
+	addr = (unsigned long)ptr;
+	count = ft_putstr("0x");
+	count += ft_puthex(addr, 0);
+	return (count);
 }

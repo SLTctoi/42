@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_putnbr_unsigned.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 10:46:37 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/16 10:46:56 by mchrispe         ###   ########.fr       */
+/*   Created: 2025/04/28 11:28:09 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/04/28 11:28:21 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+#include "ft_printf.h"
+
+int	ft_putnbr_unsigned(unsigned int n)
 {
-	if (!s || !fd)
-		return ;
-	write(fd, s, ft_strlen(s));
-	write(fd, "\n", 1);
+	int	count;
+
+	count = 0;
+	if (n >= 10)
+		count += ft_putnbr_unsigned(n / 10);
+	count += ft_putchar((n % 10) + '0');
+	return (count);
 }

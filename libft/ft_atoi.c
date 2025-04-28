@@ -46,8 +46,10 @@ int	main(void)
 	printf("Custom: %d | Standard: %d\n", ft_atoi("   +123"), atoi("   +123"));
 	printf("Custom: %d | Standard: %d\n", ft_atoi("   -00123"), atoi("-00123"));
 	printf("Custom: %d | Standard: %d\n", ft_atoi("0"), atoi("0"));
-	printf("Custom: %d | Standard: %d\n", ft_atoi("   2147483647"),atoi("   2147483647"));
-	printf("Custom: %d | Standard: %d\n", ft_atoi("   -2147483648"), atoi("-2147483648"));
+	printf("Custom: %d | Standard: %d\n", ft_atoi("   2147483647"),
+	atoi("   2147483647"));
+	printf("Custom: %d | Standard: %d\n", ft_atoi("   -2147483648"),
+	atoi("-2147483648"));
 	printf("Custom: %d | Standard: %d\n", ft_atoi("   42abc"),atoi("   42abc"));
 	printf("Custom: %d | Standard: %d\n", ft_atoi("abc42"), atoi("abc42"));
 	printf("Custom: %d | Standard: %d\n", ft_atoi(""), atoi(""));

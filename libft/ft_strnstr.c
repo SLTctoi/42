@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:18:32 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/18 11:51:55 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/04/28 13:20:53 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -36,12 +36,18 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 #include <string.h>
 int main(void)
 {
-    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!", "world", 13), strnstr("Hello, world!", "world", 13));
-    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!", "planet", 13), strnstr("Hello, world!", "planet", 13));
-    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!", "Hello", 5), strnstr("Hello, world!", "Hello", 5));
-    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!", "world", 5), strnstr("Hello, world!", "world", 5));
-    printf("Custom: %s | Standard: %s\n", ft_strnstr("", "world", 0), strnstr("", "world", 0));
-    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!", "", 13), strnstr("Hello, world!", "", 13));
+    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!",
+	"world", 13), strnstr("Hello, world!", "world", 13));
+    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!",
+	"planet", 13), strnstr("Hello, world!", "planet", 13));
+    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!",
+	"Hello", 5), strnstr("Hello, world!", "Hello", 5));
+    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!",
+	"world", 5), strnstr("Hello, world!", "world", 5));
+    printf("Custom: %s | Standard: %s\n", ft_strnstr("", "world", 0),
+	strnstr("", "world", 0));
+    printf("Custom: %s | Standard: %s\n", ft_strnstr("Hello, world!", "", 13),
+	strnstr("Hello, world!", "", 13));
 
     return 0;
 }
