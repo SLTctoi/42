@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:24:28 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/28 14:01:29 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:46:34 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (count + 2);
 }
-/*
+
 #include <stdio.h>
 
 int	main(void)
@@ -112,4 +112,4 @@ int	main(void)
 		standard_count);
 	return (0);
 }
-*/
+
