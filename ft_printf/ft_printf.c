@@ -61,59 +61,57 @@ int	main(void)
 	void	*ptr;
 
 	// Test %c
-	custom_count = ft_printf("Custom: %c\n", 'A');
-	standard_count = printf("Standard: %c\n", 'A');
+	custom_count = ft_printf("%c\n", 'A');
+	standard_count = printf("%c\n", 'A');
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	// Test %s
-	custom_count = ft_printf("Custom: %s\n", "Hello, world!");
-	standard_count = printf("Standard: %s\n", "Hello, world!");
+	custom_count = ft_printf("%s\n", "Hello, world!");
+	standard_count = printf("%s\n", "Hello, world!");
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	// Test %p
 	ptr = (void *)0x12345678;
-	custom_count = ft_printf("Custom: %p\n", ptr);
-	standard_count = printf("Standard: %p\n", ptr);
+	custom_count = ft_printf("%p\n", ptr);
+	standard_count = printf("%p\n", ptr);
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	// Test %d
-	custom_count = ft_printf("Custom: %d\n", 42);
-	standard_count = printf("Standard: %d\n", 42);
+	custom_count = ft_printf("%d\n", 42);
+	standard_count = printf("%d\n", 42);
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	// Test %i
-	custom_count = ft_printf("Custom: %i\n", -42);
-	standard_count = printf("Standard: %i\n", -42);
+	custom_count = ft_printf("%i\n", -42);
+	standard_count = printf("%i\n", -42);
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	// Test %u
-	custom_count = ft_printf("Custom: %u\n", 4294967295U);
-	standard_count = printf("Standard: %u\n", 4294967295U);
+	custom_count = ft_printf("%u\n", 4294967295U);
+	standard_count = printf("%u\n", 4294967295U);
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	// Test %x
-	custom_count = ft_printf("Custom: %x\n", 255);
-	standard_count = printf("Standard: %x\n", 255);
+	custom_count = ft_printf("%x\n", 255);
+	standard_count = printf("%x\n", 255);
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	// Test %X
-	custom_count = ft_printf("Custom: %X\n", 255);
-	standard_count = printf("Standard: %X\n", 255);
+	custom_count = ft_printf("%X\n", 255);
+	standard_count = printf("%X\n", 255);
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	// Test %%
-	custom_count = ft_printf("Custom: %%\n");
-	standard_count = printf("Standard: %%\n");
+	custom_count = ft_printf("%%\n");
+	standard_count = printf("%%\n");
+	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
+		standard_count);
+	// Test (nil)
+	void *ptr2 = NULL;
+	custom_count = ft_printf("%p\n", ptr2);
+	standard_count = printf("%p\n", ptr2);
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	return (0);
 }
 */
-#include <stdio.h>
-
-int main() {
-    void *ptr = NULL;
-    printf("%p\n", ptr);
-	ft_printf("%p\n", ptr);
-    return 0;
-}
