@@ -1,6 +1,7 @@
 // malloc en fonction de BUFFER_SIZE
 // read return -1 si error
 // ligne d'avant = derniere ligne si , celle de mtn read return 0
+// static var ne se reinitialise pas a chaque appelle 
 char *get_next_line(int fd)
 {
 	char *buffer;
@@ -19,4 +20,12 @@ char *get_next_line(int fd)
 	}
 	buffer[bytesRead] = '\0';
 	return(buffer);
+}
+// jextrai le file a la taille du buffer si 
+// read dans un boucle pour avoir tout le fichier (quand = 0 = pas de char lu = fin)
+{
+	while (bytesRead > 0)
+	{
+		
+	}
 }

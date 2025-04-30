@@ -43,19 +43,15 @@ int	ft_printf(const char *format, ...)
 	while (*format)
 	{
 		if (*format == '%')
-		{
 			count += ft_format(args, *(++format));
-		}
 		else
-		{
 			count += ft_putchar(*format);
-		}
 		format++;
 	}
 	va_end(args);
-	return (count + 2);
+	return (count);
 }
-
+/*
 #include <stdio.h>
 
 int	main(void)
@@ -112,4 +108,12 @@ int	main(void)
 		standard_count);
 	return (0);
 }
+*/
+#include <stdio.h>
 
+int main() {
+    void *ptr = NULL;
+    printf("%p\n", ptr);
+	ft_printf("%p\n", ptr);
+    return 0;
+}
