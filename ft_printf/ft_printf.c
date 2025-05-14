@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:24:28 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/04/29 10:46:34 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:45:39 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	ft_printf(const char *format, ...)
 	va_list	args;
 	int		count;
 
+	if (!format)
+		return (0);
 	count = 0;
 	va_start(args, format);
 	while (*format)
