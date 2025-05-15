@@ -30,6 +30,8 @@ int	ft_format(va_list args, char c)
 		return (ft_puthex(va_arg(args, unsigned int), 1));
 	else if (c == '%')
 		return (ft_putchar('%'));
+	else
+		return (ft_putchar('%') + ft_putchar(c));
 	return (0);
 }
 
@@ -45,7 +47,12 @@ int	ft_printf(const char *format, ...)
 	while (*format)
 	{
 		if (*format == '%')
-			count += ft_format(args, *(++format));
+		{
+			format++;
+			while (*format == ' ')
+				format++;
+			count += ft_format(args, *(format));
+		}
 		else
 			count += ft_putchar(*format);
 		format++;
@@ -61,6 +68,7 @@ int	main(void)
 	int		custom_count;
 	int		standard_count;
 	void	*ptr;
+	void	*ptr2;
 
 	// Test %c
 	custom_count = ft_printf("%c\n", 'A');
@@ -109,7 +117,7 @@ int	main(void)
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
 		standard_count);
 	// Test (nil)
-	void *ptr2 = NULL;
+	ptr2 = NULL;
 	custom_count = ft_printf("%p\n", ptr2);
 	standard_count = printf("%p\n", ptr2);
 	printf("Custom count: %d | Standard count: %d\n\n", custom_count,
