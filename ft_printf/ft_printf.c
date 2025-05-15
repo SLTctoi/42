@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_format(va_list args, char c)
+int	ft_format(va_list args, char c, int space)
 {
 	if (c == 'c')
 		return (ft_putchar(va_arg(args, int)));
@@ -30,6 +30,8 @@ int	ft_format(va_list args, char c)
 		return (ft_puthex(va_arg(args, unsigned int), 1));
 	else if (c == '%')
 		return (ft_putchar('%'));
+	else if (space > 0)
+		return (ft_putchar('%') + ft_putchar(' ') + ft_putchar(c));
 	else
 		return (ft_putchar('%') + ft_putchar(c));
 	return (0);
@@ -39,6 +41,7 @@ int	ft_printf(const char *format, ...)
 {
 	va_list	args;
 	int		count;
+	int		space;
 
 	if (!format)
 		return (0);
@@ -48,12 +51,16 @@ int	ft_printf(const char *format, ...)
 	{
 		if (*format == '%')
 		{
+			space = 0;
 			format++;
 			if (!*format)
 				return (-1);
 			while (*format == ' ')
+			{
+				space++;
 				format++;
-			count += ft_format(args, *(format));
+			}
+			count += ft_format(args, *(format), space);
 		}
 		else
 			count += ft_putchar(*format);
@@ -62,6 +69,7 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (count);
 }
+
 /*
 #include <stdio.h>
 
