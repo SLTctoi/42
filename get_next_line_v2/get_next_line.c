@@ -1,86 +1,102 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 10:21:42 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/05/15 10:22:24 by mchrispe         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 
-static char	*ft_read(int fd, char *buffer)
+char *ft_free_join(char *buffer,char *temp)
 {
-    char	*buf;
-    ssize_t	r = 1;
+    char *temp2;
 
-    buf = malloc(BUFFER_SIZE + 1);
-    if (!buf)
+    temp2 = ft_strjoin(buffer, temp);
+    free(buffer);
+    return (temp);
+}
+
+char *ft_first_line(int fd, char *buffer)
+{
+    char *temp;
+    int br;
+
+    if (!buffer)
+        text = ft_calloc(1,1);
+    temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
+    if (!temp)
         return (NULL);
-    while (!ft_strchr(buffer, '\n') && r > 0)
+    br = 1;
+    while (br > 0)
     {
-        r = read(fd, buf, BUFFER_SIZE);
-        if (r < 0)
+        br = read(fd, temp, BUFFER_SIZE);
+        if (br == -1)
         {
-            free(buf);
             free(buffer);
-            return (NULL);
+            free(temp);
+            return(NULL);
         }
-        buf[r] = 0;
-        buffer = ft_strjoin(buffer, buf);
-        if (!buffer)
-            break ;
+        temp[br] = 0;
+        buffer = ft_free_join(buffer, temp);
+        if (ft_strchr(buffer, '\n'))
+            break;
     }
-    free(buf);
+    free(temp);
     return (buffer);
 }
-
-static char	*ft_get_line(char *buffer)
+char *ft_get_line(char *buffer)
 {
-    size_t	i = 0;
-    char	*line;
+    int i;
+    char *s;
 
-    if (!buffer || !buffer[0])
-        return (NULL);
-    while (buffer[i] && buffer[i] != '\n')
-        i++;
-    if (buffer[i] == '\n')
-        i++;
-    line = ft_substr(buffer, 0, i);
-    return (line);
-}
-
-static char	*ft_new_buffer(char *buffer)
-{
-    size_t	i = 0;
-    char	*new_buffer;
-
-    while (buffer[i] && buffer[i] != '\n')
-        i++;
+    i = 0;
     if (!buffer[i])
+        return (NULL);
+    while(buffer[i] && buffer[i] != '\n')
+        i++;
+    s = ft_calloc(i + 2, sizeof(char));
+    i = 0;
+    while (buffer[i] && buffer[i] != '\n')
+    {
+        s[i] = text[i];
+        i++;
+    }
+    if (buffer[i] && buffer[i] != '\n')
+        s[i++] = '\n'  // pq le ++ ? a test sans
+    return (s);
+}
+char *ft_clear_first_line(char *buffer)
+{
+    int i;
+    int j;
+    char *s;
+
+    i = 0;
+    j = 0;
+    while (buffer[i] && buffer[i] != '\n')
+        i++;
+    if (!buffer[i]) // je peux le mettre avant la boucle ?? a test 
     {
         free(buffer);
         return (NULL);
     }
-    new_buffer = ft_substr(buffer, i + 1, ft_strlen(buffer) - i - 1);
-    free(buffer);
-    return (new_buffer);
+    s = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(*buffer));
+    if (!s)
+        retur (NULL);
+    while (buffer[++i])
+        s[j++] = buffer[i];
+    s[j] = ['\0'];
+    free (buffer)
+    return (s);
 }
-
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
-    static char	*buffer;
-    char		*line;
+    static char *buffer;
+    char *line;
 
-    if (fd < 0 || BUFFER_SIZE <= 0)
-        return (NULL);
-    buffer = ft_read(fd, buffer);
+    if (fd < 0 && BUFFER_SIZE <= 0)
+        return (NULL)
+    buffer = ft_first_line(fd, buffer);
     if (!buffer)
         return (NULL);
     line = ft_get_line(buffer);
-    buffer = ft_new_buffer(buffer);
-    return (line);
+    buffer = ft_clear_first_line(buffer);
 }
+
+// lire un fichier txt et renvoyé les lignes du fichier appel apres appel
+// return NULL si error ou plus rien a lire
+// test tout les types d'entrée
+// return toute la ligne icompris le /n (et /0 aussi possible frace a la val de read)
