@@ -55,7 +55,7 @@ char *ft_get_line(char *buffer)
         i++;
     }
     if (buffer[i] && buffer[i] != '\n')
-        s[i++] = '\n'  // pq le ++ ? a test sans
+        s[i++] = '\n'
     return (s);
 }
 char *ft_clear_first_line(char *buffer)
@@ -68,7 +68,7 @@ char *ft_clear_first_line(char *buffer)
     j = 0;
     while (buffer[i] && buffer[i] != '\n')
         i++;
-    if (!buffer[i]) // je peux le mettre avant la boucle ?? a test 
+    if (!buffer[i])
     {
         free(buffer);
         return (NULL);
@@ -95,8 +95,3 @@ char *get_next_line(int fd)
     line = ft_get_line(buffer);
     buffer = ft_clear_first_line(buffer);
 }
-
-// lire un fichier txt et renvoyé les lignes du fichier appel apres appel
-// return NULL si error ou plus rien a lire
-// test tout les types d'entrée
-// return toute la ligne icompris le /n (et /0 aussi possible frace a la val de read)
