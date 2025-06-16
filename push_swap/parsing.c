@@ -38,3 +38,8 @@ int verif(char **s)
     }
     return (0);
 }
+// verif les doublons (pas oublier que +45 = 45)
+int doublon(char **s)
+{
+    int i;
+}
