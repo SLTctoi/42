@@ -4,7 +4,7 @@ void    rrotate(t_list **lst)
     t_lst *last;
     t_list *second_last;
 
-    if (!lst || !*lst || !(*lst)->next)
+    if (!lst || !*lst || !(*lst)->next) // mettre dans le a et b
         return ;
     first = *lst;
     last = *lst;
