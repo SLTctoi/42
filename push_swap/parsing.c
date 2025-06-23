@@ -62,12 +62,12 @@ int doublon(t_list *lst)
     current = lst;
     while (current)
     {
-        checker = current->next;
-        while (checker)
+        check = current->next;
+        while (check)
         {
-            if (current->content == check->content)
+            if (*(int *)current->content == *(int *)check->content)
                 return (1);
-            checker = checker->next;
+            check = check->next;
         }
         current = current->next;
     }
@@ -80,26 +80,21 @@ int doublon(t_list *lst)
 int already_sort(t_list *lst)
 {
     t_list *current;
-    t_list *next;
+    t_list *nxt;
 
     current = lst;
+    if (!lst)
+        return (1);
     while (current)
     {
-        next = current->next;
-        while (next)
+        nxt = current->next;
+        while (nxt)
         {
-            if (current->content <= next->content)
+            if (*(int *)current->content <= *(int *)nxt->content)
                 return (0);
-            next = next->next;
+            nxt = nxt->next;
         }
         current = current->next;
     }
     return (1);
-}
-
-// fonction pour mettre les indexs 
-
-void    index(t_list *lst)
-{
-    
 }
