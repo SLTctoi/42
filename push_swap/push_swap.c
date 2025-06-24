@@ -1,55 +1,35 @@
-int get_max_bits(t_list *lst)
+int    median_moove(t_list **lst_a, t_list **lst_b)
 {
-    int max = *(int *)lst->index;
-    int max_bits = 0;
+    int mediane;
 
-    while (lst)
+    mediane = median(*lst_a);
+    while (*lst_a)
     {
-        if (*(int *)lst->index > max)
-            max = *(int *)lst->index;
-        lst = lst->next;
+        if (*((*lst_a)->index) < mediane)
+            push_b(lst_b, lst_a);
+        else
+            rotate_a(lst_a);
     }
-    while ((max >> max_bits) != 0)
-        max_bits++;
-    return max_bits;
+    return (mediane);
 }
-
-void radix_sort_optimized(t_list **a, t_list **b)
+void nbr_median_moove(t_list **lst_a, t_list **lst_b)
 {
-    int i, j, size, max_bits;
-    size = ft_lstsize(*a);
-    max_bits = get_max_bits(*a);
+    int *median_count ;
+    int *count ;
+    int i;
 
-    for (i = 0; i < max_bits; i++)
+    i = 0;
+    count = malloc(sizeof(int) * (int_log2(ft_lstsize(*lst_a) + 2)));
+    if (!count)
+        return ;
+    while (ft_lstsize(*lst_a) > 2)
     {
-        j = 0;
-        int pushed = 0;
-        int rotated = 0;
-
-        while (j < size)
-        {
-            int num = *(int *)(*a)->index;
-
-            if (((num >> i) & 1) == 0)
-            {
-                pb(b, a);
-                pushed++;
-            }
-            else
-            {
-                ra(a);
-                rotated++;
-            }
-            j++;
-        }
-
-        // Ramène tout de b vers a
-        while (pushed--)
-            pa(a, b);
-
-        // Pour éviter rotation excessive : faire ra uniquement si vraiment nécessaire
-        // Ici on a déjà fait les rotations nécessaires dans la boucle.
-
-        size = ft_lstsize(*a);
+        count[i] = median_moove(lst_a, lst_b);
+        i++;
     }
+    count[i] = -1;
+    if (*((*lst_a)->index) > *((*lst_a)->next->index))
+        swap_a(lst_a);
+    free(count)
 }
+///////////////////////attention modifié lst_new pour push aussi la val de l'index !!!!!!!!!!!!!

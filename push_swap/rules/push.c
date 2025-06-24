@@ -1,14 +1,18 @@
 void    push(t_list **lst_1, t_list **lst_2)
 {
     t_list *node;
+    t_list *temp;
 
     if (!lst_1 || !*lst_1)
         return ;
     node = ft_lstnew((*lst_1)->content);
+    if (!node)
+        return ;
+    node->index = (*lst_1)->index;
     ft_lstadd_front(lst_2, node);
-    t_list *temp = *lst_1;
-    *lst_1 = (*lst1)->next;
-    free(temp)
+    temp = *lst_1;
+    *lst_1 = (*lst_1)->next;
+    free(temp);
 }
 
 void    push_a(t_list **lst_a, t_list **lst_b)

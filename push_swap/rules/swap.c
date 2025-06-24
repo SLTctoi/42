@@ -2,16 +2,20 @@ void    swap(t_list **lst)
 {
     t_list *first;
     t_list *second;
-    int temp;
+    void *temp_content;
+    int *temp_index;
 
     if (!lst || !*lst || !(*lst)->next)
         return ;
     first = *lst;
     second = (*lst)->next;
 
-    temp = first->content;
+    temp_content = first->content;
     first->content = second->content;
-    second->content = temp;
+    second->content = temp_content;
+    temp_index = first->index;
+    first->index = second->index;
+    second->index = temp_index;
 }
 
 void    swap_a(t_lst **lst_a)
