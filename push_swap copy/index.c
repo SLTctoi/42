@@ -160,8 +160,10 @@ void    push_chunk(t_pile *pile, int chunk_count)
             chunk_max = size - 1;
     }
 }
+
 void    sort_chunk(t_pile *pile)
 {
+    
     replace_by_index(pile);
     if (pile->size_a <= 100)
         push_chunk(pile, 5);

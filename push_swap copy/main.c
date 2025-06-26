@@ -17,7 +17,7 @@ t_pile init_pile(int ac, char **av)
     t_pile pile;
 
     lst_a = NULL;
-    parsing(ac, av, &lst_a);
+    parsing(ac, av, &lst_a); 
     pile.lst_a = lst_a;
     pile.size_a = list_size(lst_a);
     pile.lst_b = NULL;

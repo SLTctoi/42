@@ -1,4 +1,6 @@
+// probleme de parsing j ai un decalage a partir d un moment 
 #include "push_swap.h"
+
 void    parsing(int ac, char **av, t_list **lst_a)
 {
     int i;
@@ -6,7 +8,7 @@ void    parsing(int ac, char **av, t_list **lst_a)
     char **s;
 
     i = 1;
-    while (i < ac - 1)
+    while (i < ac)
     {
         s = ft_split(av[i],' ');// refaire le split pour qu il marche avec plusieurs char
         j = 0;
