@@ -19,6 +19,7 @@ void    parsing(int ac, char **av, t_list **lst_a)
         }
         i++;
     }
+    free_split(s);
 }
 /*
 // return 1 si error et 0 si ok

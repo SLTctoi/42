@@ -101,7 +101,7 @@ void    push_b_sort(t_pile *pile)
         i = get_max_index(pile->lst_b);
         if (i <= pile->size_b / 2)
         {
-            while (i-- > 0) // -0 ?
+            while (i-- > 0)
                 rotate_b(pile);
         }
         else
@@ -134,7 +134,19 @@ void    process_chunk(t_pile *pile, int chunk_min, int chunk_max)
         {
             push_b(pile);
             if (pile->lst_b->content < (chunk_min + chunk_max) / 2)
+            {
+                if (pile->lst_a && (pile->lst_a->content < chunk_min || pile->lst_a->content > chunk_max))
+                {
+                    rotate_a_and_b(pile);
+                    continue;
+                }
                 rotate_b(pile);
+            }
+            if (pile->lst_b->next)
+            {
+                if (pile->lst_b->content < pile->lst_b->next->content)
+                    swap_b(pile);
+            }
         }
         else
             rotate_a(pile);
@@ -168,6 +180,6 @@ void    sort_chunk(t_pile *pile)
     if (pile->size_a <= 100)
         push_chunk(pile, 5);
     else
-        push_chunk(pile, 10);
+        push_chunk(pile, 9);
     push_b_sort(pile);
 }

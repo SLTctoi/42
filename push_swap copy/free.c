@@ -4,6 +4,7 @@ void    free_pile(t_pile *pile)
 {
     free_list(pile->lst_a);
     free_list(pile->lst_b);
+
 }
 void    free_list(t_list *lst)
 {
@@ -16,7 +17,6 @@ void    free_list(t_list *lst)
         lst = temp;
     }
 }
-// jsp quand l utilsier 
 void    free_split(char **tab)
 {
     int i;

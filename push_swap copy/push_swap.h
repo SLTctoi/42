@@ -63,9 +63,11 @@ void rrotate_a(t_pile *pile);
 void rrotate_b(t_pile *pile);
 void rrotate_a_and_b(t_pile *pile);
 
-// rules/push.c
-void    push_a(t_pile *pile);
-void    push_b(t_pile *pile);
+// rules/swap.c
+void    swap(t_list **lst);
+void    swap_a(t_pile *pile);
+void    swap_b(t_pile *pile);
+void    swap_a_and_b(t_pile *pile);
 
 // list/list.c
 t_list	*lstnew(int content);
