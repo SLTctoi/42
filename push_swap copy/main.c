@@ -17,20 +17,35 @@ t_pile init_pile(int ac, char **av)
     t_pile pile;
 
     lst_a = NULL;
-    parsing(ac, av, &lst_a); 
+    pile.parsing_error = 0;
+    if (parsing(ac, av, &lst_a))
+        pile.parsing_error = 1; 
     pile.lst_a = lst_a;
     pile.size_a = list_size(lst_a);
     pile.lst_b = NULL;
     pile.size_b = 0;
     return (pile);
 }
+
 int main(int ac, char **av)
 {
     t_pile pile;
+
     if (ac < 2)
         return 1;
-    //verif(av);
+    if (verif(av))
+    {
+        error();
+        return (1);
+    }
     pile = init_pile(ac, av);
+    if(doublon(pile.lst_a) || pile.parsing_error)
+    {
+        error();
+        return (1);
+    }
+    if (already_sort(pile.lst_a))
+        return (0);
     sort_chunk(&pile);
     free_pile(&pile);
     return (0);

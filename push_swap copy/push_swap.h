@@ -18,6 +18,7 @@ typedef struct s_pile
 	struct s_list	*lst_b;
 	int	size_a;
 	int size_b;
+	int parsing_error;
 }	t_pile;
 
 // main.c
@@ -40,11 +41,12 @@ void    free_pile(t_pile *pile);
 void    free_list(t_list *lst);
 void    free_split(char **tab);
 
-// parcing.c
+// parsing.c
 int doublon(t_list *lst);
 int already_sort(t_list *lst);
 int verif(char **s);
-void    parsing(int ac, char **av, t_list **lst_a);
+int   parsing(int ac, char **av, t_list **lst_a);
+int max_min(char *s);
 
 
 // rules/push.c
@@ -76,5 +78,10 @@ t_list	*lstnew(int content);
 int	ft_atoi(const char *nptr);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 char	**ft_split(const char *s, char c);
+int	ft_isdigit(int c);
+size_t	ft_strlen(const char *c);
+
+// error.c
+void    error();
 
 #endif

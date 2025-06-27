@@ -17,8 +17,10 @@ SRCS = parsing.c \
 	   list/list.c \
 	   libft/ft_atoi.c \
 	   libft/ft_lstadd_back_bonus.c \
-	   libft/ft_split.c
-	   
+	   libft/ft_split.c \
+	   error.c \
+	   libft/ft_isdigit.c \
+	   libft/ft_strlen.c
 
 # Fichiers objets générés
 OBJS = $(SRCS:.c=.o)

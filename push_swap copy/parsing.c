@@ -1,100 +1,123 @@
-// probleme de parsing j ai un decalage a partir d un moment 
+// probleme de parsing j ai un decalage a partir d un moment
 #include "push_swap.h"
-
-void    parsing(int ac, char **av, t_list **lst_a)
+// return 1 pour error 0 pour bon
+int	parsing(int ac, char **av, t_list **lst_a)
 {
-    int i;
-    int j;
-    char **s;
+	int		i;
+	int		j;
+	char	**s;
 
-    i = 1;
-    while (i < ac)
-    {
-        s = ft_split(av[i],' ');// refaire le split pour qu il marche avec plusieurs char
-        j = 0;
-        while (s[j])
-        {
-            ft_lstadd_back(lst_a, lstnew(ft_atoi(s[j])));
-            j++;
-        }
-        i++;
-    }
-    free_split(s);
+	i = 1;
+	while (i < ac)
+	{
+		s = ft_split(av[i], ' ');
+		j = 0;
+		while (s[j])
+		{
+            if (!max_min(s[j]))// faire une fonction pour verif les int min et max
+				return (1);
+			ft_lstadd_back(lst_a, lstnew(ft_atoi(s[j])));
+			j++;
+		}
+		i++;
+	}
+	free_split(s);
+	return (0);
 }
-/*
-// return 1 si error et 0 si ok
-int verif(char **s)
+// 0 pour error et 1 pour bon
+int max_min(char *s)
 {
-    int i;
-    int j;
-    int nl;
+	int sign;
+	long result;
+	int digit;
 
-    i = 1;
-    nl = 1;
-    while (s[i])
-    {
-        if (nl)
-        {
-            j = 0;
-            nl = 0;
-        }
-        if (s[i][j] == ' ' || s[i][j] == '  ')
-            j++;
-        if (s[i][j] == '+' || s[i][j] == '-')
-            j++;
-        while(s[i][j] || s[i][j] != ' ' || s[i][j] != ' ')
-        {
-            if (!ft_isdigit(s[i][j]))
-                return (1);
-            j++;
-        }
-        if (s[i][j] == '\0')
-        {
-            i++;
-            nl = 1;
-        }
-    }
-    return (0);
+	sign = 1;
+	if (*s == '-')
+	{
+		sign = -1;
+		s++;
+	}
+	if (*s == '+')
+		s++;
+	result = 0;
+	while (*s)
+	{
+		digit = *s - '0';
+		if (sign == 1 && result > (2147483647 - digit) / 10)
+			return (0);
+		if (sign == -1 && -result < (-2147483648 + digit) / 10)
+			return (0);
+		result = result * 10 + digit;
+		s++;
+	}
+	result *= sign;
+	return (result >= -2147483648  && result <= 2147483647);
 }
-// verif apres le atoi car y a plus les +
-//return 1 si doublon et 0 si pas doublon
-int doublon(t_list *lst)
+//return 1 si error et 0 si ok
+int	verif(char **s)
 {
-    t_list *current;
-    t_list *check;
+	int	i;
+	int	j;
 
-    current = lst;
-    while (current)
-    {
-        check = current->next;
-        while (check)
-        {
-            if (*(int *)current->content == *(int *)check->content)
-                return (1);
-            check = check->next;
-        }
-        current = current->next;
-    }
-    return (0);
+	i = 1;
+	while (s[i])
+	{
+		j = 0;
+		while (s[i][j])
+		{
+			while (s[i][j] == ' ')
+				j++;
+			if (s[i][j] == '+' || s[i][j] == '-')
+			{
+				if ((j > 0 && s[i][j - 1] != ' ') || !ft_isdigit(s[i][j + 1]))
+					return (1);
+				j++;
+			}
+			while (ft_isdigit(s[i][j]))
+				j++;
+			if (s[i][j] && s[i][j] != ' ')
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	doublon(t_list *lst)
+{
+	t_list	*current;
+	t_list	*check;
+
+	current = lst;
+	while (current)
+	{
+		check = current->next;
+		while (check)
+		{
+			if (current->content == check->content)
+				return (1);
+			check = check->next;
+		}
+		current = current->next;
+	}
+	return (0);
 }
 
 // check si c est deja trié
 // check si dans list_a cest decroissant car je rajoute a la fin dabord
-// return 1 si deja trie et 0 si pas encore  
+// return 1 si deja trie et 0 si pas encore
 int already_sort(t_list *lst)
 {
     t_list *current;
     t_list *nxt;
 
     current = lst;
-    if (!lst)
-        return (1);
     while (current)
     {
         nxt = current->next;
         while (nxt)
         {
-            if (*(int *)current->content <= *(int *)nxt->content)
+            if (current->content >= nxt->content)
                 return (0);
             nxt = nxt->next;
         }
@@ -102,4 +125,3 @@ int already_sort(t_list *lst)
     }
     return (1);
 }
-    */
