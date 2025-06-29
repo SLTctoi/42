@@ -6,21 +6,23 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
 # Fichiers sources (ajuste selon tes fichiers)
-SRCS = parsing.c \
-       main.c \
-       index.c \
-       free.c \
-       rules/push.c \
-	   rules/rotate.c \
-	   rules/rrotate.c \
-	   rules/swap.c \
-	   list/list.c \
-	   libft/ft_atoi.c \
-	   libft/ft_lstadd_back_bonus.c \
-	   libft/ft_split.c \
-	   error.c \
-	   libft/ft_isdigit.c \
-	   libft/ft_strlen.c
+SRCS = src/parsing.c \
+       src/main.c \
+       src/index.c \
+       src/free.c \
+       src/rules/push.c \
+	   src/rules/rotate.c \
+	   src/rules/rrotate.c \
+	   src/rules/swap.c \
+	   src/list.c \
+	   src/libft/ft_atoi.c \
+	   src/libft/ft_lstadd_back_bonus.c \
+	   src/libft/ft_split.c \
+	   src/error.c \
+	   src/libft/ft_isdigit.c \
+	   src/libft/ft_strlen.c \
+	   src/index_2.c \
+	   src/algo_force.c
 
 # Fichiers objets générés
 OBJS = $(SRCS:.c=.o)

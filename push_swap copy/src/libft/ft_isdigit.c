@@ -9,7 +9,7 @@
 /*   Updated: 2025/04/10 12:54:19 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../push_swap.h"
+#include "../../include/push_swap.h"
 
 int	ft_isdigit(int c)
 {

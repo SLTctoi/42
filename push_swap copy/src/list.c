@@ -1,4 +1,4 @@
-#include "../push_swap.h"
+#include "../include/push_swap.h"
 t_list	*lstnew(int content)
 {
 	t_list	*new_node;

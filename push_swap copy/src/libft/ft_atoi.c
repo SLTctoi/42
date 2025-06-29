@@ -9,7 +9,7 @@
 /*   Updated: 2025/04/18 13:08:41 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../push_swap.h"
+#include "../../include/push_swap.h"
 
 int	ft_atoi(const char *nptr)
 {

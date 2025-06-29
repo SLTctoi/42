@@ -1,6 +1,5 @@
-// probleme de parsing j ai un decalage a partir d un moment
-#include "push_swap.h"
-// return 1 pour error 0 pour bon
+#include "../include/push_swap.h"
+
 int	parsing(int ac, char **av, t_list **lst_a)
 {
 	int		i;
@@ -14,14 +13,17 @@ int	parsing(int ac, char **av, t_list **lst_a)
 		j = 0;
 		while (s[j])
 		{
-            if (!max_min(s[j]))// faire une fonction pour verif les int min et max
+            if (!max_min(s[j]))
+			{
+				free_split(s);
 				return (1);
-			ft_lstadd_back(lst_a, lstnew(ft_atoi(s[j])));
+			}
+				ft_lstadd_back(lst_a, lstnew(ft_atoi(s[j])));
 			j++;
 		}
+		free_split(s);
 		i++;
 	}
-	free_split(s);
 	return (0);
 }
 // 0 pour error et 1 pour bon

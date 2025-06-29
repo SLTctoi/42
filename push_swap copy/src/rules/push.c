@@ -1,4 +1,4 @@
-#include "../push_swap.h"
+#include "../../include/push_swap.h"
 void    push_a(t_pile *pile)
 {
     t_list *tmp;

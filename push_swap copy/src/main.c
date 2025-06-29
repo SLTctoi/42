@@ -1,4 +1,13 @@
-#include "push_swap.h"
+#include "../include/push_swap.h"
+void    algo_force(t_pile *pile, int ac)
+{
+    if (ac == 3)
+        sort_2(pile);
+    else if (ac == 4)
+        sort_3(pile);
+    else if (ac == 5 || ac == 6)
+        sort_4_or_5(pile);
+}
 
 int list_size(t_list *lst)
 {
@@ -34,26 +43,17 @@ int main(int ac, char **av)
     if (ac < 2)
         return 1;
     if (verif(av))
-    {
-        error();
-        return (1);
-    }
+        return (error(), 1);
+    
     pile = init_pile(ac, av);
     if(doublon(pile.lst_a) || pile.parsing_error)
-    {
-        error();
-        return (1);
-    }
+        return (error(), 1);
     if (already_sort(pile.lst_a))
-        return (0);
+        return (free_pile(&pile), 0);
+    algo_force(&pile, ac);
+    if (already_sort(pile.lst_a))
+        return (free_pile(&pile), 0);
     sort_chunk(&pile);
     free_pile(&pile);
     return (0);
 }
-
-// !!! si c est deja trie ne pas retrier et juste return la listess !!!
-// un algo pour 2 arg je change seulement si c est pas deja trié
-// un algo pour 3 arg
-// un algo pour 4 arg
-// un algo pour 5 arg
-// un algo pour >5 arg

@@ -9,7 +9,7 @@
 /*   Updated: 2025/04/18 11:05:26 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../push_swap.h"
+#include "../../include/push_swap.h"
 
 static int	ft_word_count(const char *s, char c)
 {
