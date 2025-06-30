@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 10:37:24 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/06/30 11:04:00 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/push_swap.h"
 
 int	parsing(int ac, char **av, t_list **lst_a)
@@ -13,12 +25,12 @@ int	parsing(int ac, char **av, t_list **lst_a)
 		j = 0;
 		while (s[j])
 		{
-            if (!max_min(s[j]))
+			if (!max_min(s[j]))
 			{
 				free_split(s);
 				return (1);
 			}
-				ft_lstadd_back(lst_a, lstnew(ft_atoi(s[j])));
+			ft_lstadd_back(lst_a, lstnew(ft_atoi(s[j])));
 			j++;
 		}
 		free_split(s);
@@ -26,12 +38,12 @@ int	parsing(int ac, char **av, t_list **lst_a)
 	}
 	return (0);
 }
-// 0 pour error et 1 pour bon
-int max_min(char *s)
+
+int	max_min(char *s)
 {
-	int sign;
-	long result;
-	int digit;
+	int		sign;
+	long	result;
+	int		digit;
 
 	sign = 1;
 	if (*s == '-')
@@ -47,15 +59,15 @@ int max_min(char *s)
 		digit = *s - '0';
 		if (sign == 1 && result > (2147483647 - digit) / 10)
 			return (0);
-		if (sign == -1 && -result < (-2147483648 + digit) / 10)
+		if (sign == -1 && - result < (-2147483648 + digit) / 10)
 			return (0);
 		result = result * 10 + digit;
 		s++;
 	}
 	result *= sign;
-	return (result >= -2147483648  && result <= 2147483647);
+	return (result >= -2147483648 && result <= 2147483647);
 }
-//return 1 si error et 0 si ok
+
 int	verif(char **s)
 {
 	int	i;
@@ -105,25 +117,22 @@ int	doublon(t_list *lst)
 	return (0);
 }
 
-// check si c est deja trié
-// check si dans list_a cest decroissant car je rajoute a la fin dabord
-// return 1 si deja trie et 0 si pas encore
-int already_sort(t_list *lst)
+int	already_sort(t_list *lst)
 {
-    t_list *current;
-    t_list *nxt;
+	t_list	*current;
+	t_list	*nxt;
 
-    current = lst;
-    while (current)
-    {
-        nxt = current->next;
-        while (nxt)
-        {
-            if (current->content >= nxt->content)
-                return (0);
-            nxt = nxt->next;
-        }
-        current = current->next;
-    }
-    return (1);
+	current = lst;
+	while (current)
+	{
+		nxt = current->next;
+		while (nxt)
+		{
+			if (current->content >= nxt->content)
+				return (0);
+			nxt = nxt->next;
+		}
+		current = current->next;
+	}
+	return (1);
 }
