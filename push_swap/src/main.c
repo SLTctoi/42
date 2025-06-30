@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 10:43:38 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/06/30 11:05:16 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:38:46 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int ac, char **av)
 		return (error(), 1);
 	pile = init_pile(ac, av);
 	if (doublon(pile.lst_a) || pile.parsing_error)
-		return (error(), 1);
+		return (free_pile(&pile), error(), 1);
 	if (already_sort(pile.lst_a))
 		return (free_pile(&pile), 0);
 	algo_force(&pile);
