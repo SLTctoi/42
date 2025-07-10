@@ -2,35 +2,22 @@
 # define SO_LONG_H
 
 # include "mlx.h"
-
-typedef struct s_map_object
-{
-    char empty;
-    char wall;
-    char item;
-    char exit;
-    char start;
-    int nb_exit;
-    int nb_start;
-    int nb_item;
-}               t_map_object;
+# include <stdlib.h>
 
 typedef struct s_img
 {
-    void *empty;
-    void *wall;
-    void *item;
-    void *exit;
-    void *start;
+    void *mlx;
+    void *win;
+    void *img_wall;
+    void *img_floor;
+    void *img_player;
+    void *img_exit;
+    void *img_item;
+    int   img_width;
+    int   img_height;
 }   t_img;
 
-typedef struct s_map
-{
-    char **map;
-    int height;
-    int width;
-    t_map_object object;
-    t_img img;
-}               t_map;
+void    draw_map(t_img *img, char **map);
+void load_img(t_img *img);
 
-#endif SO_LONG_H
+#endif
