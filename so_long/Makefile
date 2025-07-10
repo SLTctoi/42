@@ -1,5 +1,5 @@
 NAME = so_long
-SRCS = main.c map.c img.c
+SRCS = main.c map.c img.c key.c player_pos.c
 OBJS = $(SRCS:.c=.o)
 MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx.a
