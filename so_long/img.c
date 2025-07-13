@@ -2,6 +2,7 @@
 
 void load_img(t_img *img)
 {
+    img->count_move = 0;
     img->img_width = 32;
     img->img_height = 32;
     img->img_wall = mlx_xpm_file_to_image(img->mlx, "img/greyBrick-Mangopunch.xpm", &img->img_width, &img->img_height);

@@ -1,24 +1,23 @@
 #include "so_long.h"
 
-void init_player_pos(t_img *img)
+int count_item(t_img *img)
 {
     int y;
     int x;
+    int count;
 
     y = 0;
+    count = 0;
     while (img->map[y])
     {
         x = 0;
         while (img->map[y][x])
         {
-            if (img->map[y][x])
-            {
-                img->player_x = x;
-                img->player_y = y;
-                return ;
-            }
+            if (img->map[y][x] == 'C')
+                count++;
             x++;
         }
         y++;
     }
+    return (count);
 }
