@@ -1,33 +1,47 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/07/14 14:09:56 by mchrispe          #+#    #+#              #
+#    Updated: 2025/07/14 15:18:49 by mchrispe         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = so_long
 
-SRCS = main.c map.c img.c key.c pos.c  \
-	   free.c parse_entry.c libft/get_next_line/get_next_line.c \
-	   libft/get_next_line/get_next_line_utils.c exit.c utils.c \
-	   valid_path.c
+SRCS = main.c map.c img.c key.c pos.c \
+       free.c parse_entry.c utils.c valid_path.c \
+       libft/get_next_line/get_next_line.c \
+       libft/get_next_line/get_next_line_utils.c valid_map.c \
+	   valid_path2.c libft/get_next_line/get_next_line_utils_2.c
 
 OBJS = $(SRCS:.c=.o)
 
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -I$(MLX_DIR) -Ilibft
+
 MLX_DIR = minilibx-linux
 MLX_LIB = $(MLX_DIR)/libmlx.a
-MLX_INC = -I$(MLX_DIR)
 
 PRINTF_DIR = libft/ft_printf
 PRINTF_LIB = $(PRINTF_DIR)/libftprintf.a
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror $(MLX_INC)
-LDFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
+LDFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz -L$(PRINTF_DIR) -lftprintf
 
-minilibx:
+
+all: $(NAME)
+
+$(NAME): $(OBJS) $(MLX_LIB) $(PRINTF_LIB)
+	$(CC) $(CFLAGS) $(OBJS) $(MLX_LIB) $(PRINTF_LIB) $(LDFLAGS) -o $(NAME)
+
+$(MLX_LIB):
 	$(MAKE) -C $(MLX_DIR)
 
 $(PRINTF_LIB):
 	$(MAKE) -C $(PRINTF_DIR)
-
-all: minilibx $(PRINTF_LIB) $(NAME)
-
-$(NAME): $(OBJS) $(PRINTF_LIB) $(MLX_LIB)
-	$(CC) $(CFLAGS) $(OBJS) $(PRINTF_LIB) $(MLX_LIB) $(LDFLAGS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

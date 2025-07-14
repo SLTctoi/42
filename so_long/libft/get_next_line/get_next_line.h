@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe < mchrispe@student.s19.be >       +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:33:54 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/05/23 10:34:11 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:18:28 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
+
+char	*create_remaining_buffer(char *buffer, int i);
 
 #endif

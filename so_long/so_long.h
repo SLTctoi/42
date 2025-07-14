@@ -5,7 +5,7 @@
 # include "libft/get_next_line/get_next_line.h"
 # include "libft/ft_printf/ft_printf.h"
 # include <stdlib.h>
-#include <fcntl.h>
+# include <fcntl.h>
 
 typedef struct s_img
 {
@@ -26,6 +26,7 @@ typedef struct s_img
     int   count_move;
     int map_width;
     int map_height;
+    int total_items;
 }   t_img;
 
 typedef struct s_flood {
@@ -38,40 +39,62 @@ typedef struct s_flood {
     int     exit_found;
 }   t_flood;
 
-void    draw_map(t_img *img, char **map);
+// free
+void final_free(char **map);
+void	exit_victory(t_img *img);
+int close_window(t_img *img);
+
+// img
 void load_img(t_img *img);
 
+// key
 int key_hook(int keycode, t_img *img);
 void move_up(t_img *img);
 void move_down(t_img *img);
 void move_left(t_img *img);
 void move_right(t_img *img);
 
-void init_player_pos(t_img *img);
+// main
+int	load_and_prepare_map(t_img *img, char *filename);
+int	validate_map(t_img *img);
 
-void set_img_map_object(t_img *m, char *map_file);
-
-
-void final_free(char **map);
-
-
-int count_lines_file(char *filename);
-void free_map(char **map, int lines);
-char **parse_map(char *filename);
-int ber_extension(char *filename);
-
-char *get_next_line(int fd);
-int count_item(t_img *img);
-void	exit_victory(t_img *img);
-void init_exit_pos(t_img *img);
-void add_and_print_move(t_img *img);
-
+// map
+void    draw_map(t_img *img, char **map);
 int resize_window(t_img *img);
-int close_window(t_img *img);
 void is_rectangular(t_img *img);
 
+// parse_entry
+int count_lines_file(char *filename);
+void free_map(char **map, int lines);
+char	**alloc_and_open(char *filename, int *lines, int *fd);
+int	read_map_lines(int fd, char **map, int lines);
+char	**parse_map(char *filename);
+
+// pos
+void init_player_pos(t_img *img);
+void init_exit_pos(t_img *img);
+
+// utils
+void add_and_print_move(t_img *img);
+int ber_extension(char *filename);
+int count_item(t_img *img);
+
+// valid_map
+int count_exit(t_img *img);
+int count_player(t_img *img);
+
+// valid_path
+int **create_visited(int w, int h);
+void free_visited(int **matrix, int h);
+int	check_map_access(t_img *img);
+void	prepare_flood(t_img *img, t_flood *flood);
+void recurse_up(t_flood *f, int x, int y);
+
+// valid_path2
+void recurse_down(t_flood *f, int x, int y);
+void recurse_left(t_flood *f, int x, int y);
+void recurse_right(t_flood *f, int x, int y);
 int get_map_width(char **map);
 int get_map_height(char **map);
-int check_map_access(t_img *img);
 
 #endif

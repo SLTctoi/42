@@ -1,84 +1,95 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_entry.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/14 14:10:02 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/07/14 14:10:03 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-int count_lines_file(char *filename)
+int	count_lines_file(char *filename)
 {
-    int fd;
-    char *line;
-    int count;
+	int		fd;
+	char	*line;
+	int		count;
 
-    fd = open(filename, O_RDONLY);
-    if (fd < 0)
-        return (-1);
-    count = 0;
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        free(line);
-        count++;
-    }
-    close(fd);
-    return (count);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (-1);
+	count = 0;
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		free(line);
+		count++;
+	}
+	close(fd);
+	return (count);
 }
 
-void free_map(char **map, int lines)
+void	free_map(char **map, int lines)
 {
-    while (--lines > 0)
-        free(map[lines]);
-    free(map);
+	while (--lines > 0)
+		free(map[lines]);
+	free(map);
 }
 
-char **parse_map(char *filename)
+char	**alloc_and_open(char *filename, int *lines, int *fd)
 {
-    int fd;
-    int lines;
-    char **map;
-    int i;
-    int len;
+	char	**map;
 
-    lines = count_lines_file(filename);
-    if (lines <= 0)
-        return (NULL);
-    map = malloc(sizeof(char *) * (lines + 1));
-    if (!map)
-        return (NULL);
-    fd = open(filename, O_RDONLY);
-    if (fd < 0)
-    {
-        free(map);
-        return (NULL);
-    }
-    i = 0;
-    while (i < lines)
-    {
-        map[i] = get_next_line(fd);
-        if (!map[i])
-        {
-            free_map(map, i);
-            close(fd);
-            return (NULL);
-        }
-        len = ft_strlen(map[i]);
-        if (len > 0 && map[i][len - 1] == '\n')
-            map[i][len - 1] = '\0';
-        i++;
-    }
-    map[i] = NULL;
-    close(fd);
-    return (map);
+	*lines = count_lines_file(filename);
+	if (*lines <= 0)
+		return (NULL);
+	map = malloc(sizeof(char *) * (*lines + 1));
+	if (!map)
+		return (NULL);
+	*fd = open(filename, O_RDONLY);
+	if (*fd < 0)
+	{
+		free(map);
+		return (NULL);
+	}
+	return (map);
 }
-// return 0 si prob
-int ber_extension(char *filename)
+int	read_map_lines(int fd, char **map, int lines)
 {
-    int i;
+	int	i;
+	int	len;
 
-    if (!filename)
-        return (0);
-    i = 0;
-    while (filename[i])
-        i++;
-    if (i < 4)
-        return (0);
-    if (filename[i - 4] == '.' && filename[i - 3] == 'b' &&
-        filename[i - 2] == 'e' && filename[i - 1] == 'r')
-        return (1);
-    return (0);
+	i = 0;
+	while (i < lines)
+	{
+		map[i] = get_next_line(fd);
+		if (!map[i])
+			return (0);
+		len = ft_strlen(map[i]);
+		if (len > 0 && map[i][len - 1] == '\n')
+			map[i][len - 1] = '\0';
+		i++;
+	}
+	map[i] = NULL;
+	return (1);
+}
+char	**parse_map(char *filename)
+{
+	char	**map;
+	int		lines;
+	int		fd;
+
+	map = alloc_and_open(filename, &lines, &fd);
+	if (!map)
+		return (NULL);
+	if (!read_map_lines(fd, map, lines))
+	{
+		free_map(map, lines);
+		close(fd);
+		return (NULL);
+	}
+	close(fd);
+	return (map);
 }

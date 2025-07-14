@@ -1,59 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pos.c                                              :+:      :+:    :+:   */
+/*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 14:10:05 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/14 14:10:06 by mchrispe         ###   ########.fr       */
+/*   Created: 2025/07/14 14:10:13 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/07/14 14:10:14 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	init_player_pos(t_img *img)
+int	count_exit(t_img *img)
 {
-	int	y;
-	int	x;
+	int	i;
+	int	j;
+	int	count;
 
-	y = 0;
-	while (img->map[y])
+	i = 0;
+	count = 0;
+	while (img->map[i])
 	{
-		x = 0;
-		while (img->map[y][x])
+		j = 0;
+		while (img->map[i][j])
 		{
-			if (img->map[y][x] == 'P')
-			{
-				img->player_x = x;
-				img->player_y = y;
-				return ;
-			}
-			x++;
+			if (img->map[i][j] == 'E')
+				count++;
+			j++;
 		}
-		y++;
+		i++;
 	}
+	return (count);
 }
 
-void	init_exit_pos(t_img *img)
+int	count_player(t_img *img)
 {
-	int	y;
-	int	x;
+	int	i;
+	int	j;
+	int	count;
 
-	y = 0;
-	while (img->map[y])
+	i = 0;
+	count = 0;
+	while (img->map[i])
 	{
-		x = 0;
-		while (img->map[y][x])
+		j = 0;
+		while (img->map[i][j])
 		{
-			if (img->map[y][x] == 'E')
-			{
-				img->exit_x = x;
-				img->exit_y = y;
-				return ;
-			}
-			x++;
+			if (img->map[i][j] == 'P')
+				count++;
+			j++;
 		}
-		y++;
+		i++;
 	}
+	return (count);
 }

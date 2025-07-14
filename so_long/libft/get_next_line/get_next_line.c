@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe < mchrispe@student.s19.be >       +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:33:12 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/05/23 10:33:49 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/14 15:17:32 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*ft_free_join(char *buffer, char *temp)
@@ -74,11 +75,8 @@ char	*ft_get_line(char *buffer)
 char	*ft_clear_first_line(char *buffer)
 {
 	int		i;
-	int		j;
-	char	*s;
 
 	i = 0;
-	j = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	if (!buffer[i])
@@ -86,17 +84,7 @@ char	*ft_clear_first_line(char *buffer)
 		free(buffer);
 		return (NULL);
 	}
-	s = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(*buffer));
-	if (!s)
-	{
-		free(buffer);
-		return (NULL);
-	}
-	while (buffer[++i])
-		s[j++] = buffer[i];
-	s[j] = '\0';
-	free(buffer);
-	return (s);
+	return (create_remaining_buffer(buffer, i));
 }
 
 char	*get_next_line(int fd)
