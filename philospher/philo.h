@@ -24,6 +24,7 @@ typedef struct s_philo
 {
     int id;
     int meals_eaten;
+    long last_meal;
     pthread_t thread;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
@@ -39,4 +40,7 @@ void print_action(t_philo *philo, char *action);
 int init_all(t_rules *rules, t_philo **philos, int ac, char **av);
 
 // routine
-void    *routine(void *arg)
+void    *routine(void *arg) // a faire
+
+// free
+void free_all(t_rules *rules, t_philo *philos)

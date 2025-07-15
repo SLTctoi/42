@@ -6,7 +6,7 @@ long get_time(void)
     struct timeval tv;
 
     gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 int ft_atoi(const char **str)
@@ -38,6 +38,12 @@ void print_action(t_philo *philo, char *action)
 {
     long time;
 
-    time = get_time() - philo->rules->start_time; 
-    printf("&ld &i &s\n", time, philo->id, action);
+    pthread_mutex_lock(&philo->rules->print_mutex);
+    if (!philo->rules->someone_died)
+    {
+        time = get_time() - philo->rules->start_time; 
+        printf("&ld &i &s\n", time, philo->id, action);
+    }
+    pthread_mutex_unlock(&philo->rules->print_mutex);
+
 }
