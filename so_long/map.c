@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:09:54 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/14 14:09:54 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:21:12 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,7 @@ void	draw_map(t_img *img, char **map)
 		x = 0;
 		while (map[y][x])
 		{
-			mlx_put_image_to_window(img->mlx, img->win, img->img_floor, x
-				* img->img_width, y * img->img_height);
-			if (map[y][x] == '1')
-				mlx_put_image_to_window(img->mlx, img->win, img->img_wall, x
-					* img->img_width, y * img->img_height);
-			else if (map[y][x] == '0')
-				mlx_put_image_to_window(img->mlx, img->win, img->img_floor, x
-					* img->img_width, y * img->img_height);
-			else if (map[y][x] == 'P')
-				mlx_put_image_to_window(img->mlx, img->win, img->img_player, x
-					* img->img_width, y * img->img_height);
-			else if (map[y][x] == 'C')
-				mlx_put_image_to_window(img->mlx, img->win, img->img_item, x
-					* img->img_width, y * img->img_height);
-			else if (map[y][x] == 'E' || map[y][x] == 'W')
-				mlx_put_image_to_window(img->mlx, img->win, img->img_exit, x
-					* img->img_width, y * img->img_height);
+			draw_tile(img, map[y][x], x, y);
 			x++;
 		}
 		y++;
@@ -70,10 +54,30 @@ void	is_rectangular(t_img *img)
 	if (!ok)
 	{
 		write(2, "Error: The map is incorrect.\n", 30);
-		if (img->map)
-			final_free(img->map);
-		if (img->win)
-			mlx_destroy_window(img->mlx, img->win);
-		exit(0);
+		close_window(img);
+	}
+}
+void	map_border(t_img *img)
+{
+	int	y;
+	int	x;
+
+	x = 0;
+	while (x < img->map_height)
+	{
+		y = 0;
+		while (y < img->map_width)
+		{
+			if (x == 0 && img->map[x][y] != '1')
+				error_map_border(img);
+			if (x == (img->map_height - 1) && img->map[x][y] != '1')
+				error_map_border(img);
+			if (y == 0 && img->map[x][y] != '1')
+				error_map_border(img);
+			if (y == (img->map_width - 1) && img->map[x][y] != '1')
+				error_map_border(img);
+			y++;
+		}
+		x++;
 	}
 }

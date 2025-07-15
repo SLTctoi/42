@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:09:51 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/14 15:19:34 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:58:37 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	validate_map(t_img *img)
 	}
 	if (count_exit(img) != 1 || count_player(img) != 1 || img->total_items < 1)
 	{
-		write(2, "Error: Map must contain exactly 1 player (P), exactly 1 exit (E), and at least 1 collectible (C).\n", 98);
+		write(2, "exactly 1 exit (E),and at least 1 collectible (C).\n", 52);
 		final_free(img->map);
 		return (1);
 	}
@@ -63,9 +63,11 @@ int	main(int ac, char **av)
 	if (validate_map(&img))
 		return (1);
 	img.mlx = mlx_init();
-	img.win = mlx_new_window(img.mlx, img.map_width * 32, img.map_height * 32, "So_long");
-	is_rectangular(&img);
+	img.win = mlx_new_window(img.mlx, img.map_width * 64, img.map_height * 64,
+			"So_long");
 	load_img(&img);
+	is_rectangular(&img);
+	map_border(&img);
 	draw_map(&img, img.map);
 	mlx_hook(img.win, 17, 0, close_window, &img);
 	mlx_key_hook(img.win, key_hook, &img);

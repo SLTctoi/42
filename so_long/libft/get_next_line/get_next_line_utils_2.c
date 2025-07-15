@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 15:18:03 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/14 15:18:06 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:29:22 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*create_remaining_buffer(char *buffer, int i)
 {
 	int		j;
-	char	*s;
+	char	*s;	
 
 	s = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
 	if (!s)

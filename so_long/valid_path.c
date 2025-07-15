@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:10:15 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/14 14:10:17 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:14:44 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	**create_visited(int w, int h)
 	}
 	return (matrix);
 }
+
 void	free_visited(int **matrix, int h)
 {
 	int	i;

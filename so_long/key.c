@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:09:47 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/14 14:09:50 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:36:36 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ void	move_up(t_img *img)
 
 	x = img->player_x;
 	y = img->player_y;
-	if (img->map[y - 1][x] == 'E' && count_item(img) > 0)
-		return ;
-	if (y > 0 && img->map[y - 1][x] != '1')
+	if (img->map[y - 1][x] != '1')
 	{
 		img->map[y][x] = '0';
 		y--;
@@ -45,7 +43,13 @@ void	move_up(t_img *img)
 		draw_map(img, img->map);
 		add_and_print_move(img);
 	}
-	if (img->exit_x == img->player_x && img->exit_y == img->player_y)
+	if (x == img->exit_x && (y + 1) == img->exit_y)
+	{
+		img->map[y + 1][x] = 'E';
+		draw_map(img, img->map);
+	}
+	if (img->exit_x == img->player_x && img->exit_y == img->player_y
+		&& count_item(img) == 0)
 		exit_victory(img);
 }
 
@@ -56,9 +60,7 @@ void	move_down(t_img *img)
 
 	x = img->player_x;
 	y = img->player_y;
-	if (img->map[y + 1][x] == 'E' && count_item(img) > 0)
-		return ;
-	if (img->map[y + 1] && img->map[y + 1][x] != '1')
+	if (img->map[y + 1][x] != '1')
 	{
 		img->map[y][x] = '0';
 		y++;
@@ -67,7 +69,13 @@ void	move_down(t_img *img)
 		draw_map(img, img->map);
 		add_and_print_move(img);
 	}
-	if (img->exit_x == img->player_x && img->exit_y == img->player_y)
+	if (x == img->exit_x && (y - 1) == img->exit_y)
+	{
+		img->map[y - 1][x] = 'E';
+		draw_map(img, img->map);
+	}
+	if (img->exit_x == img->player_x && img->exit_y == img->player_y
+		&& count_item(img) == 0)
 		exit_victory(img);
 }
 
@@ -78,9 +86,7 @@ void	move_left(t_img *img)
 
 	x = img->player_x;
 	y = img->player_y;
-	if (img->map[y][x - 1] == 'E' && count_item(img) > 0)
-		return ;
-	if (x > 0 && img->map[y][x - 1] != '1')
+	if (img->map[y][x - 1] != '1')
 	{
 		img->map[y][x] = '0';
 		x--;
@@ -89,7 +95,13 @@ void	move_left(t_img *img)
 		draw_map(img, img->map);
 		add_and_print_move(img);
 	}
-	if (img->exit_x == img->player_x && img->exit_y == img->player_y)
+	if ((x + 1) == img->exit_x && y == img->exit_y)
+	{
+		img->map[y][x + 1] = 'E';
+		draw_map(img, img->map);
+	}
+	if (img->exit_x == img->player_x && img->exit_y == img->player_y
+		&& count_item(img) == 0)
 		exit_victory(img);
 }
 
@@ -100,9 +112,7 @@ void	move_right(t_img *img)
 
 	x = img->player_x;
 	y = img->player_y;
-	if (img->map[y][x + 1] == 'E' && count_item(img) > 0)
-		return ;
-	if (img->map[x + 1] && img->map[y][x + 1] != '1')
+	if (img->map[y][x + 1] != '1')
 	{
 		img->map[y][x] = '0';
 		x++;
@@ -111,6 +121,12 @@ void	move_right(t_img *img)
 		draw_map(img, img->map);
 		add_and_print_move(img);
 	}
-	if (img->exit_x == img->player_x && img->exit_y == img->player_y)
+	if ((x - 1) == img->exit_x && y == img->exit_y)
+	{
+		img->map[y][x - 1] = 'E';
+		draw_map(img, img->map);
+	}
+	if (img->exit_x == img->player_x && img->exit_y == img->player_y
+		&& count_item(img) == 0)
 		exit_victory(img);
 }

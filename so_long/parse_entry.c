@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_entry.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:10:02 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/14 14:10:03 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:12:45 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ int	count_lines_file(char *filename)
 	if (fd < 0)
 		return (-1);
 	count = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		free(line);
 		count++;
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (count);
@@ -56,6 +58,7 @@ char	**alloc_and_open(char *filename, int *lines, int *fd)
 	}
 	return (map);
 }
+
 int	read_map_lines(int fd, char **map, int lines)
 {
 	int	i;
@@ -75,6 +78,7 @@ int	read_map_lines(int fd, char **map, int lines)
 	map[i] = NULL;
 	return (1);
 }
+
 char	**parse_map(char *filename)
 {
 	char	**map;
