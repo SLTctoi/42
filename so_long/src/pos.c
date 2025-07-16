@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pos.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:10:05 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/14 14:10:06 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:28:04 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	init_player_pos(t_img *img)
 {

@@ -6,11 +6,11 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:09:54 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/15 14:21:12 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:37:57 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	draw_map(t_img *img, char **map)
 {
@@ -57,6 +57,7 @@ void	is_rectangular(t_img *img)
 		close_window(img);
 	}
 }
+
 void	map_border(t_img *img)
 {
 	int	y;

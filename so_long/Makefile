@@ -3,20 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+         #
+#    By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 14:09:56 by mchrispe          #+#    #+#              #
-#    Updated: 2025/07/14 15:18:49 by mchrispe         ###   ########.fr        #
+#    Updated: 2025/07/16 10:26:59 by mchrispe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
-SRCS = main.c map.c img.c key.c pos.c \
-       free.c parse_entry.c utils.c valid_path.c \
+SRCS = src/main.c src/map.c src/img.c src/key.c src/pos.c \
+       src/free.c src/parse_entry.c src/utils.c src/valid_path.c \
        libft/get_next_line/get_next_line.c \
-       libft/get_next_line/get_next_line_utils.c valid_map.c \
-	   valid_path2.c libft/get_next_line/get_next_line_utils_2.c
+       libft/get_next_line/get_next_line_utils.c src/valid_map.c \
+	   src/valid_path2.c libft/get_next_line/get_next_line_utils_2.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   valid_path2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:10:19 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/14 14:10:24 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:28:19 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	recurse_down(t_flood *f, int x, int y)
 {

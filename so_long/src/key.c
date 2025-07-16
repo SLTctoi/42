@@ -6,11 +6,11 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:09:47 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/15 12:36:36 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:27:52 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int	key_hook(int keycode, t_img *img)
 {

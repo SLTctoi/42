@@ -6,11 +6,11 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:09:43 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/15 11:20:11 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:27:47 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	load_img(t_img *img)
 {

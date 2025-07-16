@@ -6,15 +6,15 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:16:59 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/15 12:54:05 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:15:24 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "libft/ft_printf/ft_printf.h"
-# include "libft/get_next_line/get_next_line.h"
+# include "../libft/ft_printf/ft_printf.h"
+# include "../libft/get_next_line/get_next_line.h"
 # include "mlx.h"
 # include <fcntl.h>
 # include <stdlib.h>
@@ -71,6 +71,7 @@ void		move_right(t_img *img);
 // main
 int			load_and_prepare_map(t_img *img, char *filename);
 int			validate_map(t_img *img);
+int			map_too_big(t_img *img);
 
 // map
 void		draw_map(t_img *img, char **map);
@@ -92,12 +93,12 @@ void		init_exit_pos(t_img *img);
 // utils
 void		add_and_print_move(t_img *img);
 int			ber_extension(char *filename);
-int			count_item(t_img *img);
 void		draw_tile(t_img *img, char tile, int x, int y);
 
 // valid_map
 int			count_exit(t_img *img);
 int			count_player(t_img *img);
+int			count_item(t_img *img);
 
 // valid_path
 int			**create_visited(int w, int h);

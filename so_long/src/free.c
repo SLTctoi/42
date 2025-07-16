@@ -6,11 +6,11 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:09:25 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/15 13:19:59 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:37:52 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	final_free(char **map)
 {
@@ -56,6 +56,7 @@ int	close_window(t_img *img)
 	}
 	exit(0);
 }
+
 void	error_map_border(t_img *img)
 {
 	write(2, "Error: Border problem detected. Out of bounds access!\n", 54);

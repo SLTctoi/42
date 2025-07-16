@@ -6,11 +6,11 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:10:02 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/15 12:12:45 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:28:02 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int	count_lines_file(char *filename)
 {

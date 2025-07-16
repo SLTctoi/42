@@ -6,11 +6,11 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:10:10 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/15 12:14:07 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:15:15 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	add_and_print_move(t_img *img)
 {
@@ -33,28 +33,6 @@ int	ber_extension(char *filename)
 			- 2] == 'e' && filename[i - 1] == 'r')
 		return (1);
 	return (0);
-}
-
-int	count_item(t_img *img)
-{
-	int	y;
-	int	x;
-	int	count;
-
-	y = 0;
-	count = 0;
-	while (img->map[y])
-	{
-		x = 0;
-		while (img->map[y][x])
-		{
-			if (img->map[y][x] == 'C')
-				count++;
-			x++;
-		}
-		y++;
-	}
-	return (count);
 }
 
 void	draw_tile(t_img *img, char tile, int x, int y)
