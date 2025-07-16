@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 12:16:59 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/16 14:15:24 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:28:31 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,9 @@ void		init_exit_pos(t_img *img);
 void		add_and_print_move(t_img *img);
 int			ber_extension(char *filename);
 void		draw_tile(t_img *img, char tile, int x, int y);
+void		map_valid_char(t_img *img);
 
-// valid_map
+	// valid_map
 int			count_exit(t_img *img);
 int			count_player(t_img *img);
 int			count_item(t_img *img);

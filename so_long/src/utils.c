@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:10:10 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/16 14:15:15 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:45:11 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,33 @@ void	draw_tile(t_img *img, char tile, int x, int y)
 	else if (tile == 'E' || tile == 'W')
 		mlx_put_image_to_window(img->mlx, img->win, img->img_exit, x
 			* img->img_width, y * img->img_height);
+}
+#include "stdio.h"
+
+void	map_valid_char(t_img *img)
+{
+	int	i;
+	int	j;
+
+	if (!img)
+		return ;
+	i = 0;
+	while (img->map[i])
+	{
+		j = 0;
+		while (img->map[i][j])
+		{
+			printf("%c ",img->map[i][j]);
+			if (img->map[i][j] != '1' || img->map[i][j] != 'E'
+				|| img->map[i][j] != 'P' || img->map[i][j] != '0'
+				|| img->map[i][j] != 'C')
+			{
+				write(2, "Error: Use only E, P, C, 1 or 0.\n", 33);
+				final_free(img->map);
+				exit(0);
+			}
+			j++;
+		}
+		i++;
+	}
 }

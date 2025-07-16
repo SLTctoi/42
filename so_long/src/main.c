@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:09:51 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/07/16 14:14:13 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/07/16 14:42:22 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ int	load_and_prepare_map(t_img *img, char *filename)
 		write(2, "Error: Failed to load map\n", 27);
 		return (1);
 	}
+	map_valid_char(img);
 	if (count_exit(img) != 1 || count_player(img) != 1 || count_item(img) < 1)
 	{
-		write(2, "exactly 1 exit (E),and at least 1 collectible (C).\n", 52);
+		write(2, "exactly 1 exit (E),and at least 1 collectible (C)", 50);
+		write(2, ", and 1 character (P).\n", 23);
 		final_free(img->map);
 		return (1);
 	}
