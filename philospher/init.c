@@ -1,21 +1,23 @@
+#include "philo.h"
 
 static int init_rules(t_rules *rules, t_philo **philos, int ac, char **av);
 static void init_philos(t_rules *rules, t_philo **philos);
 
+// return 0 si ok
 int init_all(t_rules *rules, t_philo **philos, int ac, char **av)
 {
     if (ac < 5 || ac > 6)
     {
         write(2, "Error: Bad arguments\n", 21);
-        return (0);
+        return (1);
     }
     if (!init_rules(rules, philos, ac, av))
     {
         write(2, "Error: Initialization failed\n", 29);
-        return (0);
+        return (1);
     }
     init_philos(rules, philos);
-    return (1);
+    return (0);
 }
 static int init_rules(t_rules *rules, t_philo **philos, int ac, char **av)
 {

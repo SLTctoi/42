@@ -1,4 +1,6 @@
-void free_all(t_rules *rules, t_philo *philos)
+#include "philo.h"
+
+void free_all(t_rules *rules, t_philo **philos)
 {
     int i;
 

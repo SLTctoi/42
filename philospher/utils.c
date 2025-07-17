@@ -42,7 +42,7 @@ void print_action(t_philo *philo, char *action)
     if (!philo->rules->someone_died)
     {
         time = get_time() - philo->rules->start_time; 
-        printf("&ld &i &s\n", time, philo->id, action);
+        printf("&ld &d &s\n", time, philo->id, action);
     }
     pthread_mutex_unlock(&philo->rules->print_mutex);
 
