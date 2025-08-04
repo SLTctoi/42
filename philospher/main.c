@@ -5,9 +5,15 @@ int main(int ac, char **av)
 {
     t_rules rules;
     t_philo *philos;
+    int i;
 
     init_all(&rules, philos, ac, av);
-
+    i = -1;
+    while (++i < rules.nb_philo)
+        pthread_create(philos[i].thread, NULL, routine, philos);
+    i = -1;
+    while (++i < rules.nb_philo)
+        pthread_join(philos[i].thread, NULL);
     free_all(&rules, philos);
     return (0);
 }

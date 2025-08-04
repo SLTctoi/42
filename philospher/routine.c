@@ -24,6 +24,7 @@ void sleeping_routine(t_rules *rules, t_philo *philo)
     print_action(philo, "is sleeping");
     usleep(rules->time_to_sleep * 1000);
 }
+// faire un thread qui check en perma si qqun meurt
 void die_routine(t_rules *rules, t_philo *philo)
 {
     pthread_mutex_lock(&rules->died_mutex);
@@ -36,12 +37,16 @@ void die_routine(t_rules *rules, t_philo *philo)
 }
 // je dois mettre dans une boucle car cest le thread qui va appeler la fonction
 // changer les entrees en void *arg
-void routine(t_rules *rules, t_philo *philo)
+void *routine(void *args)
 {
-    eating_routine(rules, philo);
-    die_routine(rules, philo);
-    sleeping_routine(rules, philo);
-    die_routine(rules, philo);
-    thinking_routine(rules, philo);
-    die_routine(rules, philo);
+    t_philo *philo;
+    philo = args;
+
+    if 
+    while (1)
+    {
+        eating_routine(rules, philo);
+        sleeping_routine(rules, philo);
+        thinking_routine(rules, philo);
+    }
 }

@@ -1,0 +1,136 @@
+1. pas interpreter les \ ou ; .
+2. max 1 variable global
+3. afficher un prompt en attendant une nouvelle commande
+4. historique de commande
+5.chercher et lancer le bon executable (base sur le PATH or avec un chemin relatif ou absolu)
+6. les commandes a implementer : 
+    6.1 echo et option -n
+    6.2 cd (chemin relatif ou absolu)
+    6.3 pwd
+    6.4 export
+    6.5 unset
+    6.6 env
+    6.7 exit
+7. gerer les ' comme un simple string
+8. gerer les " comme un string mais les $ sont considerer comme une variable
+9. gerer les redirections
+    9.1 < redirect input
+    9.2 > redirect output (ecrase le fichier) 
+    9.3 << lire depuis le stdin
+    9.4 >> redirect output (ajoute dans le fichier)
+10. gerer les pipes | (pipex a revoir)
+11. gerer les var de env (ex: $USER)
+12. gerer les code de sortie ($?) (souvent la val return par waitpid())
+    EX: ls
+        echo $?
+        si return 0 alors tout ok si autre = erreur
+13. gerer ctrl-c ctrl-d et ctrl-\ comme dans bash
+14. quand interactive
+    ctrl-c : ecris un nvx prompt sur une newline
+    ctrl-d : exit le shell
+    ctrl-\ : fais rien 
+
+
+
+!!!!!
+readline peut produire des leak pas besoin de les fix 
+mais pas mon propre code 
+
+fonction externe : 
+
+1. char *readline(const char *prompt)
+    return la ligne de stdin apres avoir press enter 
+    si l'utilisateur press ctrl-d return NULL.
+    prompt : permet d'afficher dans le stdin (ex: Minishell>).
+
+    -> permet de faire les lignes de commande dans le terminal>
+
+2. int add_history(const char *line)
+    pour ajouter la commande return par readline dans un historique
+
+    -> permet d'utiliser les fleche pour afficher les ancienne commandes
+
+3. void rl_clear_history(void)
+    supprimer l'historique de rl 
+
+    -> permet de suprimer l'historique a la fin de rl 
+
+4. void rl_on_new_line(void)
+    dis a rl qu'on a finis la ligne precedente
+
+    -> a utiliser apres avoir finis ce qu'on fait avec readline
+
+5. void rl_redisplay(void)
+    permet d'afficher un msg proprement quand l' utilisateur ecris dans le shell
+
+    -> permet d'ecrire le prompt et ce que l'utilisateur ecrivait proprement (en cas d'erreur)
+
+6. sighandler_t signal(int sgnum, sighandler_t handler)
+    permet de recevoir un signal et puis de reagir en consequence
+
+    -> permet de gerer les ctrl-c , gerer le $?, ...
+
+7. int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact)
+    c'est signal en mieux 
+
+    -> fait comme signal en mieux
+
+8. int kill(pid_t pid, int sig)
+    sert a envoyer un signal a un processus
+
+    -> peut servir pour stop un processus lancer
+
+9. char *getcwd(char *buf, size_t size)
+    sert a avoir le chemin absolu du repertoire dans lequel ton programme est entrain
+    de travailler
+
+    -> pour avoir le chemin absolu du repertoire (pour cd)
+
+10. int chdir(const char *path)
+    changer le repertoire courant du processus
+
+    -> pour changer de dir (pour cd)
+
+11. int stat(const char *pathname, struct stat *statbuf)
+    permet d' obtenir des info sur un fichier ou un repertoire
+    return 0 si ok et -1 si erreur (mis a jour de errno)
+
+    -> pour verif si un fichier existe avant de l ouvrir, si un chemin est un fichier ou un dossier,
+    verif les perm , pour afficher des infos sur un fichier (pour ls)
+
+12. int lstat(const char *pathname,  struct stat *statbuf)
+    fonctionne comme stat mais le chemin donne est un lien symbolique
+
+    -> renvois els infos sur le lien (pas le fichier)
+
+13. int fstat(int fd, struct stat *statbuf)
+    fonctionne comme stat mais le chemin donne est un descripteur de fichier ouvert (fd)
+
+    -> permet d'avoir les inos d'un fichier qui est open()
+
+14. int unlink(const char *pathname)
+    permet de supprimer un fichier
+    return 0 si ok et -1 si erreur (mets a jour errno)
+
+    -> pour rm 
+
+15. DIR *opendir(const char *name)
+    ouvre un repertoire et renvois un pointeur vers un structure DIR 
+
+    -> pour ls et parcourir des fichier 
+
+16. struct dirent *readdir(DIR *dirp)
+    permet de lire un entre (fichier, dossier,..) dans un repertoire ouvert 
+    avec opendir()
+
+    -> pour ls
+
+17. int closedir(DIR *dirp)
+    ferme un repertoir ouvert avec opendir
+    return 0 si ok et -1 si erreur (mets a jour errno)
+
+18. int isatty(int fd)
+    sert a savoir si ton prog et connecte a un terminal interactif 
+    ou si son entree/sortie est redirige(ficher, pipe, ...)
+
+    

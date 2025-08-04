@@ -47,3 +47,4 @@ void print_action(t_philo *philo, char *action)
     pthread_mutex_unlock(&philo->rules->print_mutex);
 
 }
+// faire une fonction ft_usleep
