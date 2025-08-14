@@ -1,19 +1,19 @@
 #include "minishell.h"
 
-// void    ft_malloc(size_t size)
-// {
-//     void    *p;
+void    ft_malloc(size_t size)
+{
+    void    *p;
 
-//     if (size == 0)
-//         return (NULL);
-//     p = malloc(size);
-//     if (!p)
-//     {
-//         perror(RED"Error: Malloc failed"RST);
-//         exit(1); // trouver le bon code error !!!
-//     }
-//     return (p);
-// }
+    if (size == 0)
+        return (NULL);
+    p = malloc(size);
+    if (!p)
+    {
+        perror(RED"Error: Malloc failed"RST);
+        exit(1); // trouver le bon code error !!! normalement 1 c bon
+    }
+    return (p);
+}
 
 // pid_t   ft_fork(void)
 // {
@@ -23,7 +23,7 @@
 //     if (pid < 0)
 //     {
 //         perror(RED"Error: Fork failed"RST);
-//         exit(1); // trouver le bon code error !!!
+//         exit(1); // trouver le bon code error !!! normalement 1 c bon
 //     }
 //     return (pid);
 // }

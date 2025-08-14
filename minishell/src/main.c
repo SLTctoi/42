@@ -10,7 +10,7 @@ int main(int ac, char **av, char **env)
     shell.env = env;
     while (1)
     {
-        input = readline ("minishell> ");
+        input = readline("minishell> ");
         if (!input)
         {
             printf("exit\n");
