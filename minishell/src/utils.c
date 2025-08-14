@@ -27,3 +27,9 @@ void    ft_malloc(size_t size)
 //     }
 //     return (pid);
 // }
+
+void    ft_write_error(const char *err)
+{
+    write(2, err, ft_strlen(err));
+}
+
