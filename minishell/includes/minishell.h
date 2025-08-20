@@ -15,13 +15,13 @@
 typedef struct s_shell
 {
 	char	**env;
+	char	**var;
+	char	*path;
 }			t_shell;
 
 // parse.c
 void		parse_command(char *input, t_shell *shell);
 
-// utils.c
-void    ft_malloc(size_t size);
 // pid_t   ft_fork(void);
 
 // free.c

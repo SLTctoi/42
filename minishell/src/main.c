@@ -8,6 +8,7 @@ int main(int ac, char **av, char **env)
     (void)ac;
     (void)av;
     shell.env = env;
+    init_path(shell);
     while (1)
     {
         input = readline("minishell> ");
