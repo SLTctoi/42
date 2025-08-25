@@ -8,7 +8,7 @@ void env(t_shell *shell)
     i = 0;
     while (shell->path[i + 1])
     {
-        printf("%s\n", shell->path[i]);
+        printf("%s\n", shell->path);
         i++;
     }
     j = 0;
@@ -18,5 +18,5 @@ void env(t_shell *shell)
         j++;
     }
     i++;
-    printf("%s\n", shell->path[i]);
+    printf("%s\n", shell->path);
 }

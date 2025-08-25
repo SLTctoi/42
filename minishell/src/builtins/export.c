@@ -1,28 +1,69 @@
 #include "minishell.h"
 
 // si 0 == ok si 1 == error
+// int export(char *str, t_shell *shell)
+// {
+//     int i;
+
+//     i = 0;
+//     while (str[i] && ft_iswhitespace(str[i]))
+//         i++;
+//     i += 6;
+//     while (str[i] && ft_iswhitespace(str[i]))
+//         i++;
+//     if (str[i] == '\0')
+//     {
+//         export_no_arg_no_opt(shell);
+//         return (0);
+//     }
+//     else
+//     {
+
+//     }
+//     return (1);
+// }
+
 int export(char *str, t_shell *shell)
 {
+    char **args;
+    int ret;
+    int first_error;
     int i;
 
-    i = 0;
-    while (str[i] && ft_iswhitespace(str[i]))
-        i++;
-    i += 6;
-    while (str[i] && ft_iswhitespace(str[i]))
-        i++;
-    if (str[i] == '\0')
+    while (*str && *str == ' ')
+        str++;
+    args = ft_split_quote(str, " ");
+    printf("split ok");
+    if (!args[1])
     {
         export_no_arg_no_opt(shell);
-        return (0);
+        free_string_array(args);
+        return(0);
     }
-    else
+    first_error = 1;
+    i = 1;
+    while (args[i])
     {
-
+        if (!is_valid_identifier(args[i]))
+        {
+            if (!first_error)
+            {
+                write(2, "minishell: export: `", 20);
+                write(2, args[i], ft_strlen(args[i]));
+                write(2, "': not a valid identifier\n", 27);
+                first_error = 1;
+            }
+        }
+        else
+            add_or_update_env(shell, args[i]);
     }
-    return (1);
+    free_string_array(args);
+    if (first_error)
+        ret = 1;
+    else
+        ret = 0;
+    return (ret);
 }
-
 void export_no_arg_no_opt(t_shell *shell)
 {
     char **sort_env;
@@ -42,26 +83,57 @@ void export_no_arg_no_opt(t_shell *shell)
     free_string_array(sort_env);
     free_string_array(sort_var);
 }
-// si je fais plusieurs export sur une meme commande mais que plusieurs export sont mauvais
-// on ecris que pour le premier le msg d'erreur
-void export_arg(t_shell *shell)
+void export_arg(t_shell *shell, char **args)
 {
-    // boucle en mode je verif si la var est bonne 
-    // je stock la var 
-    // je passe les space
-    
+    int i;
+    int first_error;
+
+    i = 1;
+    first_error = 0;
+    while (args[i])
+    {
+        if (!is_valid_identifier(args[i]))
+        {
+            if (!first_error)
+            {
+                printf("minishell: export: `%s': not a valid identifier\n",
+                       args[i]);
+                first_error = 1;
+            }
+        }
+        else
+            add_or_update_env(shell, args[i]);
+        i++;
+    }
 }
-// faire une fonction qui rajoute une var dans env
+int is_valid_identifier(char *s)
+{
+    int i;
 
-// faire une boucle pour gerer le cas de plusieurs var (ex : export var1=ok var2test)
-// changer la val dans char **env
-// les noms de var valide :
-// doit commencer par une lettre ou _
-// ne peut pas contenir de (-,!,@,*,.,...)
+    if (!s || (!ft_isalpha(s[0]) && s[0] != '_'))
+        return (0);
+    i = 1;
+    while (s[i] && s[i] != '=')
+    {
+        if (!ft_isalnum(s[i]) && s[i] != '_')
+            return (0);
+        i++;
+    }
+    return (1);
+}
 
-// export sans arugment
-// 1. trier env et le mettre dans export->sort_env
-//    sauf la derniere ligne qu on ecrit pas
-//    et XMODIFIERS='@im=ibus' -> mettre les '
-// 2. trier var et le mettre dans export->sort_var
-// 3. ecrire les export
+void add_or_update_env(t_shell *shell, char *str)
+{
+    char *equal_sign;
+
+    equal_sign = ft_strchr(str, '=');
+    if (equal_sign) // VAR=val
+    {
+        replace_or_add(&shell->env, str);
+    }
+    else // VAR
+    {
+        if (!is_in_str_array(shell->var, str))
+            shell->var = add_to_str_array(shell->var, str);
+    }
+}

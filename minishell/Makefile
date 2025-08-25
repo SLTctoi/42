@@ -1,45 +1,42 @@
 NAME = minishell
-
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -Ilibft
-READLINE = -lreadline
+CFLAGS = -Wall -Wextra -Werror -I include -I libft
+RM = rm -f
 
 SRC_DIR = src
 OBJ_DIR = obj
-INC_DIR = includes
-LIBFT_DIR = libft
 
-LIBFT = $(LIBFT_DIR)/libft.a
+# Tous les .c du projet
+SRCS = $(shell find $(SRC_DIR) -name '*.c')
+OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
-SRC = $(SRC_DIR)/main.c \
-	  $(SRC_DIR)/parse.c \
-	  $(SRC_DIR)/utils.c \
-	  $(SRC_DIR)/free.c \
+# --------------------- Règles ---------------------
 
-OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+all: libft $(NAME)
 
-all: $(NAME)
+# Compile libft avant tout
+libft:
+	$(MAKE) -C libft
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(READLINE) -o $(NAME)
+# Génère l'exécutable
+$(NAME): $(OBJS) libft
+	@mkdir -p $(dir $(OBJS))
+	$(CC) $(CFLAGS) $(OBJS) libft/libft.a -lreadline -o $(NAME)
 
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+# Compile les .c en .o
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
+# Nettoyage des .o du projet et de libft
 clean:
-	rm -rf $(OBJ_DIR)
-	$(MAKE) -C $(LIBFT_DIR) clean
+	$(MAKE) -C libft clean
+	$(RM) -r $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
-	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(MAKE) -C libft fclean
+	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft

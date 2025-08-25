@@ -1,19 +1,5 @@
 #include "minishell.h"
 
-
-pid_t   ft_fork(void)
-{
-    pid_t pid;
-
-    pid = fork();
-    if (pid < 0)
-    {
-        perror(RED"Error: Fork failed"RST);
-        exit(1); // trouver le bon code error !!! normalement 1 c bon
-    }
-    return (pid);
-}
-
 void    ft_write_error(const char *err)
 {
     write(2, err, ft_strlen(err));

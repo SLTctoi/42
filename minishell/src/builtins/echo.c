@@ -2,28 +2,7 @@
 // normalement c bon 
 // bien verifier que les quote sont ferme 
 // !!! gere le cas echo "oui bonjour ' ok" ||| peut etre chiant a gerer
-void echo(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i] && ft_iswhitespace(str[i]))
-        i++;
-    i += 4;
-    while (str[i] && ft_iswhitespace(str[i]))
-        i++;
-    if (str[i] == '-' && str[i + 1] == 'n')
-    {
-        i += 2;
-        echo_loop(str, i, 1);
-    }
-    else
-    {
-        echo_loop(str, i, 0);
-    }
-}
-
-int echo_print_n(char *str, int i)
+static int echo_print_n(char *str, int i)
 {
     int j;
     char quote;
@@ -37,7 +16,7 @@ int echo_print_n(char *str, int i)
     return (i + j + 1);
 }
 
-int echo_print(char *str, int i)
+static int echo_print(char *str, int i)
 {
     int j;
 
@@ -47,7 +26,7 @@ int echo_print(char *str, int i)
     printf("%.*s", j, str + i);
     return (i + j);
 }
-int is_last_str(char *str, int i)
+static int is_last_str(char *str, int i)
 {
     int j;
 
@@ -60,7 +39,7 @@ int is_last_str(char *str, int i)
 }
 
 // is_n = 1 -> print pas le \n | is_n = 0 -> print \n
-void echo_loop(char *str, int i, int is_n)
+static void echo_loop(char *str, int i, int is_n)
 {
     while (str[i])
         {
@@ -80,4 +59,24 @@ void echo_loop(char *str, int i, int is_n)
             else
                 printf(" ");
         }
+}
+void echo(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i] && ft_iswhitespace(str[i]))
+        i++;
+    i += 4;
+    while (str[i] && ft_iswhitespace(str[i]))
+        i++;
+    if (str[i] == '-' && str[i + 1] == 'n')
+    {
+        i += 2;
+        echo_loop(str, i, 1);
+    }
+    else
+    {
+        echo_loop(str, i, 0);
+    }
 }
