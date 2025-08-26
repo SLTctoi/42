@@ -9,3 +9,11 @@
 
 4. on fait toutes les commandes en fonction de 1.
 
+
+
+
+redirection (bon mais a verif)
+
+
+!!!! "$OK" = var donc on ecris ce qu il y a dans la var OK
+!!!! '$OK' = pas var donc on ecris $OK

@@ -84,4 +84,11 @@ void add_or_update_env(t_shell *shell, char *str);
 // pwd.c
 // void pwd(t_shell *env)
 
+// redirection
+// redirection.c
+int redirection_loop(char **input);
+int	redirection_stdin(char *input ,char *file);
+int double_redirection_stdin(char *input, const char *delim);
+int redirection_stdout(char *input, char *file);
+
 #endif

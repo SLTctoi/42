@@ -27,8 +27,7 @@
 int redirection_loop(char **input)
 {
     int i;
-    int res;
-
+	
     i = 1;
     while (input[i] && input[i + 1])
     {
