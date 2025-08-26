@@ -1,0 +1,11 @@
+1. on split_quote 
+    pour avoir quelque chose comme [command] [arg/option] [arg/option] ...
+
+2. on regarde si y'a une redirection ou un pipe
+    on fork vers les bonnes sorties
+
+3. condition pour renvoyer la les args de la command vers les bonnes fonction
+    si pas un builtins on cherche dans les commandes linux 
+
+4. on fait toutes les commandes en fonction de 1.
+

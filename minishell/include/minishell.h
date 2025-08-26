@@ -9,6 +9,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <sys/stat.h>
+# include <fcntl.h>
 
 # define RED "\033[1;31m"
 # define RST "\033[0m"

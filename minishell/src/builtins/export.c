@@ -56,6 +56,7 @@ int export(char *str, t_shell *shell)
         }
         else
             add_or_update_env(shell, args[i]);
+        i++;
     }
     free_string_array(args);
     if (first_error)
@@ -92,7 +93,7 @@ void export_arg(t_shell *shell, char **args)
     first_error = 0;
     while (args[i])
     {
-        if (!is_valid_identifier(args[i]))
+        if (args[i] && !is_valid_identifier(args[i]))
         {
             if (!first_error)
             {

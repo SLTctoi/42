@@ -1,6 +1,6 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I include -I libft
+CFLAGS = -Wall -Wextra -Werror -I include -I libft -g -O0   # <- Ajouté -g et -O0 pour debug
 RM = rm -f
 
 SRC_DIR = src
@@ -16,7 +16,7 @@ all: libft $(NAME)
 
 # Compile libft avant tout
 libft:
-	$(MAKE) -C libft
+	$(MAKE) -C libft CFLAGS="$(CFLAGS)"
 
 # Génère l'exécutable
 $(NAME): $(OBJS) libft
