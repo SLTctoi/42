@@ -26,6 +26,12 @@ typedef struct s_minishell
 	int	in;
 	int out;
 }			t_minishell;
+
+typedef struct s_pipe
+{
+	int pipe_in;
+	int pipe_out;
+}			t_pipe;
 // free.c
 void		free_shell(t_shell *shell);
 void free_string_array(char **arr);
