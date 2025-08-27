@@ -16,7 +16,9 @@ static void free_pipes(int **pipes, int count)
     free(pipes);
 }
 
-// child write in the pipe | parent read in the pipe
+// cmd = [ [[cmd][arg]] [[cmd][arg]] ]
+// n = size de cmd
+// envp = env avec les vars
 int	exec_pipe(char ***cmd, int n, char **envp)
 {
 	int	**pipes;
@@ -66,7 +68,7 @@ int	exec_pipe(char ***cmd, int n, char **envp)
             free_pipes(pipes, n - 1);
             return (-1);
         }
-        if (pid == 0) // enfant
+        if (pid == 0)
         {
             if (i == 0)
             {
@@ -107,12 +109,12 @@ int	exec_pipe(char ***cmd, int n, char **envp)
             if (is_builtin(cmd[i][0]))
             {
                 run_builtin(cmd[i]);
-                exit(0); // close child processus
+                exit(0);
             }
             else
             {
                 // check si acces a cmd[i][0]
-                execve(cmd[i][0], cmd[i], envp);
+                execve(cmd[i][0], cmd[i], envp); // remplacer cmd[i][0] par le path de la cmd
                 perror("execve");
                 exit (1);
             }
@@ -129,6 +131,34 @@ int	exec_pipe(char ***cmd, int n, char **envp)
     free_pipes(pipes, n - 1);
     i = 0;
     while (i < n)
-        wait(NULL);
+        wait(NULL); // utiliser waitpid pour les codes
     return(0);
 }
+
+// int		minipipe(t_mini *mini)
+// {
+// 	pid_t	pid;
+// 	int		pipefd[2];
+
+// 	pipe(pipefd);
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		ft_close(pipefd[1]);
+// 		dup2(pipefd[0], STDIN);
+// 		mini->pipin = pipefd[0];
+// 		mini->pid = -1;
+// 		mini->parent = 0;
+// 		mini->no_exec = 0;
+// 		return (2);
+// 	}
+// 	else
+// 	{
+// 		ft_close(pipefd[0]);
+// 		dup2(pipefd[1], STDOUT);
+// 		mini->pipout = pipefd[1];
+// 		mini->pid = pid;
+// 		mini->last = 0;
+// 		return (1);
+// 	}
+// }
