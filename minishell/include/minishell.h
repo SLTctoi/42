@@ -21,6 +21,11 @@ typedef struct s_shell
 	char	*path;
 }			t_shell;
 
+typedef struct s_minishell
+{
+	int	in;
+	int out;
+}			t_minishell;
 // free.c
 void		free_shell(t_shell *shell);
 void free_string_array(char **arr);
