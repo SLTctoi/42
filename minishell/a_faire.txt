@@ -17,3 +17,6 @@ redirection (bon mais a verif)
 
 !!!! "$OK" = var donc on ecris ce qu il y a dans la var OK
 !!!! '$OK' = pas var donc on ecris $OK
+
+!!!! gerer le cas cat input.txt | grep ok | cat < input.txt > out.txt
+!!!! faire le pipe multiple et pour chaque commande on fais les redirection

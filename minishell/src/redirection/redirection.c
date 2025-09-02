@@ -46,7 +46,7 @@ int	redirection_stdin(char *input ,char *file)
 {
 	int	fd;
 	
-	if (ft_strcmp(input, "<"))
+	if (ft_strcmp(input, "<") == 0)
 	{
 		fd = open(file, O_RDONLY);
 		if (fd < 0)
@@ -92,41 +92,41 @@ int double_redirection_stdin(char *input, const char *delim)
 			free(line);
 		}
 		close(pipefd[1]);
-		if (dup2(pipefd[0], STDERR_FILENO < 0))
+		if (dup2(pipefd[0], STDIN_FILENO) < 0)
 		{
 			perror("dup2");
 			close(pipefd[0]);
 			return (-1);
 		}
+		close(pipefd[0]);
 	}
-	close(pipefd[0]);
 	return (0);
 }
 
-int redirection_stdout(char *input, char *file)
+int	redirection_stdout(char *input, char *file, int pipe_fd)
 {
-	int fd;
+	int		fd;
+	char	buf[1024];
+	int		nbytes;
 
-	if (input[0] == '>')
+	if (!input || input[0] != '>')
+		return (0);
+	if (ft_strcmp(input, ">") == 0)
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (ft_strcmp(input, ">>") == 0)
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		return (-1);
+	if (fd < 0)
+		return (perror("open"), -1);
+	if (pipe_fd != -1)
 	{
-		if (ft_strcmp(input, ">") == 0)
-			fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (ft_strcmp(input, ">>") == 0)
-			fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			return (-1);
-		if (fd < 0)
-		{
-			perror("open");
-			return (-1);
-		}
-		if (dup2(fd, STDOUT_FILENO) < 0)
-		{
-			perror("dup2");
-			close(fd);
-			return (-1);
-		}
-		close(fd);
+		while ((nbytes = read(pipe_fd, buf, sizeof(buf))) > 0)
+			write(fd, buf, nbytes);
 	}
+	if (dup2(fd, STDOUT_FILENO) < 0)
+		return (perror("dup2"), close(fd), -1);
+	close(fd);
 	return (0);
 }
+

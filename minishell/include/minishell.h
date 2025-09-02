@@ -21,6 +21,14 @@ typedef struct s_shell
 	char	*path;
 }			t_shell;
 
+typedef struct s_child
+{
+	char	**cmd;
+	int	**pipes;
+	int	index;
+	int total;
+	char **envp;
+}			t_child;
 typedef struct s_minishell
 {
 	int	in;

@@ -1,164 +1,149 @@
 #include "minishell.h"
+
 //a faireSS
 //int is_builtin(char *cmd);
 //int run_builtin(char **argv);
 
-static void free_pipes(int **pipes, int count)
+static void	free_pipes(int **pipes, int count)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (i < count)
-    {
-        if (pipes[i])
-            free(pipes[i]);
-    }
-    free(pipes);
+	i = 0;
+	while (i < count)
+	{
+		if (pipes[i])
+			free(pipes[i]);
+		i++;
+	}
+	free(pipes);
 }
 
-// cmd = [ [[cmd][arg]] [[cmd][arg]] ]
-// n = size de cmd
-// envp = env avec les vars
-int	exec_pipe(char ***cmd, int n, char **envp)
+static void	close_pipes(int **pipes, int count)
 {
-	int	**pipes;
-    pid_t pid;
-    int i;
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		if (pipes[i])
+		{
+			close(pipes[i][0]);
+			close(pipes[i][1]);
+		}
+		i++;
+	}
+}
+static int	create_pipes(int ***pipes, int n)
+{
+	int	i;
+
+	*pipes = malloc(sizeof(int *) * (n - 1));
+	if (!*pipes)
+		return (-1);
+	i = 0;
+	while (i < n - 1)
+	{
+		(*pipes)[i] = malloc(sizeof(int) * 2);
+		if (!(*pipes)[i])
+			return (perror("malloc"), free_pipes(*pipes, i), -1);
+		if (pipe((*pipes)[i]) == -1)
+			return (perror("pipe"), free_pipes(*pipes, i + 1), -1);
+		i++;
+	}
+	return (0);
+}
+static void setup_redirections(char **cmd, int **pipes, int i, int n)
+{
+    int fd_file;
+    int has_output;
+
+    fd_file = -1;
+    has_output = get_output_file(cmd, &fd_file);
+    if (i > 0)
+        dup2(pipes[i - 1][0], STDIN_FILENO);
+    if (i < n - 1)
+        dup2(pipes[i][1], STDOUT_FILENO);
+    if (has_output && fd_file != -1)
+    {
+        dup2(fd_file, STDOUT_FILENO);
+        close(fd_file);
+    }
+    redirection_loop(cmd);
+}
+static void child_exec(t_child child)
+{
     int j;
 
-    pipes = NULL;
-    if (n < 1)
-        return (-1);
-    pipes = malloc(sizeof(int *) * (n - 1));
-    if (!pipes)
-        return (-1);
-    i = 0;
-    while (i < n - 1)
+    setup_redirections(child.cmd, child.pipes, child.index, child.total);
+    j = 0;
+    while (j < child.total - 1)
     {
-        pipes[i] = malloc(sizeof(int) * 2);
-        if (!pipes[i])
-        {
-            perror("malloc");
-            free_pipes(pipes, i);
-            return (-1);
-        }
-        if (pipe(pipes[i]) == -1)
-        {
-            perror("pipe");
-            j = 0;
-            free_pipes(pipes, i + 1);
-            return (-1);
-        }
-        i++;
+        close(child.pipes[j][0]);
+        close(child.pipes[j][1]);
+        j++;
     }
+    if (is_builtin(child.cmd[0]))
+    {
+        run_builtin(child.cmd);
+        exit(0);
+    }
+    execve(child.cmd[0], child.cmd, child.envp);
+    perror("execve");
+    exit(127);
+}
+static int exec_pipe_init (int ***pipes, int n)
+{
+    if (create_pipes(pipes, n) == -1)
+        return (-1);
+    return (0);
+}
+
+static int exec_pipe_fork(char ***cmd, int **pipes, int n, char **envp)
+{
+    int i;
+    pid_t pid;
+    t_child child;
+
     i = 0;
     while (i < n)
     {
         pid = fork();
         if (pid == -1)
-        {
-            perror("fork");
-            j = 0;
-            while (j < n - 1)
-            {
-                close(pipes[j][0]);
-                close(pipes[j][1]);
-                j++;
-            }
-            free_pipes(pipes, n - 1);
-            return (-1);
-        }
+            return (perror("fork"), close_pipes(pipes, n - 1),
+                    free_pipes(pipes, n - 1), -1);
         if (pid == 0)
         {
-            if (i == 0)
-            {
-                if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-            }
-            else if (i == n - 1)
-            {
-                if(dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-            }
-            else
-            {
-                if(dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-                if(dup2(pipes[i][1], STDOUT_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-            }
-            j = 0;
-            while (j < n - 1)
-            {
-                close(pipes[j][0]);
-                close(pipes[j][1]);
-                j++;
-            }
-            if (is_builtin(cmd[i][0]))
-            {
-                run_builtin(cmd[i]);
-                exit(0);
-            }
-            else
-            {
-                // check si acces a cmd[i][0]
-                execve(cmd[i][0], cmd[i], envp); // remplacer cmd[i][0] par le path de la cmd
-                perror("execve");
-                exit (1);
-            }
-
+            child.cmd = cmd[i];
+            child.pipes = pipes;
+            child.index = i;
+            child.total = n;
+            child.envp = envp;
+            child_exec(child);
         }
         i++;
     }
-    i = 0;
-    while (i < n - 1)
-    {
-        close(pipes[i][0]);
-        close(pipes[i][1]);
-    }
-    free_pipes(pipes, n - 1);
-    i = 0;
-    while (i < n)
-        wait(NULL); // utiliser waitpid pour les codes
-    return(0);
+    return (0);
 }
+static void exec_pipe_wait(int **pipes, int n)
+{
+    int i;
 
-// int		minipipe(t_mini *mini)
-// {
-// 	pid_t	pid;
-// 	int		pipefd[2];
-
-// 	pipe(pipefd);
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		ft_close(pipefd[1]);
-// 		dup2(pipefd[0], STDIN);
-// 		mini->pipin = pipefd[0];
-// 		mini->pid = -1;
-// 		mini->parent = 0;
-// 		mini->no_exec = 0;
-// 		return (2);
-// 	}
-// 	else
-// 	{
-// 		ft_close(pipefd[0]);
-// 		dup2(pipefd[1], STDOUT);
-// 		mini->pipout = pipefd[1];
-// 		mini->pid = pid;
-// 		mini->last = 0;
-// 		return (1);
-// 	}
-// }
+    close_pipes(pipes, n - 1);
+    free_pipes(pipes, n - 1);
+    i = -1;
+    while (++i < n)
+        wait(NULL);
+}
+int exec_pipe(char ***cmd, int n, char **envp)
+{
+    int **pipes;
+    
+    if (n < 1)
+        return (-1);
+    if (exec_pipe_init(&pipes, n) == -1)
+        return (-1);
+    if (exec_pipe_fork(cmd, pipes, n, envp) == -1)
+        return (-1);
+    exec_pipe_wait(pipes, n);
+    return (0);
+}
