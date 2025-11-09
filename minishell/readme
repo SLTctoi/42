@@ -1,0 +1,16 @@
+verif si le code est aux normes 
+
+refaire le minishell.h et makefile
+
+!!!!! verif si sigquit est bien fait ???? ctrl+\
+
+mettre une erreur si un seul ' ou "
+
+
+
+segfault :
+echo > | wc
+
+doit faire une erreur :
+| echo test
+

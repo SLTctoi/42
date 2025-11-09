@@ -1,164 +1,103 @@
 #include "minishell.h"
-//a faireSS
-//int is_builtin(char *cmd);
-//int run_builtin(char **argv);
 
-static void free_pipes(int **pipes, int count)
+// attend la fin de tous les processus enfant et stock leur sortie
+void	wait_and_store_exit(t_pipe *p, pid_t *pids, int n)
 {
-    int i;
+	int	status;
+	int	i;
+	int	last_exit_code;
 
-    i = 0;
-    while (i < count)
-    {
-        if (pipes[i])
-            free(pipes[i]);
-    }
-    free(pipes);
+	i = -1;
+	last_exit_code = 0;
+	while (++i < n)
+	{
+		if (pids[i] > 0)
+		{
+			waitpid(pids[i], &status, 0);
+			if (WIFSIGNALED(status))
+			{
+				int sig = WTERMSIG(status);
+				if (sig == SIGINT)
+					write(1, "\n", 1);
+				else if (sig == SIGQUIT)
+					write(1, "Quit (core dumped)\n", 19);
+				last_exit_code = 128 + sig;
+			}
+			else if (WIFEXITED(status))
+				last_exit_code = WEXITSTATUS(status);
+		}
+	}
+	p->last_exit = last_exit_code;
 }
 
-// cmd = [ [[cmd][arg]] [[cmd][arg]] ]
-// n = size de cmd
-// envp = env avec les vars
-int	exec_pipe(char ***cmd, int n, char **envp)
+static int	should_exec_in_parent(t_cmd *cmd)
 {
-	int	**pipes;
-    pid_t pid;
-    int i;
-    int j;
-
-    pipes = NULL;
-    if (n < 1)
-        return (-1);
-    pipes = malloc(sizeof(int *) * (n - 1));
-    if (!pipes)
-        return (-1);
-    i = 0;
-    while (i < n - 1)
-    {
-        pipes[i] = malloc(sizeof(int) * 2);
-        if (!pipes[i])
-        {
-            perror("malloc");
-            free_pipes(pipes, i);
-            return (-1);
-        }
-        if (pipe(pipes[i]) == -1)
-        {
-            perror("pipe");
-            j = 0;
-            free_pipes(pipes, i + 1);
-            return (-1);
-        }
-        i++;
-    }
-    i = 0;
-    while (i < n)
-    {
-        pid = fork();
-        if (pid == -1)
-        {
-            perror("fork");
-            j = 0;
-            while (j < n - 1)
-            {
-                close(pipes[j][0]);
-                close(pipes[j][1]);
-                j++;
-            }
-            free_pipes(pipes, n - 1);
-            return (-1);
-        }
-        if (pid == 0)
-        {
-            if (i == 0)
-            {
-                if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-            }
-            else if (i == n - 1)
-            {
-                if(dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-            }
-            else
-            {
-                if(dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-                if(dup2(pipes[i][1], STDOUT_FILENO) == -1)
-                {
-                    perror("dup2");
-                    exit(1);
-                }
-            }
-            j = 0;
-            while (j < n - 1)
-            {
-                close(pipes[j][0]);
-                close(pipes[j][1]);
-                j++;
-            }
-            if (is_builtin(cmd[i][0]))
-            {
-                run_builtin(cmd[i]);
-                exit(0);
-            }
-            else
-            {
-                // check si acces a cmd[i][0]
-                execve(cmd[i][0], cmd[i], envp); // remplacer cmd[i][0] par le path de la cmd
-                perror("execve");
-                exit (1);
-            }
-
-        }
-        i++;
-    }
-    i = 0;
-    while (i < n - 1)
-    {
-        close(pipes[i][0]);
-        close(pipes[i][1]);
-    }
-    free_pipes(pipes, n - 1);
-    i = 0;
-    while (i < n)
-        wait(NULL); // utiliser waitpid pour les codes
-    return(0);
+	if (!is_builtin(cmd->argv[0]))
+		return (0);
+	if (ft_strcmp(cmd->argv[0], "cd") == 0
+		|| ft_strcmp(cmd->argv[0], "export") == 0
+		|| ft_strcmp(cmd->argv[0], "unset") == 0
+		|| ft_strcmp(cmd->argv[0], "exit") == 0)
+		return (1);
+	return (0);
 }
 
-// int		minipipe(t_mini *mini)
-// {
-// 	pid_t	pid;
-// 	int		pipefd[2];
+// exec les builtin qui change l'env dans le processus parent pas dans un fork
+static int	exec_parent_builtin(t_cmd **cmds, int n, t_pipe *p, pid_t *pids)
+{
+	int	**fd;
 
-// 	pipe(pipefd);
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		ft_close(pipefd[1]);
-// 		dup2(pipefd[0], STDIN);
-// 		mini->pipin = pipefd[0];
-// 		mini->pid = -1;
-// 		mini->parent = 0;
-// 		mini->no_exec = 0;
-// 		return (2);
-// 	}
-// 	else
-// 	{
-// 		ft_close(pipefd[0]);
-// 		dup2(pipefd[1], STDOUT);
-// 		mini->pipout = pipefd[1];
-// 		mini->pid = pid;
-// 		mini->last = 0;
-// 		return (1);
-// 	}
-// }
+	fd = p->fd;
+	expand_vars_new(cmds[0]->argv, p->envp, p->last_exit);
+	p->last_exit = exec_builtin(cmds[0]->argv, p);
+	free_all_fd(fd, n - 1);
+	free(pids);
+	return (1);
+}
+// crée les processus enfant
+static void	fork_children(t_pipe *p, pid_t *pids, int n)
+{
+	int	i;
+
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	i = -1;
+	while (++i < n)
+	{
+		pids[i] = fork();
+		if (pids[i] == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			child_process(p, i);
+		}
+	}
+}
+
+// execute le pipe proprement avec les fonctions au dessus
+void	execute_pipeline(t_cmd **cmds_meta, int n, char **envp, t_pipe *p)
+{
+	int		**fd;
+	pid_t	*pids;
+
+	fd = init_pipes(n);
+	if (!fd)
+		return ((void)(p->last_exit = 1));
+	pids = malloc(sizeof(pid_t) * n);
+	if (!pids)
+	{
+		free_all_fd(fd, n - 1);
+		return ((void)(p->last_exit = 1));
+	}
+	p->cmds_meta = cmds_meta;
+	init_pipeline_ctx(p, fd, n, envp);
+	if (n == 1 && should_exec_in_parent(cmds_meta[0]))
+		return ((void)exec_parent_builtin(cmds_meta, n, p, pids));
+	fork_children(p, pids, n);
+	close_all_pipes(fd, n - 1);
+	wait_and_store_exit(p, pids, n);
+	init_signals();
+	free_all_fd(fd, n - 1);
+	free(pids);
+}
+

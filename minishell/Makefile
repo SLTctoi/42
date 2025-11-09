@@ -1,37 +1,68 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I include -I libft -g -O0   # <- Ajouté -g et -O0 pour debug
+CFLAGS = -Wall -Wextra -Werror -I include -I libft -g -O0
 RM = rm -f
 
-SRC_DIR = src
-OBJ_DIR = obj
+SRCS = src/main/main.c \
+	src/main/main_init.c \
+	src/main/main_loop.c \
+	src/main/signal.c \
+	src/parsing/parse.c \
+	src/parsing/parse_init.c \
+	src/parsing/parse_main.c \
+	src/parsing/parse_outfile.c \
+	src/parsing/parse_tokens.c \
+	src/parsing/parse_utils.c \
+	src/expansion/dollar_question.c \
+	src/expansion/quote_expansion.c \
+	src/expansion/quote_expansion_utils.c \
+	src/builtins/builtin.c \
+	src/builtins/builtin_cd.c \
+	src/builtins/builtin_dollar_question.c \
+	src/builtins/builtin_echo.c \
+	src/builtins/builtin_env.c \
+	src/builtins/builtin_exit.c \
+	src/builtins/builtin_export.c \
+	src/builtins/builtin_pwd.c \
+	src/builtins/builtin_unset.c \
+	src/builtins/utils_builtin.c \
+	src/builtins/env/env_utils.c \
+	src/builtins/env/env_utils_2.c \
+	src/builtins/env/env_utils_3.c \
+	src/redirection/child.c \
+	src/redirection/heredoc.c \
+	src/redirection/pipe.c \
+	src/redirection/pipe_utils.c \
+	src/redirection/redir_check.c \
+	src/redirection/redir_check_1.c \
+	src/redirection/redir_infile.c \
+	src/redirection/redir_outfile.c \
+	src/redirection/redir_utils.c \
+	src/redirection/redir_validation.c \
+	src/redirection/redirections.c \
+	src/split_quote/split_quote.c \
+	src/split_quote/split_quote_2.c \
+	src/utils/free.c \
+	src/utils/path.c \
+	src/utils/quotes.c \
+	src/utils/quotes_utils.c
 
-# Tous les .c du projet
-SRCS = $(shell find $(SRC_DIR) -name '*.c')
-OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
-
-# --------------------- Règles ---------------------
+OBJS = $(SRCS:.c=.o)
 
 all: libft $(NAME)
 
-# Compile libft avant tout
 libft:
 	$(MAKE) -C libft CFLAGS="$(CFLAGS)"
 
-# Génère l'exécutable
-$(NAME): $(OBJS) libft
-	@mkdir -p $(dir $(OBJS))
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) libft/libft.a -lreadline -o $(NAME)
 
-# Compile les .c en .o
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Nettoyage des .o du projet et de libft
 clean:
 	$(MAKE) -C libft clean
-	$(RM) -r $(OBJ_DIR)
+	$(RM) $(OBJS)
 
 fclean: clean
 	$(MAKE) -C libft fclean

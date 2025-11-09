@@ -1,0 +1,94 @@
+#include "minishell.h"
+#include <errno.h>
+
+static void	clean_argv(char **argv)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (argv[i])
+	{
+		if (argv[i][0] != '\0')
+			argv[j++] = argv[i];
+		i++;
+	}
+	argv[j] = NULL;
+}
+
+// print une erreur et exit avec le bon code 
+static void	print_error_and_exit(char *cmd, char *msg, int code)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd("\n", 2);
+	exit(code);
+}
+
+// Gère les erreurs pour les commandes avec chemin absolu/relatif.
+static void	handle_path_errors(char *cmd)
+{
+	struct stat	st;
+
+	if (access(cmd, F_OK) != 0)
+		print_error_and_exit(cmd, "No such file or directory", 127);
+	if (stat(cmd, &st) == 0 && S_ISDIR(st.st_mode))
+		print_error_and_exit(cmd, "Is a directory", 126);
+	if (access(cmd, X_OK) != 0)
+		print_error_and_exit(cmd, "Permission denied", 126);
+}
+
+// setup les in/out pour un processus enfant
+static void	setup_child(t_pipe *p, int i, t_cmd *cmd, int in_pipeline)
+{
+	if (i > 0)
+		dup2(p->fd[i - 1][0], STDIN_FILENO);
+	if (i < p->n - 1)
+		dup2(p->fd[i][1], STDOUT_FILENO);
+	close_all_pipes(p->fd, p->n - 1);
+	handle_redirs(cmd, in_pipeline);
+}
+
+// exec les cmds de la bonne maniere builtin/execve
+static void	exec_cmd(t_cmd *cmd, t_pipe *p)
+{
+	char	*path;
+
+	if (is_builtin(cmd->argv[0]))
+		exit(exec_builtin(cmd->argv, p));
+	path = find_cmd(cmd->argv[0], p->envp);
+	if (!path)
+	{
+		if (ft_strchr(cmd->argv[0], '/'))
+			handle_path_errors(cmd->argv[0]);
+		print_error_and_exit(cmd->argv[0], "command not found", 127);
+	}
+	execve(path, cmd->argv, p->envp);
+	if (errno == EACCES || errno == EISDIR)
+		print_error_and_exit(cmd->argv[0], strerror(errno), 126);
+	perror("minishell");
+	exit(127);
+}
+
+// permet d'exec une commande dans un processus enfant de la bonne manière 
+void	child_process(t_pipe *p, int i)
+{
+	t_cmd	*cmd;
+	int		in_pipeline;
+
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	cmd = p->cmds_meta[i];
+	in_pipeline = (p->n > 1);
+	if (!cmd->argv || !cmd->argv[0])
+		exit(0);
+	setup_child(p, i, cmd, in_pipeline);
+	expand_vars_new(cmd->argv, p->envp, p->last_exit);
+	clean_argv(cmd->argv);
+	if (!cmd->argv[0] || !cmd->argv[0][0])
+		exit(0);
+	exec_cmd(cmd, p);
+}
