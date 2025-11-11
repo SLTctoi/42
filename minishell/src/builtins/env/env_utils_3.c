@@ -7,6 +7,30 @@ static int	ft_strncmp_env(char *env_entry, char *var, int len)
 	        (env_entry[len] == '=' || env_entry[len] == '\0'));
 }
 
+// Libère partiellement un env en cas d'erreur
+static void	free_partial_env(char **env, int j)
+{
+	while (j--)
+		free(env[j]);
+	free(env);
+}
+
+// Libère un tableau d'environnement
+void	free_env(char **envp)
+{
+	int	i;
+
+	i = 0;
+	if (!envp)
+		return ;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
+}
+
 // crée une copie de env sans var
 static char	**rm_var_from_env(char **envp, char *var, int len)
 {
@@ -20,17 +44,16 @@ static char	**rm_var_from_env(char **envp, char *var, int len)
 	j = 0;
 	while (envp[i])
 	{
-		if (!ft_strncmp_env(envp[i], var, len) && !(env[j] = ft_strdup(envp[i])))
-		{
-			while (j--) 
-                free(env[j]);
-			free(env);
-			return (NULL);
-		}
 		if (!ft_strncmp_env(envp[i], var, len))
+		{
+			env[j] = ft_strdup(envp[i]);
+			if (!env[j])
+			{
+				free_partial_env(env, j);
+				return (NULL);
+			}
 			j++;
-		else
-			free(envp[i]);
+		}
 		i++;
 	}
 	env[j] = NULL;
@@ -49,7 +72,7 @@ void	remove_env(char ***envp, char *var)
 	env = rm_var_from_env(*envp, var, len);
 	if (!env)
 		return ;
-	free(*envp);
+	free_env(*envp);
 	*envp = env;
 }
 

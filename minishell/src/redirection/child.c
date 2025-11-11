@@ -12,6 +12,8 @@ static void	clean_argv(char **argv)
 	{
 		if (argv[i][0] != '\0')
 			argv[j++] = argv[i];
+		else
+			free(argv[i]);
 		i++;
 	}
 	argv[j] = NULL;
