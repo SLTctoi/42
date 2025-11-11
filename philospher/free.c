@@ -12,6 +12,10 @@ void free_all(t_rules *rules, t_philo **philos)
         free(rules->forks);
     }
     pthread_mutex_destroy(&rules->print_mutex);
-    if (philos)
-        free(philos);
+    pthread_mutex_destroy(&rules->died_mutex);
+    if (*philos)
+    {
+        free(*philos);
+        *philos = NULL;
+    }
 }

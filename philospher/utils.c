@@ -2,49 +2,61 @@
 
 long get_time(void)
 {
-    long time_ms;
     struct timeval tv;
 
     gettimeofday(&tv, NULL);
-    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+    return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-int ft_atoi(const char **str)
+int ft_atoi(const char *str)
 {
-    int i;
+    int res;
     int sign;
-    int nbr;
 
-    i = 0;
-    while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-        i++;
+    res = 0;
     sign = 1;
-    if (str[i] == '+' || str[i] == '-')
+    while (*str == ' ' || (*str >= 9 && *str <= 13))
+        str++;
+    if (*str == '-')
+        sign = -1;
+    if (*str == '+' || *str == '-')
+        str++;
+    while (*str >= '0' && *str <= '9')
     {
-        if (str[i] == '-')
-            sign = -1;
-        i++;
+        res = res * 10 + (*str - '0');
+        str++;
     }
-    nbr = 0;
-    while (str[i])
-    {
-        if (str[i] >= '0' && str[i] <= '9')
-            nbr = nbr * 10 + (str[i] + '0');
-        i++;
-    }
-    return (nbr * sign);
+    return (res * sign);
 }
+
+void ft_usleep(long time_in_ms)
+{
+    long start;
+    long current;
+
+    start = get_time();
+    while (1)
+    {
+        current = get_time();
+        if ((current - start) >= time_in_ms)
+            break;
+        usleep(100);
+    }
+}
+
 void print_action(t_philo *philo, char *action)
 {
-    long time;
-
+    long timestamp;
+    int is_died;
+    
+    pthread_mutex_lock(&philo->rules->died_mutex);
     pthread_mutex_lock(&philo->rules->print_mutex);
-    if (!philo->rules->someone_died)
+    is_died = (action[0] == 'd' && action[1] == 'i' && action[2] == 'e');
+    if (!philo->rules->someone_died || is_died)
     {
-        time = get_time() - philo->rules->start_time; 
-        printf("&ld &d &s\n", time, philo->id, action);
+        timestamp = get_time() - philo->rules->start_time;
+        printf("%ld %d %s\n", timestamp, philo->id + 1, action);
     }
     pthread_mutex_unlock(&philo->rules->print_mutex);
-
+    pthread_mutex_unlock(&philo->rules->died_mutex);
 }
-// faire une fonction ft_usleep

@@ -1,52 +1,65 @@
 #include "philo.h"
 
-void eating_routine(t_rules *rules, t_philo *philo)
-{   
+void eating_routine(t_philo *philo)
+{ 
+    pthread_mutex_lock(philo->left_fork);
     print_action(philo, "has taken a fork");
-    pthread_mutex_lock(&philo->left_fork);
+    pthread_mutex_lock(philo->right_fork);
     print_action(philo, "has taken a fork");
-    pthread_mutex_lock(&philo->right_fork);
-    philo->last_meal = get_time();
-    philo->meals_eaten += 1;
     print_action(philo, "is eating");
-    usleep(rules->time_to_eat * 1000);
-    pthread_mutex_unlock(&philo->left_fork);
-    pthread_mutex_unlock(&philo->right_fork);
+    pthread_mutex_lock(&philo->rules->died_mutex);
+    philo->meals_eaten++;
+    pthread_mutex_unlock(&philo->rules->died_mutex);
+    ft_usleep(philo->rules->time_to_eat);
+    pthread_mutex_lock(&philo->rules->died_mutex);
+    philo->last_meal = get_time();
+    pthread_mutex_unlock(&philo->rules->died_mutex);
+    pthread_mutex_unlock(philo->left_fork);
+    pthread_mutex_unlock(philo->right_fork);
 }
 
-void thinking_routine(t_rules *rules, t_philo *philo)
+void sleeping_routine(t_philo *philo)
+{
+    print_action(philo, "is sleeping");
+    ft_usleep(philo->rules->time_to_sleep);
+}
+
+void thinking_routine(t_philo *philo)
 {
     print_action(philo, "is thinking");
 }
 
-void sleeping_routine(t_rules *rules, t_philo *philo)
-{
-    print_action(philo, "is sleeping");
-    usleep(rules->time_to_sleep * 1000);
-}
-// faire un thread qui check en perma si qqun meurt
-void die_routine(t_rules *rules, t_philo *philo)
-{
-    pthread_mutex_lock(&rules->died_mutex);
-    if ((get_time() - philo->last_meal) > rules->time_to_die)
-    {
-        print_action(philo, "died");
-        rules->someone_died = philo->id;
-    }
-    pthread_mutex_unlock(&rules->died_mutex);
-}
-// je dois mettre dans une boucle car cest le thread qui va appeler la fonction
-// changer les entrees en void *arg
-void *routine(void *args)
+void *philosopher_routine(void *arg)
 {
     t_philo *philo;
-    philo = args;
 
-    if 
+    philo = (t_philo *)arg;
+    if (philo->rules->nb_philo == 1)
+    {
+        print_action(philo, "has taken a fork");
+        ft_usleep(philo->rules->time_to_die);
+        return (NULL);
+    }
+    if (philo->id % 2 == 1)
+        thinking_routine(philo);
     while (1)
     {
-        eating_routine(rules, philo);
-        sleeping_routine(rules, philo);
-        thinking_routine(rules, philo);
+        pthread_mutex_lock(&philo->rules->died_mutex);
+        if (philo->rules->someone_died)
+        {
+            pthread_mutex_unlock(&philo->rules->died_mutex);
+            break;
+        }
+        if (philo->rules->meals_required != -1 && 
+            philo->meals_eaten >= philo->rules->meals_required)
+        {
+            pthread_mutex_unlock(&philo->rules->died_mutex);
+            break;
+        }
+        pthread_mutex_unlock(&philo->rules->died_mutex);
+        eating_routine(philo);
+        sleeping_routine(philo);
+        thinking_routine(philo);
     }
+    return (NULL);
 }
