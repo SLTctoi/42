@@ -13,6 +13,23 @@ static int	is_empty_input(char *input)
 	return (0);
 }
 
+// check si y'a des guillemets non fermés
+static int	has_unclosed_quotes(char *input)
+{
+	char	quote;
+
+	quote = 0;
+	while (*input)
+	{
+		if (!quote && (*input == '"' || *input == '\''))
+			quote = *input;
+		else if (quote && *input == quote)
+			quote = 0;
+		input++;
+	}
+	return (quote != 0);
+}
+
 //gère le cycle de l'input : parse, init cmds, execute, free
 static void	process_input(char *input, t_pipe *p)
 {
@@ -50,7 +67,15 @@ int	handle_input(t_pipe *p)
 	if (*input)
 		add_history(input);
 	if (!is_empty_input(input))
-		process_input(input, p);
+	{
+		if (has_unclosed_quotes(input))
+		{
+			ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
+			p->last_exit = 2;
+		}
+		else
+			process_input(input, p);
+	}
 	free(input);
 	return (1);
 }
