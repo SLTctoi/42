@@ -1,71 +1,84 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/12 10:55:49 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/12 11:14:18 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-// la mort est check ici (thread qui tourne en boucle et qui check les cond pour mourir)
-int check_death(t_philo *philo)
+// la mort est check ici 
+// (thread qui tourne en boucle et qui check les cond pour mourir)
+int	check_death(t_philo *philo)
 {
-    long time_since;
-    long current;
-    int should_die;
+	long	time_since;
+	long	current;
+	int		should_die;
 
-    pthread_mutex_lock(&philo->rules->died_mutex);
-    current = get_time();
-    time_since = current - philo->last_meal;
-    if (philo->rules->nb_philo == 1)
-        should_die = time_since >= philo->rules->time_to_die;
-    else
-        should_die = time_since > philo->rules->time_to_die;
-    if (should_die && !philo->rules->someone_died)
-    {
-        philo->rules->someone_died = 1;
-        pthread_mutex_unlock(&philo->rules->died_mutex);
-        print_action(philo, "died");
-        return (1);
-    }
-    pthread_mutex_unlock(&philo->rules->died_mutex);
-    return (0);
+	pthread_mutex_lock(&philo->rules->died_mutex);
+	current = get_time();
+	time_since = current - philo->last_meal;
+	if (philo->rules->nb_philo == 1)
+		should_die = time_since >= philo->rules->time_to_die;
+	else
+		should_die = time_since > philo->rules->time_to_die;
+	if (should_die && !philo->rules->someone_died)
+	{
+		philo->rules->someone_died = 1;
+		pthread_mutex_unlock(&philo->rules->died_mutex);
+		print_action(philo, "died");
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->rules->died_mutex);
+	return (0);
 }
 
-int check_meals(t_philo *philos)
+int	check_meals(t_philo *philos)
 {
-    int i;
-    int full_count;
+	int	i;
+	int	full_count;
 
-    if (philos->rules->meals_required == -1)
-        return (0);
-    i = -1;
-    full_count = 0;
-    while (++i < philos->rules->nb_philo)
-    {
-        pthread_mutex_lock(&philos->rules->died_mutex);
-        if (philos[i].meals_eaten >= philos->rules->meals_required)
-            full_count++;
-        pthread_mutex_unlock(&philos->rules->died_mutex);
-    }
-    if (full_count == philos->rules->nb_philo)
-    {
-        pthread_mutex_lock(&philos->rules->died_mutex);
-        philos->rules->someone_died = 1;
-        pthread_mutex_unlock(&philos->rules->died_mutex);
-        return (1);
-    }
-    return (0);
+	if (philos->rules->meals_required == -1)
+		return (0);
+	i = -1;
+	full_count = 0;
+	while (++i < philos->rules->nb_philo)
+	{
+		pthread_mutex_lock(&philos->rules->died_mutex);
+		if (philos[i].meals_eaten >= philos->rules->meals_required)
+			full_count++;
+		pthread_mutex_unlock(&philos->rules->died_mutex);
+	}
+	if (full_count == philos->rules->nb_philo)
+	{
+		pthread_mutex_lock(&philos->rules->died_mutex);
+		philos->rules->someone_died = 1;
+		pthread_mutex_unlock(&philos->rules->died_mutex);
+		return (1);
+	}
+	return (0);
 }
 
-void *monitor_routine(void *arg)
+void	*monitor_routine(void *arg)
 {
-    t_philo *philos;
-    int i;
+	t_philo	*philos;
+	int		i;
 
-    philos = (t_philo *)arg;
-    while (1)
-    {
-        i = -1;
-        while (++i < philos->rules->nb_philo)
-        {
-            if (check_death(&philos[i]) || check_meals(philos))
-                return (NULL);
-        }
-        ft_usleep(1);
-    }
-    return (NULL);
+	philos = (t_philo *)arg;
+	while (1)
+	{
+		i = -1;
+		while (++i < philos->rules->nb_philo)
+		{
+			if (check_death(&philos[i]) || check_meals(philos))
+				return (NULL);
+		}
+		ft_usleep(1);
+	}
+	return (NULL);
 }
