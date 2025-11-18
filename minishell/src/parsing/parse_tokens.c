@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:30:20 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:55:18 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // gère les redirections <
@@ -18,8 +30,8 @@ int	handle_infile_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 			prm.p->last_exit = 2;
 			return (0);
 		}
-		if (!process_infile_simple(cmd, cmds[prm.i][*j] + 1,
-				prm.nb_cmds, prm.p))
+		if (!process_infile_simple(cmd, cmds[prm.i][*j] + 1, prm.nb_cmds,
+				prm.p))
 			return (0);
 		(*j)++;
 		return (1);
@@ -34,8 +46,7 @@ int	handle_heredoc_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 	{
 		if (!cmds[prm.i][*j + 1] || cmds[prm.i][*j + 1][0] == '|')
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
-			prm.p->last_exit = 2;
+			error_syntax_pipe(prm);
 			return (0);
 		}
 		cmd->heredoc = ft_strdup(cmds[prm.i][*j + 1]);
@@ -46,8 +57,7 @@ int	handle_heredoc_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 	{
 		if (cmds[prm.i][*j][2] == '|' || cmds[prm.i][*j][2] == '\0')
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
-			prm.p->last_exit = 2;
+			error_syntax_pipe(prm);
 			return (0);
 		}
 		cmd->heredoc = ft_strdup(cmds[prm.i][*j] + 2);

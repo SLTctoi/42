@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_check_1.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:46:38 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:46:46 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // verifie les perm et ouvre le fichier de la bonne facon (append ou pas)
@@ -86,7 +98,6 @@ static int	validate_heredoc(t_cmd *cmd)
 	free(unquoted_heredoc);
 	return (1);
 }
-
 
 // verifie toutes les redirections d'une commande
 int	check_redirections(t_cmd *cmd)

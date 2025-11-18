@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:15:40 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:16:12 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Vérifie si présence de -n et gère les cas du type -nnnn
@@ -13,6 +25,7 @@ static int	flag_n(char *s)
 			return (0);
 	return (1);
 }
+
 // print un string
 static void	print_clean(char *s)
 {
@@ -37,8 +50,8 @@ static int	skip_flag_n(char **args)
 // reproduit la commande echo
 int	builtin_echo(char **args, t_pipe *p)
 {
-	int		i;
-	int		nl;
+	int	i;
+	int	nl;
 
 	(void)p;
 	i = skip_flag_n(args);

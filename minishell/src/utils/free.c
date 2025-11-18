@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 15:00:07 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 15:00:17 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_split(char **split)
 {
-	int i; 
-	
+	int	i;
+
 	if (!split)
 		return ;
 	i = 0;
@@ -15,39 +27,39 @@ void	free_split(char **split)
 	free(split);
 }
 
-void free_triple_pointer(char ***ptr)
+void	free_triple_pointer(char ***ptr)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    if (!ptr)
-        return;
-    i = 0;
-    while (ptr[i])
-    {
-        j = 0;
-        while (ptr[i][j])
-        {
-            free(ptr[i][j]);
-            j++;
-        }
-        free(ptr[i]);
-        i++;
-    }
-    free(ptr);
+	if (!ptr)
+		return ;
+	i = 0;
+	while (ptr[i])
+	{
+		j = 0;
+		while (ptr[i][j])
+		{
+			free(ptr[i][j]);
+			j++;
+		}
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
 }
 
-void free_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd)
 {
-    if (!cmd)
-        return;
-    if (cmd->argv)
-        free_split(cmd->argv);
-    if (cmd->infile)
-        free(cmd->infile);
-    if (cmd->outfile)
-        free(cmd->outfile);
-    if (cmd->heredoc)
-        free(cmd->heredoc);
-    free(cmd);
+	if (!cmd)
+		return ;
+	if (cmd->argv)
+		free_split(cmd->argv);
+	if (cmd->infile)
+		free(cmd->infile);
+	if (cmd->outfile)
+		free(cmd->outfile);
+	if (cmd->heredoc)
+		free(cmd->heredoc);
+	free(cmd);
 }

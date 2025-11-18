@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:17:52 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:18:44 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // retire les guillemets de s
 static char	*strip_all_quotes(const char *s)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*res;
 
 	if (!s)
@@ -42,11 +54,12 @@ static int	is_numeric(char *s)
 	}
 	return (1);
 }
+
 // gère les erreurs d'exit
 static void	exit_with_error(char *clean, int code)
 {
 	if (code == 2)
-		write(2, " numeric argument required\n", 27);
+		write(2, "exit: numeric argument required\n", 32);
 	else
 		write(2, "exit: too many arguments\n", 25);
 	free(clean);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:13:01 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:13:33 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // crée une copie de l'env
@@ -36,7 +48,8 @@ int	index_env(char **envp, char *var)
 	len = ft_strlen(var);
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], var, len) == 0 && (envp[i][len] == '=' || envp[i][len] == '\0'))
+		if (ft_strncmp(envp[i], var, len) == 0 && (envp[i][len] == '='
+			|| envp[i][len] == '\0'))
 			return (i);
 		i++;
 	}
@@ -104,7 +117,3 @@ void	update_var_env(char ***envp, char *var, char *value)
 	free(*envp);
 	*envp = env;
 }
-
-
-
-

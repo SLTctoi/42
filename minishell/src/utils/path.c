@@ -1,40 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 15:00:32 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 15:00:39 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Extrait les chemins depuis la variable PATH de l'environnement
-static char **get_paths_from_env(char **envp)
+static char	**get_paths_from_env(char **envp)
 {
-    int i;
-    char *path_line;
+	int		i;
+	char	*path_line;
 
-    if (!envp)
-        return (NULL);
-    i = 0;
-    while (envp[i])
-    {
-        if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-        {
-            path_line = envp[i] + 5;
-            return (ft_split(path_line, ':'));
-        }
-        i++;
-    }    
-    return (NULL);
+	if (!envp)
+		return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			path_line = envp[i] + 5;
+			return (ft_split(path_line, ':'));
+		}
+		i++;
+	}
+	return (NULL);
 }
 
 // Concatène un répertoire et un nom de commande avec '/' entre les deux
-static char *join_path_cmd(char *dir, char *cmd)
+static char	*join_path_cmd(char *dir, char *cmd)
 {
-    char *tmp;
-    char *full;
+	char	*tmp;
+	char	*full;
 
-    if (!dir || !cmd)
-        return (NULL);
-    tmp = ft_strjoin(dir, "/");
-    if (!tmp)
-        return (NULL);
-    full = ft_strjoin(tmp, cmd);
-    free(tmp);
-    return (full);
+	if (!dir || !cmd)
+		return (NULL);
+	tmp = ft_strjoin(dir, "/");
+	if (!tmp)
+		return (NULL);
+	full = ft_strjoin(tmp, cmd);
+	free(tmp);
+	return (full);
 }
 
 // Vérifie si la commande est un chemin absolu exécutable

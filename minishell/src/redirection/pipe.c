@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:45:21 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:46:23 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // attend la fin de tous les processus enfant et stock leur sortie
@@ -6,6 +18,7 @@ void	wait_and_store_exit(t_pipe *p, pid_t *pids, int n)
 	int	status;
 	int	i;
 	int	last_exit_code;
+	int	sig;
 
 	i = -1;
 	last_exit_code = 0;
@@ -16,7 +29,7 @@ void	wait_and_store_exit(t_pipe *p, pid_t *pids, int n)
 			waitpid(pids[i], &status, 0);
 			if (WIFSIGNALED(status))
 			{
-				int sig = WTERMSIG(status);
+				sig = WTERMSIG(status);
 				if (sig == SIGINT)
 					write(1, "\n", 1);
 				else if (sig == SIGQUIT)
@@ -34,9 +47,8 @@ static int	should_exec_in_parent(t_cmd *cmd)
 {
 	if (!is_builtin(cmd->argv[0]))
 		return (0);
-	if (ft_strcmp(cmd->argv[0], "cd") == 0
-		|| ft_strcmp(cmd->argv[0], "export") == 0
-		|| ft_strcmp(cmd->argv[0], "unset") == 0
+	if (ft_strcmp(cmd->argv[0], "cd") == 0 || ft_strcmp(cmd->argv[0],
+			"export") == 0 || ft_strcmp(cmd->argv[0], "unset") == 0
 		|| ft_strcmp(cmd->argv[0], "exit") == 0)
 		return (1);
 	return (0);
@@ -54,6 +66,7 @@ static int	exec_parent_builtin(t_cmd **cmds, int n, t_pipe *p, pid_t *pids)
 	free(pids);
 	return (1);
 }
+
 // crée les processus enfant
 static void	fork_children(t_pipe *p, pid_t *pids, int n)
 {
@@ -100,4 +113,3 @@ void	execute_pipeline(t_cmd **cmds_meta, int n, char **envp, t_pipe *p)
 	free_all_fd(fd, n - 1);
 	free(pids);
 }
-

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:19:04 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:19:23 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // permet d'afficher une var d'env au format d'export
 static void	print_export_format_var(char *var)
 {
-	char *x;
+	char	*x;
 
 	if (ft_strcmp(var, "_=./minishell") == 0)
 		return ;
@@ -78,4 +90,3 @@ int	builtin_export(char **args, t_pipe *p)
 	p->last_exit = err;
 	return (err);
 }
-

@@ -1,3 +1,7 @@
 verif si le code est aux normes 
 
 !!!!! verif si sigquit est bien fait ???? ctrl+\
+
+cd ewe -> cd: No such file or directory ??? ou est lerreur dans le code
+
+reverif si le code marche bien car j ai rajoute la derniere fonction dans parse_util.c

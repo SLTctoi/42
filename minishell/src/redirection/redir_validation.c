@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_validation.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:54:43 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:55:15 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Vérifie si un fichier existe et gère les erreurs pour les commandes seules
@@ -13,7 +25,8 @@ int	check_file_exists(char *file, t_pipe *p, int nb_cmds)
 	return (1);
 }
 
-// Vérifie si un fichier est lisible et gère les erreurs pour les commandes seules
+// Vérifie si un fichier est lisible et gère les erreurs
+// pour les commandes seules
 int	check_file_readable(char *file, t_pipe *p, int nb_cmds)
 {
 	if (access(file, R_OK) != 0)
@@ -29,11 +42,10 @@ int	check_file_readable(char *file, t_pipe *p, int nb_cmds)
 // Valide un fichier d'entrée en vérifiant existence et permission de lecture
 int	validate_infile(char *infile, t_pipe *p, int nb_cmds)
 {
-	int		result;
+	int	result;
 
 	result = check_file_exists(infile, p, nb_cmds);
 	if (result)
 		result = check_file_readable(infile, p, nb_cmds);
 	return (result);
 }
-

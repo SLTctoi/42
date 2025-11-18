@@ -6,13 +6,13 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:34:58 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/08/14 12:35:00 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/18 15:03:55 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_iswhitespace(char c)
+int	ft_iswhitespace(char c)
 {
-    if (c == ' ' || c == '\t')
-        return (1);
-    return (0);
+	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
 }

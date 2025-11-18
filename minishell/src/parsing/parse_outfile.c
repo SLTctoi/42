@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_outfile.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:29:44 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:30:05 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // stock le nom du fichier et si c'est en append
@@ -21,9 +33,9 @@ int	outfile_error(int nb_cmds, int *redir_error)
 		return (0);
 	return (1);
 }
+
 // gère les cas (> fichier et >> fichier)
-static int	separate_outfile(char ***cmds, t_cmd *cmd,
-		int *j, t_out_params prm)
+static int	separate_outfile(char ***cmds, t_cmd *cmd, int *j, t_out_params prm)
 {
 	if (!check_pipe_after_redir(cmds, prm.prm.i, *j, prm.prm.p))
 		return (0);

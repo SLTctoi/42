@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:40:15 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:41:13 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-// check si y'a pas une des cmds dans les pipes qui est vide et si ca commence pas par un pipe
+// check si y'a pas une des cmds dans les pipes qui est vide
+// et si ca commence pas par un pipe
 static int	check_syntax_errors(char **cmd_tokens, t_pipe *p)
 {
 	if (!cmd_tokens || !cmd_tokens[0] || !cmd_tokens[0][0])
@@ -41,7 +54,7 @@ static int	process_single_cmd(char ***cmds, char **cmd_strs, int i, t_pipe *p)
 	return (1);
 }
 
-// verifie si ca commence pas par un pipe 
+// verifie si ca commence pas par un pipe
 static int	check_pipe_start(char *input, t_pipe *p)
 {
 	char	*tmp;
@@ -81,6 +94,7 @@ static char	***process_all_cmds(char **cmd_strs, int nb_cmds, t_pipe *p)
 	cmds[i] = NULL;
 	return (cmds);
 }
+
 // execute toutes les fonctions au dessus correctement
 char	***parse_commands(char *input, int *nb_cmds, t_pipe *p)
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_quote.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:59:31 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:59:58 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Vérifie si un caractère est un délimiteur
@@ -35,7 +47,6 @@ int	ft_word_count(const char *s, const char *delims)
 		}
 		else if ((ft_is_delim(*s, delims) && !quote) || (!*s))
 			in_word = 0;
-
 		s++;
 	}
 	return (count);

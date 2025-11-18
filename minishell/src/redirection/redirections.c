@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:55:43 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:57:55 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Gère une erreur de descripteur de fichier en ouvrant /dev/null et sortant
@@ -7,7 +19,10 @@ static void	handle_fd_error(int in_pipe, int std_fd)
 
 	if (in_pipe)
 	{
-		fd = open("/dev/null", (std_fd == 0) ? O_RDONLY : O_WRONLY);
+		if (std_fd == 0)
+			fd = open("/dev/null", O_RDONLY);
+		else
+			fd = open("/dev/null", O_WRONLY);
 		if (fd >= 0)
 		{
 			dup2(fd, std_fd);
@@ -56,7 +71,10 @@ static void	handle_output_redir(t_cmd *cmd, int in_pipe)
 	file = remove_quotes(cmd->outfile);
 	if (!file && (perror("malloc"), 1))
 		exit(1);
-	flags = O_WRONLY | O_CREAT | (cmd->append ? O_APPEND : O_TRUNC);
+	if (cmd->append)
+		flags = O_WRONLY | O_CREAT | O_APPEND;
+	else
+		flags = O_WRONLY | O_CREAT | O_TRUNC;
 	fd = open(file, flags, 0644);
 	if (fd < 0 && (perror(file), free(file), 1))
 		handle_fd_error(in_pipe, STDOUT_FILENO);

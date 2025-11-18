@@ -1,33 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 15:00:49 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 15:00:57 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Retire tous les guillemets d'une chaîne
-char *remove_quotes(char *str)
+char	*remove_quotes(char *str)
 {
-    int i;
-    int j;
-    char quote;
-    char *result;
+	int		i;
+	int		j;
+	char	quote;
+	char	*result;
 
-    if (!str)
-        return (NULL);
-    result = malloc(ft_strlen(str) + 1);
-    if (!result)
-        return (NULL);
-    i = 0;
-    j = 0;
-    quote = 0;
-    while (str[i])
-    {
-        if (!quote && (str[i] == '\'' || str[i] == '\"'))
-            quote = str[i];
-        else if (quote && str[i] == quote)
-            quote = 0;
-        else
-            result[j++] = str[i];
-        i++;
-    }
-    result[j] = '\0';
-    return (result);
+	if (!str)
+		return (NULL);
+	result = malloc(ft_strlen(str) + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	quote = 0;
+	while (str[i])
+	{
+		if (!quote && (str[i] == '\'' || str[i] == '\"'))
+			quote = str[i];
+		else if (quote && str[i] == quote)
+			quote = 0;
+		else
+			result[j++] = str[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
 }
 
 // Compte le nombre de caractères entre guillemets

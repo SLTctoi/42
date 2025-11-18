@@ -1,25 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   child.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:41:26 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:44:01 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-#include <errno.h>
 
-static void	clean_argv(char **argv)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (argv[i])
-	{
-		if (argv[i][0] != '\0')
-			argv[j++] = argv[i];
-		else
-			free(argv[i]);
-		i++;
-	}
-	argv[j] = NULL;
-}
-
-// print une erreur et exit avec le bon code 
+// print une erreur et exit avec le bon code
 static void	print_error_and_exit(char *cmd, char *msg, int code)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -75,7 +68,7 @@ static void	exec_cmd(t_cmd *cmd, t_pipe *p)
 	exit(127);
 }
 
-// permet d'exec une commande dans un processus enfant de la bonne manière 
+// permet d'exec une commande dans un processus enfant de la bonne manière
 void	child_process(t_pipe *p, int i)
 {
 	t_cmd	*cmd;

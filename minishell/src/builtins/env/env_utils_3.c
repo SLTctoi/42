@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils_3.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:11:54 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:12:53 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Verifie si var existe dans env
 static int	ft_strncmp_env(char *env_entry, char *var, int len)
 {
-	return (ft_strncmp(env_entry, var, len) == 0 &&
-	        (env_entry[len] == '=' || env_entry[len] == '\0'));
+	return (ft_strncmp(env_entry, var, len) == 0 && (env_entry[len] == '='
+			|| env_entry[len] == '\0'));
 }
 
 // Libère partiellement un env en cas d'erreur
@@ -38,7 +50,8 @@ static char	**rm_var_from_env(char **envp, char *var, int len)
 	int		i;
 	int		j;
 
-	if (!(env = malloc(sizeof(char *) * (size_env(envp) + 1))))
+	env = malloc(sizeof(char *) * (size_env(envp) + 1));
+	if (!env)
 		return (NULL);
 	i = 0;
 	j = 0;
@@ -75,4 +88,3 @@ void	remove_env(char ***envp, char *var)
 	free_env(*envp);
 	*envp = env;
 }
-

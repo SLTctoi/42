@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_infile.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:49:09 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:51:21 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Supprime les guillemets du nom de fichier et retourne une copie propre
@@ -11,8 +23,8 @@ char	*get_clean_filename(char *filename)
 	return (clean);
 }
 
-
-// Traite une redirection d'entrée simple en nettoyant le nom et validant si nécessaire
+// Traite une redirection d'entrée simple en nettoyant
+// le nom et validant si nécessaire
 int	process_infile_simple(t_cmd *cmd, char *filename, int nb_cmds, t_pipe *p)
 {
 	char	*new_infile;
@@ -35,7 +47,8 @@ int	process_infile_simple(t_cmd *cmd, char *filename, int nb_cmds, t_pipe *p)
 	return (1);
 }
 
-// Traite une redirection d'entrée avec guillemets en construisant le nom de fichier et validant si nécessaire
+// Traite une redirection d'entrée avec guillemets en construisant
+// le nom de fichier et validant si nécessaire
 static int	handle_quoted_infile(char ***cmds, t_cmd *cmd, int *j_ptr,
 		t_params prm)
 {
@@ -61,20 +74,21 @@ static int	handle_quoted_infile(char ***cmds, t_cmd *cmd, int *j_ptr,
 	return (1);
 }
 
-// Traite une redirection d'entrée en détectant les guillemets et appelant la fonction appropriée
-int	handle_infile_redirect(char ***cmds, t_cmd *cmd, int *j_ptr,
-		t_params prm)
+// Traite une redirection d'entrée en détectant les guillemets
+// et appelant la fonction appropriée
+int	handle_infile_redirect(char ***cmds, t_cmd *cmd, int *j_ptr, t_params prm)
 {
 	if (!cmds[prm.i][*j_ptr + 1] || !cmds[prm.i][*j_ptr + 1][0])
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd("minishell: syntax ", 2);
+		ft_putstr_fd("error near unexpected token `newline'\n", 2);
 		prm.p->last_exit = 2;
 		return (0);
 	}
 	if (check_quoted_parts(cmds, prm.i, *j_ptr))
 		return (handle_quoted_infile(cmds, cmd, j_ptr, prm));
-	if (!process_infile_simple(cmd, cmds[prm.i][*j_ptr + 1],
-			prm.nb_cmds, prm.p))
+	if (!process_infile_simple(cmd, cmds[prm.i][*j_ptr + 1], prm.nb_cmds,
+		prm.p))
 		return (0);
 	*j_ptr += 2;
 	return (1);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_quote_2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:58:05 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:59:24 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Extrait le prochain mot d'une chaîne en gérant les guillemets
@@ -9,7 +21,6 @@ char	*ft_get_next_word(const char **s, const char *delims)
 
 	quote = 0;
 	*s = ft_advance_delim(*s, delims);
-
 	start = *s;
 	while (**s && (!ft_is_delim(**s, delims) || quote))
 	{

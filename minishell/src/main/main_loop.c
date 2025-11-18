@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_loop.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:24:24 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:24:34 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // check si input est vide
@@ -30,7 +42,7 @@ static int	has_unclosed_quotes(char *input)
 	return (quote != 0);
 }
 
-//gère le cycle de l'input : parse, init cmds, execute, free
+// gère le cycle de l'input : parse, init cmds, execute, free
 static void	process_input(char *input, t_pipe *p)
 {
 	char	***cmds;

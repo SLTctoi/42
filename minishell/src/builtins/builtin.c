@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:20:39 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:20:53 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // verifie si cmd est un builtin
@@ -5,10 +17,9 @@ int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
-	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") ||
-		!ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "env") ||
-		!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "export") ||
-		!ft_strcmp(cmd, "unset"))
+	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd,
+			"pwd") || !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit")
+		|| !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "unset"))
 		return (1);
 	return (0);
 }

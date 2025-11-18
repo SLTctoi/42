@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:53:38 by mchrispe          #+#    #+#             */
+/*   Updated: 2025/11/18 14:54:33 by mchrispe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-// Calcule la longueur totale d'un nom de fichier concaténé en sommant les longueurs des parties entre guillemets
+// Calcule la longueur totale d'un nom de fichier
+// concaténé en sommant les longueurs des parties entre guillemets
 static int	calc_concat_len(char ***cmds, int i, int start)
 {
 	char	*unquoted;
@@ -21,7 +34,8 @@ static int	calc_concat_len(char ***cmds, int i, int start)
 	return (total_len);
 }
 
-// Construit un nom de fichier en concaténant les parties entre guillemets et avançant le pointeur
+// Construit un nom de fichier en concaténant
+// les parties entre guillemets et avançant le pointeur
 char	*build_concat_filename(char ***cmds, int i, int *j_ptr)
 {
 	char	*filename;
@@ -38,8 +52,8 @@ char	*build_concat_filename(char ***cmds, int i, int *j_ptr)
 		unquoted = extract_quoted_content(cmds[i][n++]);
 		if (unquoted)
 		{
-			ft_strlcat(filename, unquoted, calc_concat_len(cmds, i,
-					*j_ptr + 1) + 1);
+			ft_strlcat(filename, unquoted, calc_concat_len(cmds, i, *j_ptr + 1)
+				+ 1);
 			free(unquoted);
 		}
 	}
@@ -47,7 +61,8 @@ char	*build_concat_filename(char ***cmds, int i, int *j_ptr)
 	return (filename);
 }
 
-// Vérifie si les tokens suivants sont des parties consécutives entre guillemets
+// Vérifie si les tokens suivants
+// sont des parties consécutives entre guillemets
 int	check_quoted_parts(char ***cmds, int i, int j)
 {
 	int	m;
