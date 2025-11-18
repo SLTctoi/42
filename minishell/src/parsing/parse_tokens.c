@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:30:20 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:55:18 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/18 15:21:27 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	handle_infile_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 			return (0);
 		}
 		if (!process_infile_simple(cmd, cmds[prm.i][*j] + 1, prm.nb_cmds,
-				prm.p))
+			prm.p))
 			return (0);
 		(*j)++;
 		return (1);

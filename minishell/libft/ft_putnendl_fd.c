@@ -6,13 +6,13 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:22:37 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/09/30 14:43:14 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/18 15:19:57 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd , int n)
+void	ft_putendl_fd(char *s, int fd, int n)
 {
 	if (!s || !fd)
 		return ;

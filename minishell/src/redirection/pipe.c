@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:45:21 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:46:23 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/18 15:25:11 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	wait_and_store_exit(t_pipe *p, pid_t *pids, int n)
 	int	status;
 	int	i;
 	int	last_exit_code;
-	int	sig;
 
 	i = -1;
 	last_exit_code = 0;
@@ -29,12 +28,11 @@ void	wait_and_store_exit(t_pipe *p, pid_t *pids, int n)
 			waitpid(pids[i], &status, 0);
 			if (WIFSIGNALED(status))
 			{
-				sig = WTERMSIG(status);
-				if (sig == SIGINT)
+				if (WTERMSIG(status) == SIGINT)
 					write(1, "\n", 1);
-				else if (sig == SIGQUIT)
+				else if (WTERMSIG(status) == SIGQUIT)
 					write(1, "Quit (core dumped)\n", 19);
-				last_exit_code = 128 + sig;
+				last_exit_code = 128 + WTERMSIG(status);
 			}
 			else if (WIFEXITED(status))
 				last_exit_code = WEXITSTATUS(status);
