@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:08 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:14:40 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:40:49 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*get_cd_path(char **args, t_pipe *p)
 {
 	int	idx;
 
-	if (!args[1])
+	if (!args[1] || (args[1] && args[1][0] == '\0' && p->var_not_found))
 		return (NULL);
 	if (ft_strcmp(args[1], "--") == 0)
 	{
@@ -93,6 +93,8 @@ int	builtin_cd(char **args, t_pipe *p)
 {
 	char	*path;
 
+	if (args[1] && args[1][0] == '\0' && !p->var_not_found)
+		return (0);
 	if (args[1] && args[2])
 	{
 		write(2, "cd: too many arguments\n", 23);

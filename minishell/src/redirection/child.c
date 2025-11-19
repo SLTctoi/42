@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:41:26 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:44:01 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 16:14:25 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // print une erreur et exit avec le bon code
 static void	print_error_and_exit(char *cmd, char *msg, int code)
 {
-	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(msg, 2);
@@ -81,7 +81,7 @@ void	child_process(t_pipe *p, int i)
 	if (!cmd->argv || !cmd->argv[0])
 		exit(0);
 	setup_child(p, i, cmd, in_pipeline);
-	expand_vars_new(cmd->argv, p->envp, p->last_exit);
+	expand_vars_new(cmd->argv, p->envp, p->last_exit, p);
 	clean_argv(cmd->argv);
 	if (!cmd->argv[0] || !cmd->argv[0][0])
 		exit(0);

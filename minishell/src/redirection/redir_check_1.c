@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:46:38 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:46:46 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:59:51 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	check_outfile_access(const char *filename, int append)
 	unquoted_file = remove_quotes((char *)filename);
 	if (!unquoted_file)
 	{
-		ft_putstr_fd("minishell: malloc error\n", 2);
+		ft_putstr_fd("malloc error\n", 2);
 		return (0);
 	}
 	result = 1;
 	if (access(unquoted_file, F_OK) == 0 && access(unquoted_file, W_OK) != 0)
 	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("", 2);
 		ft_putstr_fd(unquoted_file, 2);
 		ft_putstr_fd(": Permission denied\n", 2);
 		result = 0;
@@ -50,7 +50,7 @@ static int	check_outfile_dir(char *unquoted_outfile)
 	dir_path = ft_substr(unquoted_outfile, 0, last_slash - unquoted_outfile);
 	if (dir_path && access(dir_path, W_OK) == -1)
 	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("", 2);
 		ft_putstr_fd(dir_path, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(strerror(errno), 2);
@@ -70,7 +70,7 @@ static int	validate_outfile(t_cmd *cmd)
 	unquoted_outfile = remove_quotes(cmd->outfile);
 	if (!unquoted_outfile)
 	{
-		ft_putstr_fd("minishell: malloc error\n", 2);
+		ft_putstr_fd("malloc error\n", 2);
 		return (0);
 	}
 	if (!check_outfile_dir(unquoted_outfile))
@@ -92,7 +92,7 @@ static int	validate_heredoc(t_cmd *cmd)
 	unquoted_heredoc = remove_quotes(cmd->heredoc);
 	if (!unquoted_heredoc)
 	{
-		ft_putstr_fd("minishell: malloc error\n", 2);
+		ft_putstr_fd("malloc error\n", 2);
 		return (0);
 	}
 	free(unquoted_heredoc);

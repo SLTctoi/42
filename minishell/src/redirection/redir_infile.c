@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:49:09 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:51:21 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:59:51 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	handle_infile_redirect(char ***cmds, t_cmd *cmd, int *j_ptr, t_params prm)
 {
 	if (!cmds[prm.i][*j_ptr + 1] || !cmds[prm.i][*j_ptr + 1][0])
 	{
-		ft_putstr_fd("minishell: syntax ", 2);
+		ft_putstr_fd("syntax ", 2);
 		ft_putstr_fd("error near unexpected token `newline'\n", 2);
 		prm.p->last_exit = 2;
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:24:24 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:24:34 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:59:30 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	handle_input(t_pipe *p)
 	{
 		if (has_unclosed_quotes(input))
 		{
-			ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
+			ft_putstr_fd("syntax error: unclosed quotes\n", 2);
 			p->last_exit = 2;
 		}
 		else

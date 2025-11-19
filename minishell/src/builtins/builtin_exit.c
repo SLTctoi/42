@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:17:52 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:18:44 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:52:05 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ static int	is_numeric(char *s)
 }
 
 // gère les erreurs d'exit
-static void	exit_with_error(char *clean, int code)
+static void	exit_with_error(char *clean, int code, char *arg)
 {
 	if (code == 2)
-		write(2, "exit: numeric argument required\n", 32);
+	{
+		write(2, "exit: ", 6);
+		write(2, arg, ft_strlen(arg));
+		write(2, ": numeric argument required\n", 28);
+	}
 	else
 		write(2, "exit: too many arguments\n", 25);
 	free(clean);
@@ -80,12 +84,12 @@ int	builtin_exit(char **args, t_pipe *p)
 	if (!is_numeric(clean))
 	{
 		p->last_exit = 2;
-		exit_with_error(clean, 2);
+		exit_with_error(clean, 2, args[1]);
 	}
 	if (args[2])
 	{
 		p->last_exit = 1;
-		exit_with_error(clean, 1);
+		exit_with_error(clean, 1, args[1]);
 		return (1);
 	}
 	code = ft_atoi(clean);

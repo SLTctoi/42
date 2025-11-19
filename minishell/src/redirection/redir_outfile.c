@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:51:34 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:53:31 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:59:51 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	handle_outfile_redirect(char ***cmds, t_cmd *cmd, int *j_ptr,
 	next_idx = skip_to_next_token(cmds, prm.prm.i, *j_ptr);
 	if (!cmds[prm.prm.i][next_idx] || !cmds[prm.prm.i][next_idx][0])
 	{
-		ft_putstr_fd("minishell: syntax error ", 2);
+		ft_putstr_fd("syntax error ", 2);
 		ft_putstr_fd("near unexpected token `newline'\n", 2);
 		prm.prm.p->last_exit = 2;
 		*prm.redir_error = 1;

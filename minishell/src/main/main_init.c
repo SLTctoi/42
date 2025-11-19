@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:23:38 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:24:05 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 13:56:06 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int	init_minishell(t_pipe *p, char **envp)
 	}
 	p->size_envp = size_env(p->envp);
 	p->last_exit = 0;
+	p->var_not_found = 0;
 	return (1);
 }

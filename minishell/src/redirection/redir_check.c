@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:47:09 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:48:52 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 16:11:15 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*get_unquoted_filename(const char *filename)
 
 static void	print_file_error(char *file, char *msg)
 {
-	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("", 2);
 	ft_putstr_fd(file, 2);
 	ft_putstr_fd(msg, 2);
 }
@@ -77,7 +77,7 @@ int	check_infile_access(const char *filename)
 	unquoted_file = get_unquoted_filename(filename);
 	if (!unquoted_file)
 	{
-		ft_putstr_fd("minishell: malloc error\n", 2);
+		ft_putstr_fd("malloc error\n", 2);
 		return (0);
 	}
 	res = 1;
@@ -106,7 +106,7 @@ int	try_create_file(char *unquoted_file, int append)
 		fd = open(unquoted_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("", 2);
 		ft_putstr_fd(unquoted_file, 2);
 		ft_putstr_fd(": Permission denied\n", 2);
 		return (0);

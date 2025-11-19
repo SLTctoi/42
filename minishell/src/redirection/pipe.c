@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:45:21 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 15:25:11 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:03:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	exec_parent_builtin(t_cmd **cmds, int n, t_pipe *p, pid_t *pids)
 	int	**fd;
 
 	fd = p->fd;
-	expand_vars_new(cmds[0]->argv, p->envp, p->last_exit);
+	expand_vars_new(cmds[0]->argv, p->envp, p->last_exit, p);
 	p->last_exit = exec_builtin(cmds[0]->argv, p);
 	free_all_fd(fd, n - 1);
 	free(pids);

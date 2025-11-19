@@ -4,4 +4,13 @@ cd ewe -> cd: No such file or directory ??? ou est lerreur dans le code
 
 reverif si le code marche bien car j ai rajoute la derniere fonction dans parse_util.c
 
-!!!!!!!!!!!!!!! faire les bon code de sortie des signaux 
+si je fais juste . -> j ai une erreur mais pas le bon message
+
+cc ou gcc pour compiler ? -> check si le makefile est bon
+
+!!!!!!!!!!!!!!! faire les bon code de sortie des signaux ctrl-c et ctrl-d -> 130
+!!!!!!!! savoir pq on a besoin d une var global pour les signaux 
+!!!! faire des tabs quand la cmd a rien ou que des whitespace sinon auto complesion
+!!!! mettre la bonne erreur quand on fait . et mettre en code de sortie 2
+!!!! je dois faire ./test.txt
+!!!! dans le pdf de correction relative path ligne 2 capte pas ?

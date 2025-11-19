@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:30:20 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 15:21:27 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:59:57 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	handle_infile_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 	{
 		if (cmds[prm.i][*j][1] == '|')
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected ", 2);
+			ft_putstr_fd("syntax error near unexpected ", 2);
 			ft_putstr_fd("token `|'\n", 2);
 			prm.p->last_exit = 2;
 			return (0);

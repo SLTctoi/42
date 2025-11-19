@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:43:49 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:39:58 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_pipe
 	char			**envp;
 	int				size_envp;
 	int				last_exit;
+	int				var_not_found;
 }					t_pipe;
 
 typedef struct s_params
@@ -187,14 +188,16 @@ int					index_env(char **envp, char *key);
 
 /* ---------------------------- Expansion ------------------------------- */
 void				expand_vars(char **argv, char **envp, int last_exit);
-void				expand_vars_new(char **argv, char **envp, int last_exit);
-char				*parse_and_expand(const char *s, char **envp,
-						int last_exit);
+void				expand_vars_new(char **argv, char **envp, int last_exit,
+						t_pipe *p);
+char				*parse_and_expand(const char *s, char **envp, int last_exit,
+						t_pipe *p);
 void				replace_dollar_question(char **argv, t_pipe *p);
-char				*get_val_env(const char *var, char **envp);
+char				*get_val_env(const char *var, char **envp, t_pipe *p);
 void				append_str(char **res, const char *str);
 void				append_char(char **res, char c);
-void				expand_variable(const char *s, t_quote_state *st);
+void				expand_variable(const char *s, t_quote_state *st,
+						t_pipe *p);
 void				handle_backslash(const char *s, t_quote_state *st);
 
 /* ---------------------------- Utilities ------------------------------- */

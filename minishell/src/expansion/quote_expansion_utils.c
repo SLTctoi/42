@@ -6,14 +6,14 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:22:26 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:22:40 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:39:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // récupère la valeur d'une variable dans env
-char	*get_val_env(const char *var, char **envp)
+char	*get_val_env(const char *var, char **envp, t_pipe *p)
 {
 	int		i;
 	size_t	len;
@@ -23,9 +23,16 @@ char	*get_val_env(const char *var, char **envp)
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], var, len) == 0 && envp[i][len] == '=')
+		{
+			if (envp[i][len + 1] == '\0')
+				p->var_not_found = 1;
+			else
+				p->var_not_found = 0;
 			return (envp[i] + len + 1);
+		}
 		i++;
 	}
+	p->var_not_found = 1;
 	return ("");
 }
 
@@ -57,7 +64,7 @@ void	append_char(char **res, char c)
 }
 
 // remplace $VAR ou $? par sa valeur d'env
-void	expand_variable(const char *s, t_quote_state *st)
+void	expand_variable(const char *s, t_quote_state *st, t_pipe *p)
 {
 	char	var[4096];
 	char	*val;
@@ -81,7 +88,7 @@ void	expand_variable(const char *s, t_quote_state *st)
 	while (s[st->i] && (ft_isalnum(s[st->i]) || s[st->i] == '_'))
 		var[k++] = s[st->i++];
 	var[k] = '\0';
-	val = get_val_env(var, st->envp);
+	val = get_val_env(var, st->envp, p);
 	append_str(&st->result, val);
 }
 

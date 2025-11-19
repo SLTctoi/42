@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:40:15 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:41:13 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:59:51 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static int	check_syntax_errors(char **cmd_tokens, t_pipe *p)
 {
 	if (!cmd_tokens || !cmd_tokens[0] || !cmd_tokens[0][0])
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		p->last_exit = 2;
 		return (0);
 	}
 	if (ft_strcmp(cmd_tokens[0], "|") == 0)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		p->last_exit = 2;
 		return (0);
 	}
@@ -64,7 +64,7 @@ static int	check_pipe_start(char *input, t_pipe *p)
 		tmp++;
 	if (*tmp == '|')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		p->last_exit = 2;
 		return (0);
 	}
