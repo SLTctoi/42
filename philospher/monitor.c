@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 10:55:49 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/12 11:14:18 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:30:57 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ int	check_death(t_philo *philo)
 	pthread_mutex_lock(&philo->rules->died_mutex);
 	current = get_time();
 	time_since = current - philo->last_meal;
-	if (philo->rules->nb_philo == 1)
-		should_die = time_since >= philo->rules->time_to_die;
-	else
-		should_die = time_since > philo->rules->time_to_die;
+	should_die = time_since > philo->rules->time_to_die;
 	if (should_die && !philo->rules->someone_died)
 	{
 		philo->rules->someone_died = 1;
@@ -78,7 +75,7 @@ void	*monitor_routine(void *arg)
 			if (check_death(&philos[i]) || check_meals(philos))
 				return (NULL);
 		}
-		ft_usleep(1);
+		usleep(1000);
 	}
 	return (NULL);
 }

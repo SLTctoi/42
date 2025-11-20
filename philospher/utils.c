@@ -43,7 +43,11 @@ int	ft_atoi(const char *str)
 
 void	ft_usleep(long time_in_ms)
 {
-	usleep(time_in_ms * 1000);
+	long	start_time;
+
+	start_time = get_time();
+	while (get_time() - start_time < time_in_ms)
+		usleep(100);
 }
 
 void	print_action(t_philo *philo, char *action)
