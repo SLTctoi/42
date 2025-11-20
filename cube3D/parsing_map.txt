@@ -1,0 +1,19 @@
+PARSING MAP ENTRY :
+1. creer une struct avec chaque infode la map donc 
+    1.1 NO SO WE EA F C et un char **map
+    1.2 si un des elem n'existe pas au dessus error
+
+
+
+CHECK LES MAP .cub :
+
+1. obliger .cub
+2. verif si le file existe et si on a les acces sinon error
+3. check qu'il y'a bien qu'une seul ligne NO , SO , WE , F et C
+    NO SO WE EA = images des murs en fonction de la direction (check si on a bien acces et si cest bien du .xpm sinon error)
+    F C = couleur Floor et Ceiling en RGB (check si ca produit bien une couleur sinon error)
+4. check qu'il y'a bien une map
+    4.1 dans la map il y'a seulement des 0 1 N S E W space
+    4.2 la map doit etre fermé par des 1 sinon error
+    4.3 qu'un seule joueur donc seulement 1 N ou 1 S ou 1 E ou 1 W
+    4.4
