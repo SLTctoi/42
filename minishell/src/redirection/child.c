@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:41:26 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 16:14:25 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/23 18:44:09 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static void	exec_cmd(t_cmd *cmd, t_pipe *p)
 
 	if (is_builtin(cmd->argv[0]))
 		exit(exec_builtin(cmd->argv, p));
+	if (ft_strcmp(cmd->argv[0], ".") == 0)
+		print_error_and_exit(cmd->argv[0], "filename argument required", 2);
 	path = find_cmd(cmd->argv[0], p->envp);
 	if (!path)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 14:39:58 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:35:54 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_cmd
 	char			*infile;
 	char			*outfile;
 	char			*heredoc;
+	int				heredoc_fd;
 	int				append;
 }					t_cmd;
 
@@ -120,6 +121,8 @@ int					outfile_error(int nb_cmds, int *redir_error);
 int					attached_outfile(char ***cmds, t_cmd *cmd, int *j,
 						t_out_params prm);
 void				error_syntax_pipe(t_params prm);
+int					handle_heredoc_attached(char ***cmds, t_cmd *cmd, int *j,
+						t_params prm);
 
 /* token handling */
 int					check_pipe_after_redir(char ***cmds, int i, int j,

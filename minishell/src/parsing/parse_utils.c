@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:39:39 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 14:59:51 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:38:00 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,26 @@ void	error_syntax_pipe(t_params prm)
 {
 	ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 	prm.p->last_exit = 2;
+}
+//condition pour handle_heredoc_redir
+int	handle_heredoc_attached(char ***cmds, t_cmd *cmd, int *j, t_params prm)
+{
+	int	fd;
+
+	if (cmds[prm.i][*j][2] == '|' || cmds[prm.i][*j][2] == '\0')
+	{
+		error_syntax_pipe(prm);
+		return (0);
+	}
+	fd = here_doc(cmds[prm.i][*j] + 2);
+	if (fd < 0)
+		return (0);
+	if (cmd->heredoc_fd >= 0)
+		close(cmd->heredoc_fd);
+	if (cmd->heredoc)
+		free(cmd->heredoc);
+	cmd->heredoc = ft_strdup(cmds[prm.i][*j] + 2);
+	cmd->heredoc_fd = fd;
+	(*j)++;
+	return (1);
 }

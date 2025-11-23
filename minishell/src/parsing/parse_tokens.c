@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:30:20 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 14:59:57 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/23 20:34:15 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	handle_infile_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 // gère les redirection <<
 int	handle_heredoc_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 {
+	int	fd;
+
 	if (ft_strcmp(cmds[prm.i][*j], "<<") == 0)
 	{
 		if (!cmds[prm.i][*j + 1] || cmds[prm.i][*j + 1][0] == '|')
@@ -49,21 +51,20 @@ int	handle_heredoc_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 			error_syntax_pipe(prm);
 			return (0);
 		}
+		fd = here_doc(cmds[prm.i][*j + 1]);
+		if (fd < 0)
+			return (0);
+		if (cmd->heredoc_fd >= 0)
+			close(cmd->heredoc_fd);
+		if (cmd->heredoc)
+			free(cmd->heredoc);
 		cmd->heredoc = ft_strdup(cmds[prm.i][*j + 1]);
+		cmd->heredoc_fd = fd;
 		*j += 2;
 		return (1);
 	}
 	else if (cmds[prm.i][*j][0] == '<' && cmds[prm.i][*j][1] == '<')
-	{
-		if (cmds[prm.i][*j][2] == '|' || cmds[prm.i][*j][2] == '\0')
-		{
-			error_syntax_pipe(prm);
-			return (0);
-		}
-		cmd->heredoc = ft_strdup(cmds[prm.i][*j] + 2);
-		(*j)++;
-		return (1);
-	}
+		return (handle_heredoc_attached(cmds, cmd, j, prm));
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:55:43 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:57:55 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/23 19:12:53 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ static void	handle_input_redir(t_cmd *cmd, int in_pipe)
 	char	*file;
 	int		fd;
 
-	if (cmd->heredoc)
+	if (cmd->heredoc_fd >= 0)
 	{
-		fd = here_doc(cmd->heredoc);
-		if (fd < 0 && (perror("heredoc"), 1))
-			exit(1);
-		dup2(fd, STDIN_FILENO);
-		return (close(fd), (void)0);
+		dup2(cmd->heredoc_fd, STDIN_FILENO);
+		close(cmd->heredoc_fd);
+		return ;
 	}
 	if (!cmd->infile)
 		return ;

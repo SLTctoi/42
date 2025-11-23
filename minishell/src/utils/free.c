@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:00:07 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 15:00:17 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/23 19:12:53 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,7 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd->outfile);
 	if (cmd->heredoc)
 		free(cmd->heredoc);
+	if (cmd->heredoc_fd >= 0)
+		close(cmd->heredoc_fd);
 	free(cmd);
 }

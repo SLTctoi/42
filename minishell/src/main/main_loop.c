@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:24:24 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 14:59:30 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/23 18:40:58 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	handle_input(t_pipe *p)
 
 	g_signal = 0;
 	input = readline("minishell> ");
+	if (g_signal == 130)
+		p->last_exit = 130;
 	if (!input)
 		return (0);
 	if (*input)
