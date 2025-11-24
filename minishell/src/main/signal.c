@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:26:22 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 16:00:15 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/24 10:21:52 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	handle_sigquit(int sig)
 		exit(0);
 	}
 }
+
 // initialise les handlers de signaux pour le shell
 void	init_signals(void)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:39:39 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/23 20:38:00 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/24 10:22:30 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	error_syntax_pipe(t_params prm)
 	ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 	prm.p->last_exit = 2;
 }
+
 //condition pour handle_heredoc_redir
 int	handle_heredoc_attached(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 {
