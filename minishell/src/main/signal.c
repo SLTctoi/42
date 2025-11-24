@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:26:22 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/24 10:21:52 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:55:30 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ void	handle_sigint(int sig)
 void	handle_sigquit(int sig)
 {
 	(void)sig;
-	if (rl_line_buffer && *rl_line_buffer)
-	{
-		write(1, "\n", 1);
-		exit(0);
-	}
 }
 
 // initialise les handlers de signaux pour le shell
@@ -45,7 +40,7 @@ void	init_signals(void)
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_flags = 0;
 	sigaction(SIGINT, &sa_int, NULL);
-	sa_quit.sa_handler = handle_sigquit;
+	sa_quit.sa_handler = SIG_IGN;
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_flags = 0;
 	sigaction(SIGQUIT, &sa_quit, NULL);

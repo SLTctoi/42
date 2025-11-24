@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+         #
+#    By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 10:03:02 by mchrispe          #+#    #+#              #
-#    Updated: 2025/08/25 16:31:17 by mchrispe         ###   ########.fr        #
+#    Updated: 2025/11/24 11:39:23 by mchrispe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 
