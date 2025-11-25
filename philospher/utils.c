@@ -47,22 +47,24 @@ void	ft_usleep(long time_in_ms)
 
 	start_time = get_time();
 	while (get_time() - start_time < time_in_ms)
-		usleep(100);
+		usleep(50);
 }
 
 void	print_action(t_philo *philo, char *action)
 {
 	long	timestamp;
 	int		is_died;
+	int		died;
 
 	pthread_mutex_lock(&philo->rules->died_mutex);
-	pthread_mutex_lock(&philo->rules->print_mutex);
+	died = philo->rules->someone_died;
+	pthread_mutex_unlock(&philo->rules->died_mutex);
 	is_died = (action[0] == 'd' && action[1] == 'i' && action[2] == 'e');
-	if (!philo->rules->someone_died || is_died)
+	if (!died || is_died)
 	{
+		pthread_mutex_lock(&philo->rules->print_mutex);
 		timestamp = get_time() - philo->rules->start_time;
 		printf("%ld %d %s\n", timestamp, philo->id + 1, action);
+		pthread_mutex_unlock(&philo->rules->print_mutex);
 	}
-	pthread_mutex_unlock(&philo->rules->print_mutex);
-	pthread_mutex_unlock(&philo->rules->died_mutex);
 }

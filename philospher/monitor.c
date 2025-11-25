@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 10:55:49 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/20 15:30:57 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/25 16:20:50 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,23 @@ int	check_death(t_philo *philo)
 	long	current;
 	int		should_die;
 
-	pthread_mutex_lock(&philo->rules->died_mutex);
+	pthread_mutex_lock(&philo->meal_mutex);
 	current = get_time();
 	time_since = current - philo->last_meal;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	should_die = time_since > philo->rules->time_to_die;
-	if (should_die && !philo->rules->someone_died)
+	if (should_die)
 	{
-		philo->rules->someone_died = 1;
+		pthread_mutex_lock(&philo->rules->died_mutex);
+		if (!philo->rules->someone_died)
+		{
+			philo->rules->someone_died = 1;
+			pthread_mutex_unlock(&philo->rules->died_mutex);
+			print_action(philo, "died");
+			return (1);
+		}
 		pthread_mutex_unlock(&philo->rules->died_mutex);
-		print_action(philo, "died");
-		return (1);
 	}
-	pthread_mutex_unlock(&philo->rules->died_mutex);
 	return (0);
 }
 
@@ -46,10 +51,10 @@ int	check_meals(t_philo *philos)
 	full_count = 0;
 	while (++i < philos->rules->nb_philo)
 	{
-		pthread_mutex_lock(&philos->rules->died_mutex);
+		pthread_mutex_lock(&philos[i].meal_mutex);
 		if (philos[i].meals_eaten >= philos->rules->meals_required)
 			full_count++;
-		pthread_mutex_unlock(&philos->rules->died_mutex);
+		pthread_mutex_unlock(&philos[i].meal_mutex);
 	}
 	if (full_count == philos->rules->nb_philo)
 	{

@@ -27,6 +27,9 @@ void	free_all(t_rules *rules, t_philo **philos)
 	pthread_mutex_destroy(&rules->died_mutex);
 	if (*philos)
 	{
+		i = -1;
+		while (++i < rules->nb_philo)
+			pthread_mutex_destroy(&(*philos)[i].meal_mutex);
 		free(*philos);
 		*philos = NULL;
 	}

@@ -53,6 +53,7 @@ static void	init_philos(t_rules *rules, t_philo **philos)
 		(*philos)[i].left_fork = &rules->forks[i];
 		(*philos)[i].right_fork = &rules->forks[(i + 1) % rules->nb_philo];
 		(*philos)[i].rules = rules;
+		pthread_mutex_init(&(*philos)[i].meal_mutex, NULL);
 	}
 }
 

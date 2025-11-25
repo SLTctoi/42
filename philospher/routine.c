@@ -17,23 +17,23 @@ void	eating_routine(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		print_action(philo, "has taken a fork");
 		pthread_mutex_lock(philo->right_fork);
-		print_action(philo, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->right_fork);
-		print_action(philo, "has taken a fork");
 		pthread_mutex_lock(philo->left_fork);
-		print_action(philo, "has taken a fork");
 	}
-	pthread_mutex_lock(&philo->rules->died_mutex);
+	print_action(philo, "has taken a fork");
+	print_action(philo, "has taken a fork");
+	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_time();
-	philo->meals_eaten++;
-	pthread_mutex_unlock(&philo->rules->died_mutex);
+	pthread_mutex_unlock(&philo->meal_mutex);
 	print_action(philo, "is eating");
 	ft_usleep(philo->rules->time_to_eat);
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
@@ -58,8 +58,20 @@ static int	philosopher_util(t_philo *philo)
 		return (1);
 	}
 	if (philo->id % 2 == 0)
-		usleep(philo->rules->time_to_eat / 2);
+		ft_usleep(philo->rules->time_to_eat / 2);
 	return (0);
+}
+
+static int	should_continue(t_philo *philo)
+{
+	int	result;
+
+	pthread_mutex_lock(&philo->rules->died_mutex);
+	result = !philo->rules->someone_died
+		&& (philo->rules->meals_required == -1
+			|| philo->meals_eaten < philo->rules->meals_required);
+	pthread_mutex_unlock(&philo->rules->died_mutex);
+	return (result);
 }
 
 void	*philosopher_routine(void *arg)
@@ -69,22 +81,11 @@ void	*philosopher_routine(void *arg)
 	philo = (t_philo *)arg;
 	if (philosopher_util(philo))
 		return (NULL);
-	while (1)
+	while (should_continue(philo))
 	{
-		pthread_mutex_lock(&philo->rules->died_mutex);
-		if (philo->rules->someone_died)
-		{
-			pthread_mutex_unlock(&philo->rules->died_mutex);
-			break ;
-		}
-		if (philo->rules->meals_required != -1
-			&& philo->meals_eaten >= philo->rules->meals_required)
-		{
-			pthread_mutex_unlock(&philo->rules->died_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->rules->died_mutex);
 		eating_routine(philo);
+		if (!should_continue(philo))
+			break ;
 		sleeping_routine(philo);
 		thinking_routine(philo);
 	}
