@@ -17,3 +17,10 @@ CHECK LES MAP .cub :
     4.2 la map doit etre fermé par des 1 sinon error
     4.3 qu'un seule joueur donc seulement 1 N ou 1 S ou 1 E ou 1 W
     4.4
+
+
+
+
+
+!!!!!!!! je doit check si les vals dans la struct sont bon !!!!!!
+!!! pas oublier de free map dans la struct

@@ -6,9 +6,11 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:34:58 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/20 19:41:32 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/11/25 23:04:41 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_iswhitespace(char c)
 {

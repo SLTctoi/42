@@ -6,7 +6,7 @@
 #    By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 10:03:02 by mchrispe          #+#    #+#              #
-#    Updated: 2025/08/25 16:31:17 by mchrispe         ###   ########.fr        #
+#    Updated: 2025/11/25 23:05:56 by mchrispe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
       ft_atoi.c ft_calloc.c ft_strdup.c \
       ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
       ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
-      ft_putendl_fd.c ft_putnbr_fd.c ft_strcmp.c ft_iswhitespace.c
+      ft_putendl_fd.c ft_putnbr_fd.c ft_strcmp.c ft_iswhitespace.c ft_split_2.c
 
 BONUS_SRC = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
             ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
