@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:24:24 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/23 18:40:58 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/03 21:35:05 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ int	handle_input(t_pipe *p)
 			p->last_exit = 2;
 		}
 		else
+		{
 			process_input(input, p);
+			g_signal = 0;
+		}
 	}
 	free(input);
 	return (1);

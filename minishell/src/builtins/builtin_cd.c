@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:08 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 14:40:49 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:03:04 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// met à jour PWD et OLDPWD dans l'environnement
+static void	update_pwd_vars(t_pipe *p, char *oldpwd, char *newpwd)
+{
+	if (oldpwd)
+		update_var_env(&p->envp, "OLDPWD", oldpwd);
+	if (newpwd)
+		update_var_env(&p->envp, "PWD", newpwd);
+	free(oldpwd);
+	free(newpwd);
+}
 
 // change le répertoire courant et met à jour PWD et OLDPWD
 static int	change_directory(t_pipe *p, char *path)
@@ -29,12 +40,14 @@ static int	change_directory(t_pipe *p, char *path)
 	if (!path)
 		return (write(2, "cd: HOME or OLDPWD not set\n", 27), free(oldpwd), 1);
 	if (chdir(path) != 0)
-		return (perror("cd"), free(oldpwd), 1);
+	{
+		write(2, "cd: ", 4);
+		write(2, path, ft_strlen(path));
+		write(2, ": No such file or directory\n", 29);
+		return (free(oldpwd), 1);
+	}
 	newpwd = getcwd(NULL, 0);
-	update_var_env(&p->envp, "OLDPWD", oldpwd);
-	update_var_env(&p->envp, "PWD", newpwd);
-	free(oldpwd);
-	free(newpwd);
+	update_pwd_vars(p, oldpwd, newpwd);
 	return (0);
 }
 

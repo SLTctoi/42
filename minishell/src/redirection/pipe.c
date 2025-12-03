@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:45:21 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 14:03:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/03 22:20:06 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static int	exec_parent_builtin(t_cmd **cmds, int n, t_pipe *p, pid_t *pids)
 	fd = p->fd;
 	expand_vars_new(cmds[0]->argv, p->envp, p->last_exit, p);
 	p->last_exit = exec_builtin(cmds[0]->argv, p);
-	free_all_fd(fd, n - 1);
+	if (fd)
+		free_all_fd(fd, n - 1);
 	free(pids);
 	return (1);
 }
@@ -91,13 +92,18 @@ void	execute_pipeline(t_cmd **cmds_meta, int n, char **envp, t_pipe *p)
 	int		**fd;
 	pid_t	*pids;
 
-	fd = init_pipes(n);
-	if (!fd)
-		return ((void)(p->last_exit = 1));
+	fd = NULL;
+	if (n > 1)
+	{
+		fd = init_pipes(n);
+		if (!fd)
+			return ((void)(p->last_exit = 1));
+	}
 	pids = malloc(sizeof(pid_t) * n);
 	if (!pids)
 	{
-		free_all_fd(fd, n - 1);
+		if (fd)
+			free_all_fd(fd, n - 1);
 		return ((void)(p->last_exit = 1));
 	}
 	p->cmds_meta = cmds_meta;
@@ -105,9 +111,11 @@ void	execute_pipeline(t_cmd **cmds_meta, int n, char **envp, t_pipe *p)
 	if (n == 1 && should_exec_in_parent(cmds_meta[0]))
 		return ((void)exec_parent_builtin(cmds_meta, n, p, pids));
 	fork_children(p, pids, n);
-	close_all_pipes(fd, n - 1);
+	if (fd)
+		close_all_pipes(fd, n - 1);
 	wait_and_store_exit(p, pids, n);
 	init_signals();
-	free_all_fd(fd, n - 1);
+	if (fd)
+		free_all_fd(fd, n - 1);
 	free(pids);
 }

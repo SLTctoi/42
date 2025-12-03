@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:30:20 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/23 20:34:15 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/03 21:35:05 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,11 @@ int	handle_heredoc_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 		}
 		fd = here_doc(cmds[prm.i][*j + 1]);
 		if (fd < 0)
+		{
+			if (g_signal == 130)
+				prm.p->last_exit = 130;
 			return (0);
+		}
 		if (cmd->heredoc_fd >= 0)
 			close(cmd->heredoc_fd);
 		if (cmd->heredoc)

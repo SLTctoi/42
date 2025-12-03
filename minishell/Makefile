@@ -6,13 +6,13 @@
 #    By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/18 15:03:04 by mchrispe          #+#    #+#              #
-#    Updated: 2025/11/24 11:39:02 by mchrispe         ###   ########.fr        #
+#    Updated: 2025/12/01 11:00:29 by mchrispe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I include -I libft -g -O0
+CFLAGS = -Wall -Wextra -Werror -I include -I libft
 RM = rm -f
 
 SRCS = src/main/main.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:19:04 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:19:23 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:03:04 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ static int	process_var(char *arg, t_pipe *p)
 		*x = '\0';
 	if (!is_valid_var(arg))
 	{
-		write(2, "export: '", 9);
-		write(2, arg, ft_strlen(arg));
-		write(2, "': not a valid identifier\n", 26);
 		if (x)
 			*x = '=';
+		write(2, "export: `", 9);
+		write(2, arg, ft_strlen(arg));
+		write(2, "': not a valid identifier\n", 26);
 		return (1);
 	}
 	if (x)

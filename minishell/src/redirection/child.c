@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:41:26 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/23 18:44:09 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/03 23:18:29 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	exec_cmd(t_cmd *cmd, t_pipe *p)
 }
 
 // permet d'exec une commande dans un processus enfant de la bonne manière
+// dans le print faire "''" ou ""
 void	child_process(t_pipe *p, int i)
 {
 	t_cmd	*cmd;
@@ -86,6 +87,6 @@ void	child_process(t_pipe *p, int i)
 	expand_vars_new(cmd->argv, p->envp, p->last_exit, p);
 	clean_argv(cmd->argv);
 	if (!cmd->argv[0] || !cmd->argv[0][0])
-		exit(0);
+		print_error_and_exit("''", "command not found", 127);
 	exec_cmd(cmd, p);
 }

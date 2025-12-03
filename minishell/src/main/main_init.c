@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:23:38 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/23 19:19:02 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/03 21:38:44 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,23 @@ t_cmd	**init_cmds(char ***cmds, int nb_cmds, t_pipe *p)
 	return (cmds_res);
 }
 
+static void	increment_shlvl(t_pipe *p)
+{
+	char	*shlvl_str;
+	int		shlvl;
+	char	*new_shlvl;
+
+	shlvl_str = get_val_env("SHLVL", p->envp, p);
+	if (!shlvl_str || !*shlvl_str)
+		shlvl = 0;
+	else
+		shlvl = ft_atoi(shlvl_str);
+	shlvl++;
+	new_shlvl = ft_itoa(shlvl);
+	update_var_env(&p->envp, "SHLVL", new_shlvl);
+	free(new_shlvl);
+}
+
 // init la struct principale du minishell
 int	init_minishell(t_pipe *p, char **envp)
 {
@@ -51,5 +68,6 @@ int	init_minishell(t_pipe *p, char **envp)
 	p->size_envp = size_env(p->envp);
 	p->last_exit = 0;
 	p->var_not_found = 0;
+	increment_shlvl(p);
 	return (1);
 }
