@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/23 20:35:54 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 12:19:09 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ int					handle_outfile_redirect(char ***cmds, t_cmd *cmd,
 char				*build_concat_filename(char ***cmds, int i, int *j_ptr);
 int					check_quoted_parts(char ***cmds, int i, int j);
 int					skip_to_next_token(char ***cmds, int i, int j);
+void				wait_and_store_exit(t_pipe *p, pid_t *pids, int n);
 
 /* --------------------------- Builtins / Env --------------------------- */
 int					is_builtin(char *cmd);

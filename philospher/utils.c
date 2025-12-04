@@ -47,7 +47,7 @@ void	ft_usleep(long time_in_ms)
 
 	start_time = get_time();
 	while (get_time() - start_time < time_in_ms)
-		usleep(50);
+		usleep(500);
 }
 
 void	print_action(t_philo *philo, char *action)

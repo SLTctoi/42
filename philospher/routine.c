@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2025/11/12 10:55:57 by mchrispe          #+#    #+#             */
 /*   Updated: 2025/11/12 11:55:50 by mchrispe         ###   ########.fr       */
 /*                                                                            */
@@ -38,17 +41,6 @@ void	eating_routine(t_philo *philo)
 	pthread_mutex_unlock(philo->right_fork);
 }
 
-void	sleeping_routine(t_philo *philo)
-{
-	print_action(philo, "is sleeping");
-	ft_usleep(philo->rules->time_to_sleep);
-}
-
-void	thinking_routine(t_philo *philo)
-{
-	print_action(philo, "is thinking");
-}
-
 static int	philosopher_util(t_philo *philo)
 {
 	if (philo->rules->nb_philo == 1)
@@ -58,18 +50,21 @@ static int	philosopher_util(t_philo *philo)
 		return (1);
 	}
 	if (philo->id % 2 == 0)
-		ft_usleep(philo->rules->time_to_eat / 2);
+		ft_usleep(philo->rules->time_to_eat);
 	return (0);
 }
 
 static int	should_continue(t_philo *philo)
 {
 	int	result;
+	int	eaten;
 
+	pthread_mutex_lock(&philo->meal_mutex);
+	eaten = philo->meals_eaten;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	pthread_mutex_lock(&philo->rules->died_mutex);
-	result = !philo->rules->someone_died
-		&& (philo->rules->meals_required == -1
-			|| philo->meals_eaten < philo->rules->meals_required);
+	result = !philo->rules->someone_died && (philo->rules->meals_required == -1
+			|| eaten < philo->rules->meals_required);
 	pthread_mutex_unlock(&philo->rules->died_mutex);
 	return (result);
 }
