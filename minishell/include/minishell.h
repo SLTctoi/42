@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 12:19:09 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:01:03 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,21 @@ typedef struct s_quote_state
 	char			*result;
 	char			**envp;
 	int				last_exit;
+	int				has_unquoted_var;
 }					t_quote_state;
+
+typedef struct s_exp_params
+{
+	int				last_exit;
+	t_pipe			*p;
+}					t_exp_params;
+
+typedef struct s_heredoc_ctx
+{
+	t_pipe			*p;
+	char			*clean_lim;
+	int				should_expand;
+}					t_heredoc_ctx;
 
 /* ----------------------------- Main API ------------------------------- */
 void				execute_pipeline(t_cmd **cmds_meta, int n, char **envp,
@@ -143,7 +157,11 @@ t_cmd				*create_single_cmd(char ***cmds, int i, int *redir_error,
 
 /* -------------------------- Redirection API --------------------------- */
 void				handle_redirs(t_cmd *cmd, int in_pipeline);
-int					here_doc(char *limiter);
+int					here_doc(char *limiter, t_pipe *p);
+
+/* heredoc expansion */
+int					has_quotes(const char *s);
+char				*expand_heredoc_line(char *line, t_pipe *p);
 
 int					check_file_exists(char *file, t_pipe *p, int nb_cmds);
 int					check_file_readable(char *file, t_pipe *p, int nb_cmds);
@@ -181,7 +199,6 @@ int					builtin_env(char **args, t_pipe *p);
 int					builtin_exit(char **args, t_pipe *p);
 int					builtin_export(char **args, t_pipe *p);
 int					builtin_unset(char **args, t_pipe *p);
-int					builtin_dollar_question(t_pipe *p);
 
 char				**copy_env(char **envp);
 void				remove_env(char ***envp, char *key);
@@ -191,18 +208,31 @@ int					size_env(char **env);
 int					index_env(char **envp, char *key);
 
 /* ---------------------------- Expansion ------------------------------- */
-void				expand_vars(char **argv, char **envp, int last_exit);
 void				expand_vars_new(char **argv, char **envp, int last_exit,
 						t_pipe *p);
 char				*parse_and_expand(const char *s, char **envp, int last_exit,
 						t_pipe *p);
-void				replace_dollar_question(char **argv, t_pipe *p);
 char				*get_val_env(const char *var, char **envp, t_pipe *p);
 void				append_str(char **res, const char *str);
 void				append_char(char **res, char c);
 void				expand_variable(const char *s, t_quote_state *st,
 						t_pipe *p);
 void				handle_backslash(const char *s, t_quote_state *st);
+
+/* word splitting helpers */
+int					count_words_ws(const char *s);
+char				**split_on_whitespace(const char *s);
+int					count_split_args(char **split);
+int					copy_split_to_argv(char **new_argv, char **split, int k);
+int					has_unquoted_variable(const char *s);
+
+/* argv rebuild helpers */
+int					count_total_args(char **argv, char **envp, int last_exit,
+						t_pipe *p);
+void				fill_new_argv(char **new_argv, char **argv, char **envp,
+						t_exp_params prm);
+char				**rebuild_argv_with_splitting(char **argv, char **envp,
+						int last_exit, t_pipe *p);
 
 /* ---------------------------- Utilities ------------------------------- */
 char				*find_cmd(char *cmd, char **envp);

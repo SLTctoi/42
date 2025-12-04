@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:30:20 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 11:27:26 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:01:03 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	process_heredoc_simple(char ***cmds, t_cmd *cmd,
 		error_syntax_pipe(prm);
 		return (0);
 	}
-	fd = here_doc(cmds[prm.i][*j + 1]);
+	fd = here_doc(cmds[prm.i][*j + 1], prm.p);
 	if (fd < 0)
 	{
 		if (g_signal == 130)
@@ -87,29 +87,3 @@ int	add_arg_to_argv(char ***argv_ptr, int *arg_idx, char *arg)
 	return (1);
 }
 
-// appelle la bonne fonction en fonction de la redirection
-int	process_single_redir(char ***cmds, t_cmd *cmd, int *j,
-		t_process_params *prm)
-{
-	char	*tok;
-
-	tok = cmds[prm->p.i][*j];
-	if (tok[0] == '<' && tok[1] == '<')
-	{
-		if (!handle_heredoc_redir(cmds, cmd, j, prm->p))
-			return (0);
-		return (1);
-	}
-	if (!handle_infile_redir(cmds, cmd, j, prm->p))
-		return (0);
-	if (tok[0] == '<')
-		return (1);
-	if (!outfile_redir(cmds, cmd, j, prm->out))
-		return (0);
-	if (tok[0] == '>')
-		return (1);
-	if (!add_arg_to_argv(&cmd->argv, prm->arg_idx, tok))
-		return (0);
-	(*j)++;
-	return (1);
-}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_expansion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:23:09 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 14:04:27 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:48:04 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,19 @@ char	*parse_and_expand(const char *s, char **envp, int last_exit, t_pipe *p)
 	return (st.result);
 }
 
-// parse_and_expand pour tous les argv
-void	expand_vars_new(char **argv, char **envp, int last_exit, t_pipe *p)
+// gère le backslash dans les guillemets doubles
+void	handle_backslash(const char *s, t_quote_state *st)
 {
-	int		i;
-	char	*exp;
-
-	i = 0;
-	while (argv[i])
+	st->i++;
+	if (s[st->i] == '"' || s[st->i] == '\\' || s[st->i] == '$')
 	{
-		exp = parse_and_expand(argv[i], envp, last_exit, p);
-		if (exp)
-		{
-			free(argv[i]);
-			argv[i] = exp;
-		}
-		i++;
+		append_char(&st->result, s[st->i]);
+		st->i++;
+	}
+	else
+	{
+		append_char(&st->result, '\\');
+		append_char(&st->result, s[st->i]);
+		st->i++;
 	}
 }

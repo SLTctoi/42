@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+         #
+#    By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/18 15:03:04 by mchrispe          #+#    #+#              #
-#    Updated: 2025/12/01 11:00:29 by mchrispe         ###   ########.fr        #
+#    Updated: 2025/12/04 18:01:03 by mchrispe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,12 @@ SRCS = src/main/main.c \
 	src/parsing/parse_outfile.c \
 	src/parsing/parse_tokens.c \
 	src/parsing/parse_utils.c \
-	src/expansion/dollar_question.c \
 	src/expansion/quote_expansion.c \
 	src/expansion/quote_expansion_utils.c \
+	src/expansion/word_splitting.c \
+	src/expansion/argv_rebuild.c \
 	src/builtins/builtin.c \
 	src/builtins/builtin_cd.c \
-	src/builtins/builtin_dollar_question.c \
 	src/builtins/builtin_echo.c \
 	src/builtins/builtin_env.c \
 	src/builtins/builtin_exit.c \
@@ -43,6 +43,7 @@ SRCS = src/main/main.c \
 	src/builtins/env/env_utils_3.c \
 	src/redirection/child.c \
 	src/redirection/heredoc.c \
+	src/redirection/heredoc_expand.c \
 	src/redirection/pipe.c \
 	src/redirection/pipe_utils.c \
 	src/redirection/redir_check.c \

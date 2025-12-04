@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_expansion_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:22:26 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/19 14:39:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:47:57 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,27 @@ void	append_char(char **res, char c)
 	append_str(res, str);
 }
 
-// remplace $VAR ou $? par sa valeur d'env
-void	expand_variable(const char *s, t_quote_state *st, t_pipe *p)
+// extrait le nom de variable et l'expanse
+static void	expand_var_name(const char *s, t_quote_state *st, t_pipe *p)
 {
 	char	var[4096];
 	char	*val;
 	int		k;
+
+	if (!st->in_single && !st->in_double)
+		st->has_unquoted_var = 1;
+	k = 0;
+	while (s[st->i] && (ft_isalnum(s[st->i]) || s[st->i] == '_'))
+		var[k++] = s[st->i++];
+	var[k] = '\0';
+	val = get_val_env(var, st->envp, p);
+	append_str(&st->result, val);
+}
+
+// remplace $VAR ou $? par sa valeur d'env
+void	expand_variable(const char *s, t_quote_state *st, t_pipe *p)
+{
+	char	*val;
 
 	st->i++;
 	if (s[st->i] == '?')
@@ -84,27 +99,5 @@ void	expand_variable(const char *s, t_quote_state *st, t_pipe *p)
 		append_char(&st->result, '$');
 		return ;
 	}
-	k = 0;
-	while (s[st->i] && (ft_isalnum(s[st->i]) || s[st->i] == '_'))
-		var[k++] = s[st->i++];
-	var[k] = '\0';
-	val = get_val_env(var, st->envp, p);
-	append_str(&st->result, val);
-}
-
-// gère le backslash dans les guillemets doubles
-void	handle_backslash(const char *s, t_quote_state *st)
-{
-	st->i++;
-	if (s[st->i] == '"' || s[st->i] == '\\' || s[st->i] == '$')
-	{
-		append_char(&st->result, s[st->i]);
-		st->i++;
-	}
-	else
-	{
-		append_char(&st->result, '\\');
-		append_char(&st->result, s[st->i]);
-		st->i++;
-	}
+	expand_var_name(s, st, p);
 }

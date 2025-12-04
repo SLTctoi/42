@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:44:12 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/03 21:35:05 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:23:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
 	g_signal = 130;
+	write(1, "\n", 1);
 	rl_done = 1;
 }
 
@@ -25,54 +26,88 @@ static void	setup_heredoc_signals(struct sigaction *old_sa)
 
 	sa.sa_handler = handle_heredoc_sigint;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
+	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, old_sa);
 }
 
-static int	process_heredoc_line(char *line, char *limiter, int fd_write)
+static int	process_heredoc_line(char *line, int fd_write, t_heredoc_ctx *ctx)
 {
+	char	*expanded;
+
 	if (!line)
-	{
-		if (g_signal == 130)
-			return (0);
 		return (0);
-	}
-	if (ft_strcmp(line, limiter) == 0)
+	if (ft_strcmp(line, ctx->clean_lim) == 0)
 	{
 		free(line);
 		return (0);
 	}
-	write(fd_write, line, ft_strlen(line));
+	if (ctx->should_expand)
+	{
+		expanded = expand_heredoc_line(line, ctx->p);
+		free(line);
+		if (expanded)
+		{
+			write(fd_write, expanded, ft_strlen(expanded));
+			free(expanded);
+		}
+	}
+	else
+		write(fd_write, line, ft_strlen(line));
+	if (!ctx->should_expand)
+		free(line);
 	write(fd_write, "\n", 1);
-	free(line);
 	return (1);
 }
 
-// implémente le <<
-int	here_doc(char *limiter)
+static int	handle_heredoc_interrupt(int *fd, t_heredoc_ctx *ctx,
+		struct sigaction *old_sa)
 {
-	int					fd[2];
-	char				*line;
-	struct sigaction	old_sa;
+	free(ctx->clean_lim);
+	close(fd[1]);
+	close(fd[0]);
+	sigaction(SIGINT, old_sa, NULL);
+	rl_done = 0;
+	rl_replace_line("", 0);
+	rl_redisplay();
+	return (-1);
+}
 
-	if (pipe(fd) == -1)
-		return (-1);
-	setup_heredoc_signals(&old_sa);
+static int	read_heredoc_lines(int *fd, t_heredoc_ctx *ctx,
+		struct sigaction *old_sa)
+{
+	char	*line;
+
 	while (1)
 	{
 		line = readline("> ");
 		if (g_signal == 130)
-		{
-			close(fd[1]);
-			close(fd[0]);
-			sigaction(SIGINT, &old_sa, NULL);
-			rl_done = 0;
-			return (-1);
-		}
-		if (!process_heredoc_line(line, limiter, fd[1]))
+			return (handle_heredoc_interrupt(fd, ctx, old_sa));
+		if (!process_heredoc_line(line, fd[1], ctx))
 			break ;
 	}
-	close(fd[1]);
-	sigaction(SIGINT, &old_sa, NULL);
 	return (fd[0]);
+}
+
+// implémente le <<
+int	here_doc(char *limiter, t_pipe *p)
+{
+	int					fd[2];
+	int					result;
+	struct sigaction	old_sa;
+	t_heredoc_ctx		ctx;
+
+	if (pipe(fd) == -1)
+		return (-1);
+	ctx.p = p;
+	ctx.should_expand = !has_quotes(limiter);
+	ctx.clean_lim = remove_quotes((char *)limiter);
+	setup_heredoc_signals(&old_sa);
+	result = read_heredoc_lines(fd, &ctx, &old_sa);
+	if (result != -1)
+	{
+		free(ctx.clean_lim);
+		close(fd[1]);
+	}
+	sigaction(SIGINT, &old_sa, NULL);
+	return (result);
 }
