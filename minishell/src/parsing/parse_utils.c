@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:39:39 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/03 21:35:05 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:26:43 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,20 @@ int	handle_heredoc_attached(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 	cmd->heredoc = ft_strdup(cmds[prm.i][*j] + 2);
 	cmd->heredoc_fd = fd;
 	(*j)++;
+	return (1);
+}
+
+// traite toutes les redirections d'une commande
+int	process_all_redir(char ***cmds, t_cmd *cmd, t_process_params *prm)
+{
+	int	j;
+
+	j = 0;
+	while (cmds[prm->p.i][j])
+	{
+		if (!process_single_redir(cmds, cmd, &j, prm))
+			return (0);
+	}
+	cmd->argv[*prm->arg_idx] = NULL;
 	return (1);
 }

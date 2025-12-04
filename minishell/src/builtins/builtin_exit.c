@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:17:52 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/03 22:20:06 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:25:24 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,11 @@ static void	exit_with_error(char *clean, int code, char *arg, t_pipe *p)
 	}
 }
 
-// reproduit la commande exit
-int	builtin_exit(char **args, t_pipe *p)
+// valide et traite l'argument d'exit
+static int	process_exit_arg(char **args, t_pipe *p, char **clean_out)
 {
-	long	code;
 	char	*clean;
 
-	if (isatty(STDIN_FILENO))
-		ft_putendl_fd("exit", 1);
 	if (!args[1])
 	{
 		rl_clear_history();
@@ -99,8 +96,22 @@ int	builtin_exit(char **args, t_pipe *p)
 	{
 		p->last_exit = 1;
 		exit_with_error(clean, 1, args[1], p);
-		return (1);
+		return (0);
 	}
+	*clean_out = clean;
+	return (1);
+}
+
+// reproduit la commande exit
+int	builtin_exit(char **args, t_pipe *p)
+{
+	long	code;
+	char	*clean;
+
+	if (isatty(STDIN_FILENO))
+		ft_putendl_fd("exit", 1);
+	if (!process_exit_arg(args, p, &clean))
+		return (1);
 	code = ft_atoi(clean);
 	free(clean);
 	rl_clear_history();

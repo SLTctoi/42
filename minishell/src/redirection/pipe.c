@@ -3,43 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:45:21 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/03 22:20:06 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:28:37 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// attend la fin de tous les processus enfant et stock leur sortie
-void	wait_and_store_exit(t_pipe *p, pid_t *pids, int n)
-{
-	int	status;
-	int	i;
-	int	last_exit_code;
-
-	i = -1;
-	last_exit_code = 0;
-	while (++i < n)
-	{
-		if (pids[i] > 0)
-		{
-			waitpid(pids[i], &status, 0);
-			if (WIFSIGNALED(status))
-			{
-				if (WTERMSIG(status) == SIGINT)
-					write(1, "\n", 1);
-				else if (WTERMSIG(status) == SIGQUIT)
-					write(1, "Quit (core dumped)\n", 19);
-				last_exit_code = 128 + WTERMSIG(status);
-			}
-			else if (WIFEXITED(status))
-				last_exit_code = WEXITSTATUS(status);
-		}
-	}
-	p->last_exit = last_exit_code;
-}
 
 static int	should_exec_in_parent(t_cmd *cmd)
 {
@@ -86,8 +57,8 @@ static void	fork_children(t_pipe *p, pid_t *pids, int n)
 	}
 }
 
-// execute le pipe proprement avec les fonctions au dessus
-void	execute_pipeline(t_cmd **cmds_meta, int n, char **envp, t_pipe *p)
+// initialise les pipes et les pids pour le pipeline
+static pid_t	*init_pipeline_resources(t_pipe *p, int n, int ***fd_out)
 {
 	int		**fd;
 	pid_t	*pids;
@@ -97,15 +68,32 @@ void	execute_pipeline(t_cmd **cmds_meta, int n, char **envp, t_pipe *p)
 	{
 		fd = init_pipes(n);
 		if (!fd)
-			return ((void)(p->last_exit = 1));
+		{
+			p->last_exit = 1;
+			return (NULL);
+		}
 	}
 	pids = malloc(sizeof(pid_t) * n);
 	if (!pids)
 	{
 		if (fd)
 			free_all_fd(fd, n - 1);
-		return ((void)(p->last_exit = 1));
+		p->last_exit = 1;
+		return (NULL);
 	}
+	*fd_out = fd;
+	return (pids);
+}
+
+// execute le pipe proprement avec les fonctions au dessus
+void	execute_pipeline(t_cmd **cmds_meta, int n, char **envp, t_pipe *p)
+{
+	int		**fd;
+	pid_t	*pids;
+
+	pids = init_pipeline_resources(p, n, &fd);
+	if (!pids)
+		return ;
 	p->cmds_meta = cmds_meta;
 	init_pipeline_ctx(p, fd, n, envp);
 	if (n == 1 && should_exec_in_parent(cmds_meta[0]))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_infile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:49:09 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/03 23:08:08 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:29:35 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,34 @@ int	handle_infile_redirect(char ***cmds, t_cmd *cmd, int *j_ptr, t_params prm)
 		return (0);
 	*j_ptr += 2;
 	return (1);
+}
+
+// pour pipe
+// attend la fin de tous les processus enfant et stock leur sortie
+void	wait_and_store_exit(t_pipe *p, pid_t *pids, int n)
+{
+	int	status;
+	int	i;
+	int	last_exit_code;
+
+	i = -1;
+	last_exit_code = 0;
+	while (++i < n)
+	{
+		if (pids[i] > 0)
+		{
+			waitpid(pids[i], &status, 0);
+			if (WIFSIGNALED(status))
+			{
+				if (WTERMSIG(status) == SIGINT)
+					write(1, "\n", 1);
+				else if (WTERMSIG(status) == SIGQUIT)
+					write(1, "Quit (core dumped)\n", 19);
+				last_exit_code = 128 + WTERMSIG(status);
+			}
+			else if (WIFEXITED(status))
+				last_exit_code = WEXITSTATUS(status);
+		}
+	}
+	p->last_exit = last_exit_code;
 }
