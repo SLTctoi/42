@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:24:43 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/24 10:45:59 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:09:18 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ int	main(int ac, char **av, char **envp)
 		;
 	rl_clear_history();
 	free_split(p.envp);
-	return (0);
+	return (p.last_exit);
 }
