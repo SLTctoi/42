@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expand.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 18:30:00 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 18:01:03 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/05 10:58:11 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,13 @@ char	*expand_heredoc_line(char *line, t_pipe *p)
 		return (NULL);
 	expanded = parse_and_expand(line, p->envp, p->last_exit, p);
 	return (expanded);
+}
+
+// handler pour le signal SIGINT dans un heredoc
+void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+	g_signal = 130;
+	write(1, "\n", 1);
+	rl_done = 1;
 }

@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:44:12 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 18:23:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/05 10:57:55 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	handle_heredoc_sigint(int sig)
-{
-	(void)sig;
-	g_signal = 130;
-	write(1, "\n", 1);
-	rl_done = 1;
-}
 
 static void	setup_heredoc_signals(struct sigaction *old_sa)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 18:01:03 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/05 10:57:54 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ t_cmd				*create_single_cmd(char ***cmds, int i, int *redir_error,
 /* -------------------------- Redirection API --------------------------- */
 void				handle_redirs(t_cmd *cmd, int in_pipeline);
 int					here_doc(char *limiter, t_pipe *p);
+void				handle_heredoc_sigint(int sig);
 
 /* heredoc expansion */
 int					has_quotes(const char *s);
