@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+         #
+#    By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/18 15:03:04 by mchrispe          #+#    #+#              #
-#    Updated: 2025/12/04 18:01:03 by mchrispe         ###   ########.fr        #
+#    Updated: 2025/12/05 13:10:59 by mchrispe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS = src/main/main.c \
 	src/expansion/argv_rebuild.c \
 	src/builtins/builtin.c \
 	src/builtins/builtin_cd.c \
+	src/builtins/builtin_cd_utils.c \
 	src/builtins/builtin_echo.c \
 	src/builtins/builtin_env.c \
 	src/builtins/builtin_exit.c \

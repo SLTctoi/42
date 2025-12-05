@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:54:43 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:55:15 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/05 12:15:28 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 // Vérifie si un fichier existe et gère les erreurs pour les commandes seules
 int	check_file_exists(char *file, t_pipe *p, int nb_cmds)
 {
+	(void)nb_cmds;
 	if (access(file, F_OK) != 0)
 	{
-		if (nb_cmds == 1)
-			perror(file);
+		perror(file);
 		p->last_exit = 1;
 		return (0);
 	}
@@ -29,10 +29,10 @@ int	check_file_exists(char *file, t_pipe *p, int nb_cmds)
 // pour les commandes seules
 int	check_file_readable(char *file, t_pipe *p, int nb_cmds)
 {
+	(void)nb_cmds;
 	if (access(file, R_OK) != 0)
 	{
-		if (nb_cmds == 1)
-			perror(file);
+		perror(file);
 		p->last_exit = 1;
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:49:09 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 11:29:35 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/05 12:15:28 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ int	process_infile_simple(t_cmd *cmd, char *filename, int nb_cmds, t_pipe *p)
 		return (0);
 	old_infile = cmd->infile;
 	cmd->infile = new_infile;
-	if (nb_cmds == 1 && !cmd->heredoc && !validate_infile(cmd->infile, p,
-			nb_cmds))
+	if (!validate_infile(cmd->infile, p, nb_cmds))
 	{
 		if (old_infile)
 			free(old_infile);
+		if (nb_cmds > 1)
+			return (1);
 		return (0);
 	}
 	if (old_infile)
@@ -60,14 +61,13 @@ static int	handle_quoted_infile(char ***cmds, t_cmd *cmd, int *j_ptr,
 		return (0);
 	old_infile = cmd->infile;
 	cmd->infile = filename;
-	if (prm.nb_cmds == 1 && !cmd->heredoc)
+	if (!validate_infile(cmd->infile, prm.p, prm.nb_cmds))
 	{
-		if (!validate_infile(cmd->infile, prm.p, prm.nb_cmds))
-		{
-			if (old_infile)
-				free(old_infile);
-			return (0);
-		}
+		if (old_infile)
+			free(old_infile);
+		if (prm.nb_cmds > 1)
+			return (1);
+		return (0);
 	}
 	if (old_infile)
 		free(old_infile);

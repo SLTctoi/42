@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:23:38 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/03 21:38:44 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/05 12:15:28 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ t_cmd	**init_cmds(char ***cmds, int nb_cmds, t_pipe *p)
 		prm.i = i;
 		cmds_res[i] = create_single_cmd(cmds, i, &redir_error, prm);
 		if (!cmds_res[i])
+		{
+			while (--i >= 0)
+				free_cmd(cmds_res[i]);
+			free(cmds_res);
 			return (NULL);
+		}
 	}
 	return (cmds_res);
 }

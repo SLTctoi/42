@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:08 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/03 23:03:04 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:09:56 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,33 @@ static void	update_pwd_vars(t_pipe *p, char *oldpwd, char *newpwd)
 	free(newpwd);
 }
 
+// Obtient le chemin du répertoire home
+static char	*get_home_dir(t_pipe *p)
+{
+	int		idx;
+	char	*home;
+
+	idx = index_env(p->envp, "HOME");
+	if (idx >= 0)
+	{
+		home = ft_strchr(p->envp[idx], '=') + 1;
+		if (home && *home)
+			return (home);
+	}
+	return ("/home/mchrispe");
+}
+
 // change le répertoire courant et met à jour PWD et OLDPWD
-static int	change_directory(t_pipe *p, char *path)
+int	change_directory(t_pipe *p, char *path)
 {
 	char	*oldpwd;
 	char	*newpwd;
-	int		idx;
 
 	oldpwd = getcwd(NULL, 0);
 	if (!path)
-	{
-		idx = index_env(p->envp, "HOME");
-		if (idx >= 0)
-			path = ft_strchr(p->envp[idx], '=') + 1;
-	}
+		path = get_home_dir(p);
 	if (!path)
-		return (write(2, "cd: HOME or OLDPWD not set\n", 27), free(oldpwd), 1);
+		return (write(2, "cd: HOME not set\n", 17), free(oldpwd), 1);
 	if (chdir(path) != 0)
 	{
 		write(2, "cd: ", 4);
@@ -51,18 +62,38 @@ static int	change_directory(t_pipe *p, char *path)
 	return (0);
 }
 
+// Expand le tilde (~) dans le chemin
+static char	*expand_tilde(char *path, t_pipe *p)
+{
+	char	*home;
+	char	*result;
+
+	if (!path || path[0] != '~')
+		return (path);
+	home = get_home_dir(p);
+	if (path[1] == '\0')
+		return (home);
+	if (path[1] == '/')
+	{
+		result = ft_strjoin(home, path + 1);
+		return (result);
+	}
+	return (path);
+}
+
 // Détermine le chemin pour la commande cd. Gère les cas spéciaux vide - --
 // cd vide -> HOME | cd -- -ok
-static char	*get_cd_path(char **args, t_pipe *p)
+char	*get_cd_path(char **args, t_pipe *p)
 {
-	int	idx;
+	int		idx;
+	char	*path;
 
 	if (!args[1] || (args[1] && args[1][0] == '\0' && p->var_not_found))
 		return (NULL);
 	if (ft_strcmp(args[1], "--") == 0)
 	{
 		if (args[2])
-			return (args[2]);
+			return (expand_tilde(args[2], p));
 		return (NULL);
 	}
 	if (ft_strcmp(args[1], "-") == 0)
@@ -72,49 +103,6 @@ static char	*get_cd_path(char **args, t_pipe *p)
 			return (ft_strchr(p->envp[idx], '=') + 1);
 		return (NULL);
 	}
-	return (args[1]);
-}
-
-// Gère le cas "cd -" -> change de répertoire pour aller dans OLDPWD
-static int	cd_minus(t_pipe *p)
-{
-	char	*path;
-	int		idx;
-
-	idx = index_env(p->envp, "OLDPWD");
-	if (idx >= 0)
-		path = ft_strchr(p->envp[idx], '=') + 1;
-	else
-		path = NULL;
-	if (!path)
-		return (write(2, "cd: OLDPWD not set\n", 19), 1);
-	if (change_directory(p, path) == 0)
-	{
-		idx = index_env(p->envp, "PWD");
-		if (idx >= 0)
-		{
-			path = ft_strchr(p->envp[idx], '=') + 1;
-			write(1, path, ft_strlen(path));
-			write(1, "\n", 1);
-		}
-	}
-	return (0);
-}
-
-// reproduit la commande cd
-int	builtin_cd(char **args, t_pipe *p)
-{
-	char	*path;
-
-	if (args[1] && args[1][0] == '\0' && !p->var_not_found)
-		return (0);
-	if (args[1] && args[2])
-	{
-		write(2, "cd: too many arguments\n", 23);
-		return (1);
-	}
-	if (args[1] && ft_strcmp(args[1], "-") == 0)
-		return (cd_minus(p));
-	path = get_cd_path(args, p);
-	return (change_directory(p, path));
+	path = expand_tilde(args[1], p);
+	return (path);
 }

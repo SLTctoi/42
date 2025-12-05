@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/05 10:57:54 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:09:55 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,9 @@ int					exec_builtin(char **args, t_pipe *p);
 int					is_valid_var(char *name);
 int					builtin_echo(char **args, t_pipe *p);
 int					builtin_cd(char **args, t_pipe *p);
+int					cd_minus(t_pipe *p);
+char				*get_cd_path(char **args, t_pipe *p);
+int					change_directory(t_pipe *p, char *path);
 int					builtin_pwd(t_pipe *p, char **args);
 int					builtin_env(char **args, t_pipe *p);
 int					builtin_exit(char **args, t_pipe *p);
