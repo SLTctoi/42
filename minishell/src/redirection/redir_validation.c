@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_validation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:54:43 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/05 12:15:28 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:14:53 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,23 @@ int	check_file_readable(char *file, t_pipe *p, int nb_cmds)
 // Valide un fichier d'entrée en vérifiant existence et permission de lecture
 int	validate_infile(char *infile, t_pipe *p, int nb_cmds)
 {
-	int	result;
-
-	result = check_file_exists(infile, p, nb_cmds);
-	if (result)
-		result = check_file_readable(infile, p, nb_cmds);
-	return (result);
+	if (access(infile, F_OK) != 0)
+	{
+		if (nb_cmds == 1)
+		{
+			perror(infile);
+			p->last_exit = 1;
+		}
+		return (0);
+	}
+	if (access(infile, R_OK) != 0)
+	{
+		if (nb_cmds == 1)
+		{
+			perror(infile);
+			p->last_exit = 1;
+		}
+		return (0);
+	}
+	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_outfile.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:29:44 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:30:05 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:14:53 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ static int	separate_outfile(char ***cmds, t_cmd *cmd, int *j, t_out_params prm)
 {
 	if (!check_pipe_after_redir(cmds, prm.prm.i, *j, prm.prm.p))
 		return (0);
+	if (!cmds[prm.prm.i][*j + 1])
+	{
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		prm.prm.p->last_exit = 2;
+		return (0);
+	}
+	if (cmds[prm.prm.i][*j + 1][0] == '|')
+	{
+		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+		prm.prm.p->last_exit = 2;
+		return (0);
+	}
 	return (handle_outfile_redirect(cmds, cmd, j, prm));
 }
 

@@ -3,37 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:17:52 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 11:25:24 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 13:47:03 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// retire les guillemets de s
-static char	*strip_all_quotes(const char *s)
+// convertit en long et détecte l'overflow (retourne 0 si overflow)
+static int	safe_atol(const char *s, long *out)
 {
 	int		i;
-	int		j;
-	char	*res;
+	int		sign;
+	long	result;
 
-	if (!s)
-		return (NULL);
-	res = malloc(ft_strlen(s) + 1);
-	if (!res)
-		return (NULL);
 	i = 0;
-	j = 0;
-	while (s[i])
+	sign = 1;
+	result = 0;
+	if (s[i] == '+' || s[i] == '-')
+		sign = (s[i++] == '-') ? -1 : 1;
+	while (s[i] >= '0' && s[i] <= '9')
 	{
-		if (s[i] != '\'' && s[i] != '"')
-			res[j++] = s[i];
+		if (result > 922337203685477580L)
+			return (0);
+		if (result == 922337203685477580L && s[i] > '7')
+			if (!(sign == -1 && s[i] == '8' && !s[i + 1]))
+				return (0);
+		result = result * 10 + (s[i] - '0');
 		i++;
 	}
-	res[j] = '\0';
-	return (res);
+	*out = result * sign;
+	return (1);
 }
 
 // vérifie si s et un nombre entier (+/- marche)
@@ -112,7 +114,11 @@ int	builtin_exit(char **args, t_pipe *p)
 		ft_putendl_fd("exit", 1);
 	if (!process_exit_arg(args, p, &clean))
 		return (1);
-	code = ft_atoi(clean);
+	if (!safe_atol(clean, &code))
+	{
+		p->last_exit = 2;
+		exit_with_error(clean, 2, args[1], p);
+	}
 	free(clean);
 	rl_clear_history();
 	free_split(p->envp);

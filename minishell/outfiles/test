@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/07 14:11:58 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 13:46:52 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef struct s_heredoc_ctx
 	int				should_expand;
 }					t_heredoc_ctx;
 
-/* ----------------------------- Main --------------------------------- */
+/* ----------------------------- Main API ------------------------------- */
 void				execute_pipeline(t_cmd **cmds_meta, int n, char **envp,
 						t_pipe *p);
 
@@ -122,7 +122,7 @@ void				close_all_pipes(int **fd, int n);
 void				free_all_fd(int **fd, int n);
 void				init_pipeline_ctx(t_pipe *p, int **fd, int n, char **envp);
 
-/* ---------------------------- Parsing ------------------------------- */
+/* ---------------------------- Parsing API ----------------------------- */
 char				***parse_commands(char *input, int *nb_cmds, t_pipe *p);
 
 /* parsing helpers */
@@ -138,11 +138,8 @@ int					attached_outfile(char ***cmds, t_cmd *cmd, int *j,
 void				error_syntax_pipe(t_params prm);
 int					handle_heredoc_attached(char ***cmds, t_cmd *cmd, int *j,
 						t_params prm);
-int					check_heredoc_syntax(char *token, t_params prm);
-void				update_heredoc_attached(t_cmd *cmd, int fd,
-						char *delimiter);
-int					check_pipe_end(char *input, t_pipe *p);
 
+/* token handling */
 int					check_pipe_after_redir(char ***cmds, int i, int j,
 						t_pipe *p);
 int					handle_infile_redir(char ***cmds, t_cmd *cmd, int *j,
@@ -159,7 +156,7 @@ int					process_all_redir(char ***cmds, t_cmd *cmd,
 t_cmd				*create_single_cmd(char ***cmds, int i, int *redir_error,
 						t_params prm);
 
-/* -------------------------- Redirection ----------------------------- */
+/* -------------------------- Redirection API --------------------------- */
 void				handle_redirs(t_cmd *cmd, int in_pipeline);
 int					here_doc(char *limiter, t_pipe *p);
 void				handle_heredoc_sigint(int sig);

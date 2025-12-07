@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:53:38 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:54:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 14:17:05 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,34 @@ int	skip_to_next_token(char ***cmds, int i, int j)
 	while (cmds[i][next_idx] && cmds[i][next_idx][0] == '\0')
 		next_idx++;
 	return (next_idx);
+}
+
+// Crée un fichier de sortie en supprimant les guillemets
+// et ouvrant avec les flags appropriés
+int	create_outfile(char *outfile, int append, t_pipe *p, int nb_cmds)
+{
+	char	*new_file;
+	int		tmp_fd;
+	int		flags;
+
+	new_file = remove_quotes(outfile);
+	if (!new_file)
+		return (0);
+	flags = O_WRONLY | O_CREAT;
+	if (append)
+		flags |= O_APPEND;
+	else
+		flags |= O_TRUNC;
+	tmp_fd = open(new_file, flags, 0644);
+	if (tmp_fd < 0)
+	{
+		if (nb_cmds == 1)
+			perror(new_file);
+		free(new_file);
+		p->last_exit = 1;
+		return (0);
+	}
+	close(tmp_fd);
+	free(new_file);
+	return (1);
 }

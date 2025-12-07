@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:27:55 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/23 19:12:53 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:14:53 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_cmd	*init_cmd_struct(void)
 	cmd->heredoc = NULL;
 	cmd->heredoc_fd = -1;
 	cmd->append = 0;
+	cmd->infile_error = 0;
 	cmd->argv = NULL;
 	return (cmd);
 }

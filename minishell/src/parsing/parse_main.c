@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:28:57 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:29:30 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 13:51:56 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,30 @@ t_cmd	*create_single_cmd(char ***cmds, int i, int *redir_error, t_params prm)
 	return (cmd);
 }
 
+static int attached_outfile_cond(char ***cmds, int *j, t_out_params prm)
+{
+	if (cmds[prm.prm.i][*j][1] == '>' && cmds[prm.prm.i][*j][2] == '>')
+	{
+		ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
+		prm.prm.p->last_exit = 2;
+		return (1);
+	}
+	if ((cmds[prm.prm.i][*j][1] == '>' && cmds[prm.prm.i][*j][2] == '\0')
+		|| (cmds[prm.prm.i][*j][1] == '\0'))
+	{
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		prm.prm.p->last_exit = 2;
+		return (1);
+	}
+	return (0);
+}
+
 // pour parse_outfile.c
 int	attached_outfile(char ***cmds, t_cmd *cmd, int *j, t_out_params prm)
 {
 	if (!check_pipe_after_redir(cmds, prm.prm.i, *j, prm.prm.p))
+		return (0);
+	if (attached_outfile_cond(cmds, j, prm))
 		return (0);
 	if (cmd->outfile && handle_prev_outfile(cmd, prm.prm.nb_cmds, prm.prm.p,
 			prm.redir_error))

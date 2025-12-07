@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+         #
+#    By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/18 15:03:04 by mchrispe          #+#    #+#              #
-#    Updated: 2025/12/05 13:10:59 by mchrispe         ###   ########.fr        #
+#    Updated: 2025/12/07 14:09:27 by mchrispe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = src/main/main.c \
 	src/parsing/parse_outfile.c \
 	src/parsing/parse_tokens.c \
 	src/parsing/parse_utils.c \
+	src/parsing/parse_heredoc_utils.c \
 	src/expansion/quote_expansion.c \
 	src/expansion/quote_expansion_utils.c \
 	src/expansion/word_splitting.c \
@@ -56,6 +57,8 @@ SRCS = src/main/main.c \
 	src/redirection/redirections.c \
 	src/split_quote/split_quote.c \
 	src/split_quote/split_quote_2.c \
+	src/split_quote/split_redir.c \
+	src/parsing/parse_split_redir.c \
 	src/utils/free.c \
 	src/utils/path.c \
 	src/utils/quotes.c \

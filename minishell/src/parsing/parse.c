@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:40:15 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/05 13:52:12 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 14:12:15 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,16 @@ static int	process_single_cmd(char ***cmds, char **cmd_strs, int i, t_pipe *p)
 {
 	int		j;
 	char	*s;
+	char	**expanded;
 
 	cmds[i] = ft_split_quote(cmd_strs[i], " \t");
 	if (!cmds[i])
 		return (0);
+	expanded = expand_redirect_tokens(cmds[i]);
+	if (!expanded)
+		return (free_split(cmds[i]), 0);
+	free_split(cmds[i]);
+	cmds[i] = expanded;
 	if (!check_syntax_errors(cmds[i], p))
 		return (0);
 	j = 0;
@@ -93,27 +99,6 @@ static char	***process_all_cmds(char **cmd_strs, int nb_cmds, t_pipe *p)
 	}
 	cmds[i] = NULL;
 	return (cmds);
-}
-
-// Vérifie s'il y a un pipe à la fin (sans commande après)
-static int	check_pipe_end(char *input, t_pipe *p)
-{
-	int		i;
-	char	quote;
-
-	i = ft_strlen(input) - 1;
-	quote = 0;
-	while (i >= 0 && (input[i] == ' ' || input[i] == '\t' || input[i] == '\n'))
-		i--;
-	if (i < 0)
-		return (1);
-	if (input[i] == '|')
-	{
-		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-		p->last_exit = 2;
-		return (0);
-	}
-	return (1);
 }
 
 // execute toutes les fonctions au dessus correctement

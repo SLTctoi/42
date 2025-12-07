@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_infile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:49:09 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/05 12:15:28 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 12:14:53 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	process_infile_simple(t_cmd *cmd, char *filename, int nb_cmds, t_pipe *p)
 	char	*new_infile;
 	char	*old_infile;
 
+	if (cmd->infile_error)
+		return (1);
 	new_infile = get_clean_filename(filename);
 	if (!new_infile)
 		return (0);
@@ -37,6 +39,7 @@ int	process_infile_simple(t_cmd *cmd, char *filename, int nb_cmds, t_pipe *p)
 	cmd->infile = new_infile;
 	if (!validate_infile(cmd->infile, p, nb_cmds))
 	{
+		cmd->infile_error = 1;
 		if (old_infile)
 			free(old_infile);
 		if (nb_cmds > 1)
@@ -56,6 +59,8 @@ static int	handle_quoted_infile(char ***cmds, t_cmd *cmd, int *j_ptr,
 	char	*filename;
 	char	*old_infile;
 
+	if (cmd->infile_error)
+		return (1);
 	filename = build_concat_filename(cmds, prm.i, j_ptr);
 	if (!filename)
 		return (0);
@@ -63,6 +68,7 @@ static int	handle_quoted_infile(char ***cmds, t_cmd *cmd, int *j_ptr,
 	cmd->infile = filename;
 	if (!validate_infile(cmd->infile, prm.p, prm.nb_cmds))
 	{
+		cmd->infile_error = 1;
 		if (old_infile)
 			free(old_infile);
 		if (prm.nb_cmds > 1)
@@ -78,10 +84,21 @@ static int	handle_quoted_infile(char ***cmds, t_cmd *cmd, int *j_ptr,
 // et appelant la fonction appropriée
 int	handle_infile_redirect(char ***cmds, t_cmd *cmd, int *j_ptr, t_params prm)
 {
+	char	*next;
+
 	if (!cmds[prm.i][*j_ptr + 1] || !cmds[prm.i][*j_ptr + 1][0])
 	{
 		ft_putstr_fd("syntax ", 2);
 		ft_putstr_fd("error near unexpected token `newline'\n", 2);
+		prm.p->last_exit = 2;
+		return (0);
+	}
+	next = cmds[prm.i][*j_ptr + 1];
+	if (next[0] == '<' || next[0] == '>')
+	{
+		ft_putstr_fd("syntax error near unexpected token `", 2);
+		ft_putstr_fd(next, 2);
+		ft_putstr_fd("'\n", 2);
 		prm.p->last_exit = 2;
 		return (0);
 	}

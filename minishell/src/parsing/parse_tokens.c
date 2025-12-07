@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:30:20 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/05 10:56:17 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 14:05:20 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@ int	handle_infile_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 	}
 	else if (cmds[prm.i][*j][0] == '<' && cmds[prm.i][*j][1] != '<')
 	{
-		if (cmds[prm.i][*j][1] == '|')
+		if (cmds[prm.i][*j][1] == '|' || cmds[prm.i][*j][1] == '\0')
 		{
-			ft_putstr_fd("syntax error near unexpected ", 2);
-			ft_putstr_fd("token `|'\n", 2);
+			ft_putstr_fd("syntax error near unexpected token ", 2);
+			if (cmds[prm.i][*j][1] == '|')
+				ft_putstr_fd("`|'\n", 2);
+			else
+				ft_putstr_fd("`newline'\n", 2);
 			prm.p->last_exit = 2;
 			return (0);
 		}
@@ -39,13 +42,30 @@ int	handle_infile_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 	return (1);
 }
 
+// met à jour heredoc_fd et heredoc dans cmd
+static void	update_heredoc(t_cmd *cmd, int fd, char *delimiter)
+{
+	if (cmd->heredoc_fd >= 0)
+		close(cmd->heredoc_fd);
+	if (cmd->heredoc)
+		free(cmd->heredoc);
+	cmd->heredoc = ft_strdup(delimiter);
+	cmd->heredoc_fd = fd;
+}
+
 // traite un heredoc << et met à jour le fd
 static int	process_heredoc_simple(char ***cmds, t_cmd *cmd,
 	int *j, t_params prm)
 {
 	int	fd;
 
-	if (!cmds[prm.i][*j + 1] || cmds[prm.i][*j + 1][0] == '|')
+	if (!cmds[prm.i][*j + 1])
+	{
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		prm.p->last_exit = 2;
+		return (0);
+	}
+	if (cmds[prm.i][*j + 1][0] == '|')
 	{
 		error_syntax_pipe(prm);
 		return (0);
@@ -57,12 +77,7 @@ static int	process_heredoc_simple(char ***cmds, t_cmd *cmd,
 			prm.p->last_exit = 130;
 		return (0);
 	}
-	if (cmd->heredoc_fd >= 0)
-		close(cmd->heredoc_fd);
-	if (cmd->heredoc)
-		free(cmd->heredoc);
-	cmd->heredoc = ft_strdup(cmds[prm.i][*j + 1]);
-	cmd->heredoc_fd = fd;
+	update_heredoc(cmd, fd, cmds[prm.i][*j + 1]);
 	*j += 2;
 	return (1);
 }
@@ -73,7 +88,21 @@ int	handle_heredoc_redir(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 	if (ft_strcmp(cmds[prm.i][*j], "<<") == 0)
 		return (process_heredoc_simple(cmds, cmd, j, prm));
 	else if (cmds[prm.i][*j][0] == '<' && cmds[prm.i][*j][1] == '<')
+	{
+		if (cmds[prm.i][*j][2] == '<')
+		{
+			ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+			prm.p->last_exit = 2;
+			return (0);
+		}
+		if (cmds[prm.i][*j][2] == '\0')
+		{
+			ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+			prm.p->last_exit = 2;
+			return (0);
+		}
 		return (handle_heredoc_attached(cmds, cmd, j, prm));
+	}
 	return (0);
 }
 

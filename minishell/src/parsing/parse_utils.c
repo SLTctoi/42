@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:39:39 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 18:01:03 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/07 14:09:23 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,8 @@ int	handle_heredoc_attached(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 {
 	int	fd;
 
-	if (cmds[prm.i][*j][2] == '|' || cmds[prm.i][*j][2] == '\0')
-	{
-		error_syntax_pipe(prm);
+	if (!check_heredoc_syntax(cmds[prm.i][*j], prm))
 		return (0);
-	}
 	fd = here_doc(cmds[prm.i][*j] + 2, prm.p);
 	if (fd < 0)
 	{
@@ -53,12 +50,7 @@ int	handle_heredoc_attached(char ***cmds, t_cmd *cmd, int *j, t_params prm)
 			prm.p->last_exit = 130;
 		return (0);
 	}
-	if (cmd->heredoc_fd >= 0)
-		close(cmd->heredoc_fd);
-	if (cmd->heredoc)
-		free(cmd->heredoc);
-	cmd->heredoc = ft_strdup(cmds[prm.i][*j] + 2);
-	cmd->heredoc_fd = fd;
+	update_heredoc_attached(cmd, fd, cmds[prm.i][*j] + 2);
 	(*j)++;
 	return (1);
 }
