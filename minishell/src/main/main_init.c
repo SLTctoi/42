@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:23:38 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/05 12:15:28 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ int	init_minishell(t_pipe *p, char **envp)
 	p->size_envp = size_env(p->envp);
 	p->last_exit = 0;
 	p->var_not_found = 0;
+	p->fd = NULL;
+	p->pids = NULL;
+	p->cmds = NULL;
+	p->cmds_meta = NULL;
+	p->nb_cmds = 0;
 	increment_shlvl(p);
 	return (1);
 }

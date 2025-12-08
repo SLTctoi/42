@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:45:21 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 11:28:37 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,21 @@ static pid_t	*init_pipeline_resources(t_pipe *p, int n, int ***fd_out)
 // execute le pipe proprement avec les fonctions au dessus
 void	execute_pipeline(t_cmd **cmds_meta, int n, char **envp, t_pipe *p)
 {
-	int		**fd;
-	pid_t	*pids;
-
-	pids = init_pipeline_resources(p, n, &fd);
-	if (!pids)
+	p->pids = init_pipeline_resources(p, n, &p->fd);
+	if (!p->pids)
 		return ;
 	p->cmds_meta = cmds_meta;
-	init_pipeline_ctx(p, fd, n, envp);
+	init_pipeline_ctx(p, p->fd, n, envp);
 	if (n == 1 && should_exec_in_parent(cmds_meta[0]))
-		return ((void)exec_parent_builtin(cmds_meta, n, p, pids));
-	fork_children(p, pids, n);
-	if (fd)
-		close_all_pipes(fd, n - 1);
-	wait_and_store_exit(p, pids, n);
+		return ((void)exec_parent_builtin(cmds_meta, n, p, p->pids));
+	fork_children(p, p->pids, n);
+	if (p->fd)
+		close_all_pipes(p->fd, n - 1);
+	wait_and_store_exit(p, p->pids, n);
 	init_signals();
-	if (fd)
-		free_all_fd(fd, n - 1);
-	free(pids);
+	if (p->fd)
+		free_all_fd(p->fd, n - 1);
+	free(p->pids);
+	p->pids = NULL;
+	p->fd = NULL;
 }

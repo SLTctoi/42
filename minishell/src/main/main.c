@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:24:43 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 14:09:18 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	while (handle_input(&p))
 		;
-	rl_clear_history();
-	free_split(p.envp);
+	cleanup_minishell_resources(&p);
 	return (p.last_exit);
 }

@@ -6,34 +6,49 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:41:26 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/03 23:18:29 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // print une erreur et exit avec le bon code
-static void	print_error_and_exit(char *cmd, char *msg, int code)
+static void	print_error_and_exit(char *cmd, char *msg, int code, t_pipe *p)
 {
 	ft_putstr_fd("", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd("\n", 2);
+	cleanup_minishell_resources(p);
 	exit(code);
 }
 
 // Gère les erreurs pour les commandes avec chemin absolu/relatif.
-static void	handle_path_errors(char *cmd)
+static void	handle_path_errors(char *cmd, t_pipe *p)
 {
 	struct stat	st;
 
 	if (access(cmd, F_OK) != 0)
-		print_error_and_exit(cmd, "No such file or directory", 127);
+		print_error_and_exit(cmd, "No such file or directory", 127, p);
 	if (stat(cmd, &st) == 0 && S_ISDIR(st.st_mode))
-		print_error_and_exit(cmd, "Is a directory", 126);
+		print_error_and_exit(cmd, "Is a directory", 126, p);
 	if (access(cmd, X_OK) != 0)
-		print_error_and_exit(cmd, "Permission denied", 126);
+		print_error_and_exit(cmd, "Permission denied", 126, p);
+}
+
+// ferme tous les heredoc_fd sauf celui de la commande courante
+static void	close_other_heredocs(t_pipe *p, int current_cmd)
+{
+	int	j;
+
+	j = 0;
+	while (j < p->n)
+	{
+		if (j != current_cmd && p->cmds_meta[j]->heredoc_fd >= 0)
+			close(p->cmds_meta[j]->heredoc_fd);
+		j++;
+	}
 }
 
 // setup les in/out pour un processus enfant
@@ -44,6 +59,7 @@ static void	setup_child(t_pipe *p, int i, t_cmd *cmd, int in_pipeline)
 	if (i < p->n - 1)
 		dup2(p->fd[i][1], STDOUT_FILENO);
 	close_all_pipes(p->fd, p->n - 1);
+	close_other_heredocs(p, i);
 	handle_redirs(cmd, in_pipeline);
 }
 
@@ -51,22 +67,35 @@ static void	setup_child(t_pipe *p, int i, t_cmd *cmd, int in_pipeline)
 static void	exec_cmd(t_cmd *cmd, t_pipe *p)
 {
 	char	*path;
+	char	**filtered_env;
+	int		exit_code;
 
 	if (is_builtin(cmd->argv[0]))
-		exit(exec_builtin(cmd->argv, p));
+	{
+		exit_code = exec_builtin(cmd->argv, p);
+		cleanup_minishell_resources(p);
+		exit(exit_code);
+	}
 	if (ft_strcmp(cmd->argv[0], ".") == 0)
-		print_error_and_exit(cmd->argv[0], "filename argument required", 2);
+		print_error_and_exit(cmd->argv[0], "filename argument required", 2, p);
 	path = find_cmd(cmd->argv[0], p->envp);
 	if (!path)
 	{
 		if (ft_strchr(cmd->argv[0], '/'))
-			handle_path_errors(cmd->argv[0]);
-		print_error_and_exit(cmd->argv[0], "command not found", 127);
+			handle_path_errors(cmd->argv[0], p);
+		print_error_and_exit(cmd->argv[0], "command not found", 127, p);
 	}
-	execve(path, cmd->argv, p->envp);
+	filtered_env = filter_env_for_exec(p->envp);
+	if (!filtered_env)
+	{
+		cleanup_minishell_resources(p);
+		exit(1);
+	}
+	execve(path, cmd->argv, filtered_env);
 	if (errno == EACCES || errno == EISDIR)
-		print_error_and_exit(cmd->argv[0], strerror(errno), 126);
+		print_error_and_exit(cmd->argv[0], strerror(errno), 126, p);
 	perror("minishell");
+	cleanup_minishell_resources(p);
 	exit(127);
 }
 
@@ -82,11 +111,14 @@ void	child_process(t_pipe *p, int i)
 	cmd = p->cmds_meta[i];
 	in_pipeline = (p->n > 1);
 	if (!cmd->argv || !cmd->argv[0])
+	{
+		cleanup_minishell_resources(p);
 		exit(0);
+	}
 	setup_child(p, i, cmd, in_pipeline);
 	expand_vars_new(cmd->argv, p->envp, p->last_exit, p);
 	clean_argv(cmd->argv);
 	if (!cmd->argv[0] || !cmd->argv[0][0])
-		print_error_and_exit("''", "command not found", 127);
+		print_error_and_exit("''", "command not found", 127, p);
 	exec_cmd(cmd, p);
 }

@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:24:24 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/03 21:35:05 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,27 @@ static int	has_unclosed_quotes(char *input)
 // gère le cycle de l'input : parse, init cmds, execute, free
 static void	process_input(char *input, t_pipe *p)
 {
-	char	***cmds;
-	t_cmd	**cmds_meta;
-	int		nb_cmds;
 	int		i;
 
-	cmds = parse_commands(input, &nb_cmds, p);
-	if (!cmds)
+	p->cmds = parse_commands(input, &p->nb_cmds, p);
+	if (!p->cmds)
 		return ;
-	cmds_meta = init_cmds(cmds, nb_cmds, p);
-	if (!cmds_meta)
+	p->cmds_meta = init_cmds(p->cmds, p->nb_cmds, p);
+	if (!p->cmds_meta)
 	{
-		free_triple_pointer(cmds);
+		free_triple_pointer(p->cmds);
+		p->cmds = NULL;
 		return ;
 	}
-	execute_pipeline(cmds_meta, nb_cmds, p->envp, p);
+	execute_pipeline(p->cmds_meta, p->nb_cmds, p->envp, p);
 	i = -1;
-	while (++i < nb_cmds)
-		free_cmd(cmds_meta[i]);
-	free(cmds_meta);
-	free_triple_pointer(cmds);
+	while (++i < p->nb_cmds)
+		free_cmd(p->cmds_meta[i]);
+	free(p->cmds_meta);
+	free_triple_pointer(p->cmds);
+	p->cmds_meta = NULL;
+	p->cmds = NULL;
+	p->nb_cmds = 0;
 }
 
 // boucle principale qui récupère l'input et le traite

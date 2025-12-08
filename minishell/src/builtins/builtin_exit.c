@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:17:52 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/07 13:47:03 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static int	is_numeric(char *s)
 	return (1);
 }
 
+
+
 // gère les erreurs d'exit
 static void	exit_with_error(char *clean, int code, char *arg, t_pipe *p)
 {
@@ -71,8 +73,7 @@ static void	exit_with_error(char *clean, int code, char *arg, t_pipe *p)
 	free(clean);
 	if (code == 2)
 	{
-		rl_clear_history();
-		free_split(p->envp);
+		cleanup_minishell_resources(p);
 		exit(2);
 	}
 }
@@ -84,8 +85,7 @@ static int	process_exit_arg(char **args, t_pipe *p, char **clean_out)
 
 	if (!args[1])
 	{
-		rl_clear_history();
-		free_split(p->envp);
+		cleanup_minishell_resources(p);
 		exit(p->last_exit);
 	}
 	clean = strip_all_quotes(args[1]);
@@ -120,7 +120,6 @@ int	builtin_exit(char **args, t_pipe *p)
 		exit_with_error(clean, 2, args[1], p);
 	}
 	free(clean);
-	rl_clear_history();
-	free_split(p->envp);
+	cleanup_minishell_resources(p);
 	exit(code % 256);
 }

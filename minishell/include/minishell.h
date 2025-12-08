@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/07 14:11:58 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ typedef struct s_cmd
 typedef struct s_pipe
 {
 	t_cmd			**cmds_meta;
+	char			***cmds;
 	int				**fd;
+	pid_t			*pids;
 	int				n;
+	int				nb_cmds;
 	char			**envp;
 	int				size_envp;
 	int				last_exit;
@@ -215,6 +218,7 @@ void				update_var_env(char ***envp, char *key, char *value);
 char				**sorted_env(char **env);
 int					size_env(char **env);
 int					index_env(char **envp, char *key);
+char				**filter_env_for_exec(char **envp);
 
 /* ---------------------------- Expansion ------------------------------- */
 void				expand_vars_new(char **argv, char **envp, int last_exit,
@@ -249,6 +253,7 @@ char				*find_cmd(char *cmd, char **envp);
 void				free_triple_pointer(char ***ptr);
 void				free_cmd(t_cmd *cmd);
 void				free_split(char **split);
+void				cleanup_minishell_resources(t_pipe *p);
 
 char				*strip_wrapping_quotes(const char *s);
 char				*remove_quotes(char *str);
