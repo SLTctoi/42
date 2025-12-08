@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:45:37 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/04 13:09:10 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/08 13:27:36 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	thinking_routine(t_philo *philo)
 	print_action(philo, "is thinking");
 	if (philo->rules->nb_philo % 2 != 0)
 	{
-		think_time = (philo->rules->time_to_eat * 2) - philo->rules->time_to_sleep;
+		think_time = (philo->rules->time_to_eat * 2)
+			- philo->rules->time_to_sleep;
 		if (think_time < 0)
 			think_time = 0;
 		if (think_time > 0)
