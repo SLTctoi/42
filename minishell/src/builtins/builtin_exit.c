@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:17:52 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 11:28:48 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:38:24 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,10 @@ static void	exit_with_error(char *clean, int code, char *arg, t_pipe *p)
 	else
 		write(2, "exit: too many arguments\n", 25);
 	free(clean);
+	cleanup_child_resources(p);
 	if (code == 2)
-	{
-		cleanup_minishell_resources(p);
 		exit(2);
-	}
+	exit(1);
 }
 
 // valide et traite l'argument d'exit
@@ -84,7 +83,7 @@ static int	process_exit_arg(char **args, t_pipe *p, char **clean_out)
 
 	if (!args[1])
 	{
-		cleanup_minishell_resources(p);
+		cleanup_child_resources(p);
 		exit(p->last_exit);
 	}
 	clean = strip_all_quotes(args[1]);
@@ -119,6 +118,6 @@ int	builtin_exit(char **args, t_pipe *p)
 		exit_with_error(clean, 2, args[1], p);
 	}
 	free(clean);
-	cleanup_minishell_resources(p);
+	cleanup_child_resources(p);
 	exit(code % 256);
 }

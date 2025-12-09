@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:28:57 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 11:32:45 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:22:09 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	attached_outfile(char ***cmds, t_cmd *cmd, int *j, t_out_params prm)
 		(*j)++;
 		return (1);
 	}
+	if (cmd->outfile)
+		free(cmd->outfile);
 	set_outfile(cmd, cmds[prm.prm.i][*j]);
 	if (!create_outfile(cmd->outfile, cmd->append, prm.prm.p, prm.prm.nb_cmds))
 	{

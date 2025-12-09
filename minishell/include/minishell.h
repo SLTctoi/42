@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 11:57:11 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:38:24 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ void				free_triple_pointer(char ***ptr);
 void				free_cmd(t_cmd *cmd);
 void				free_split(char **split);
 void				cleanup_minishell_resources(t_pipe *p);
+void				cleanup_child_resources(t_pipe *p);
 
 char				*strip_wrapping_quotes(const char *s);
 char				*remove_quotes(char *str);

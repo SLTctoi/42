@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expand.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 18:30:00 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/05 10:58:11 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:27:56 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ void	handle_heredoc_sigint(int sig)
 	(void)sig;
 	g_signal = 130;
 	write(1, "\n", 1);
+	rl_replace_line("", 0);
 	rl_done = 1;
 }

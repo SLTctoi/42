@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+         #
+#    By: mchrispe <mchrispe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/18 15:03:04 by mchrispe          #+#    #+#              #
 #    Updated: 2025/12/09 11:33:48 by mchrispe         ###   ########.fr        #

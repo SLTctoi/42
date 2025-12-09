@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:44:12 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 13:30:50 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:27:56 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ static int	process_heredoc_line(char *line, int fd_write, t_heredoc_ctx *ctx)
 static int	handle_heredoc_interrupt(int *fd, t_heredoc_ctx *ctx,
 		struct sigaction *old_sa)
 {
-	free(ctx->clean_lim);
+	if (ctx->clean_lim)
+		free(ctx->clean_lim);
 	close(fd[1]);
 	close(fd[0]);
 	sigaction(SIGINT, old_sa, NULL);
 	rl_done = 0;
-	rl_replace_line("", 0);
+	rl_on_new_line();
 	return (-1);
 }
 
@@ -73,6 +74,8 @@ static int	read_heredoc_lines(int *fd, t_heredoc_ctx *ctx,
 		line = readline("> ");
 		if (g_signal == 130)
 		{
+			if (line)
+				free(line);
 			g_signal = 0;
 			return (handle_heredoc_interrupt(fd, ctx, old_sa));
 		}

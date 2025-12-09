@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:41:26 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 11:57:18 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:19:05 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	print_error_and_exit(char *cmd, char *msg, int code, t_pipe *p)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd("\n", 2);
-	cleanup_minishell_resources(p);
+	cleanup_child_resources(p);
 	exit(code);
 }
 
@@ -45,14 +45,14 @@ static void	exec_external_cmd(t_cmd *cmd, t_pipe *p, char *path)
 	filtered_env = filter_env_for_exec(p->envp);
 	if (!filtered_env)
 	{
-		cleanup_minishell_resources(p);
+		cleanup_child_resources(p);
 		exit(1);
 	}
 	execve(path, cmd->argv, filtered_env);
 	if (errno == EACCES || errno == EISDIR)
 		print_error_and_exit(cmd->argv[0], strerror(errno), 126, p);
 	perror("minishell");
-	cleanup_minishell_resources(p);
+	cleanup_child_resources(p);
 	exit(127);
 }
 
@@ -65,7 +65,7 @@ static void	exec_cmd(t_cmd *cmd, t_pipe *p)
 	if (is_builtin(cmd->argv[0]))
 	{
 		exit_code = exec_builtin(cmd->argv, p);
-		cleanup_minishell_resources(p);
+		cleanup_child_resources(p);
 		exit(exit_code);
 	}
 	if (ft_strcmp(cmd->argv[0], ".") == 0)
@@ -93,13 +93,16 @@ void	child_process(t_pipe *p, int i)
 	in_pipeline = (p->n > 1);
 	if (!cmd->argv || !cmd->argv[0])
 	{
-		cleanup_minishell_resources(p);
+		cleanup_child_resources(p);
 		exit(0);
 	}
 	setup_child(p, i, cmd, in_pipeline);
 	expand_vars_new(cmd->argv, p->envp, p->last_exit, p);
 	clean_argv(cmd->argv);
 	if (!cmd->argv[0] || !cmd->argv[0][0])
-		print_error_and_exit("''", "command not found", 127, p);
+	{
+		cleanup_child_resources(p);
+		exit(0);
+	}
 	exec_cmd(cmd, p);
 }
