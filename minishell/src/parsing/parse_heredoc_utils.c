@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_heredoc_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 14:10:00 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/07 14:12:01 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:32:30 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	update_heredoc_attached(t_cmd *cmd, int fd, char *delimiter)
 	cmd->heredoc = ft_strdup(delimiter);
 	cmd->heredoc_fd = fd;
 }
+
 // Vérifie s'il y a un pipe à la fin (sans commande après) pour parse.c
 int	check_pipe_end(char *input, t_pipe *p)
 {

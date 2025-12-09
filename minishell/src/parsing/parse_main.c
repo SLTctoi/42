@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:28:57 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/07 13:51:56 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:32:45 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cmd	*create_single_cmd(char ***cmds, int i, int *redir_error, t_params prm)
 	return (cmd);
 }
 
-static int attached_outfile_cond(char ***cmds, int *j, t_out_params prm)
+static int	attached_outfile_cond(char ***cmds, int *j, t_out_params prm)
 {
 	if (cmds[prm.prm.i][*j][1] == '>' && cmds[prm.prm.i][*j][2] == '>')
 	{

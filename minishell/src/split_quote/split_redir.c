@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 12:30:00 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/07 14:20:41 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 12:02:15 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,28 +61,28 @@ static char	*extract_part(const char *str, int start, int len)
 	return (part);
 }
 
-static void	process_redirect(char **result, const char *str, int *i,
-		int *start, int *r_idx)
+static int	process_redirect(char **result, const char *str, int i, int *r_idx)
 {
-	if (*i > *start)
-		result[(*r_idx)++] = extract_part(str, *start, *i - *start);
-	*start = *i;
-	while (str[*i] && (str[*i] == '<' || str[*i] == '>'))
-		(*i)++;
-	result[(*r_idx)++] = extract_part(str, *start, *i - *start);
-	*start = *i;
+	int	start;
+
+	start = i;
+	while (str[i] && (str[i] == '<' || str[i] == '>'))
+		i++;
+	result[(*r_idx)++] = extract_part(str, start, i - start);
+	return (i);
 }
 
+// start - 1 ou start ?
 static int	add_parts(char **result, const char *str, int *r_idx)
 {
 	int		i;
 	int		start;
 	char	quote;
 
-	i = 0;
+	i = -1;
 	start = 0;
 	quote = 0;
-	while (str[i])
+	while (str[++i])
 	{
 		if (!quote && (str[i] == '"' || str[i] == '\''))
 			quote = str[i];
@@ -90,10 +90,12 @@ static int	add_parts(char **result, const char *str, int *r_idx)
 			quote = 0;
 		else if (!quote && (str[i] == '<' || str[i] == '>'))
 		{
-			process_redirect(result, str, &i, &start, r_idx);
+			if (i > start)
+				result[(*r_idx)++] = extract_part(str, start, i - start);
+			start = process_redirect(result, str, i, r_idx);
+			i = start - 1;
 			continue ;
 		}
-		i++;
 	}
 	if (i > start)
 		result[(*r_idx)++] = extract_part(str, start, i - start);

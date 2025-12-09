@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+         #
+#    By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/18 15:03:04 by mchrispe          #+#    #+#              #
-#    Updated: 2025/12/07 14:09:27 by mchrispe         ###   ########.fr        #
+#    Updated: 2025/12/09 11:33:48 by mchrispe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,8 @@ SRCS = src/main/main.c \
 	src/utils/free.c \
 	src/utils/path.c \
 	src/utils/quotes.c \
-	src/utils/quotes_utils.c
+	src/utils/quotes_utils.c \
+	src/redirection/child_utils.c
 
 OBJS = $(SRCS:.c=.o)
 

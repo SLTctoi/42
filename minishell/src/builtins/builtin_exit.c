@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:17:52 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:28:48 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static int	safe_atol(const char *s, long *out)
 	sign = 1;
 	result = 0;
 	if (s[i] == '+' || s[i] == '-')
-		sign = (s[i++] == '-') ? -1 : 1;
+		if (s[i++] == '-')
+			sign = -1;
 	while (s[i] >= '0' && s[i] <= '9')
 	{
 		if (result > 922337203685477580L)
@@ -56,8 +57,6 @@ static int	is_numeric(char *s)
 	}
 	return (1);
 }
-
-
 
 // gère les erreurs d'exit
 static void	exit_with_error(char *clean, int code, char *arg, t_pipe *p)

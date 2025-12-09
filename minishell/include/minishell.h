@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:57:11 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_params
 	t_pipe			*p;
 }					t_params;
 
-// pour stocker des vars car plus de place a cause des normes
 typedef struct s_out_params
 {
 	t_params		prm;
@@ -112,13 +111,11 @@ typedef struct s_heredoc_ctx
 void				execute_pipeline(t_cmd **cmds_meta, int n, char **envp,
 						t_pipe *p);
 
-/* main (core) */
 t_cmd				**init_cmds(char ***cmds, int nb_cmds, t_pipe *p);
 int					init_minishell(t_pipe *p, char **envp);
 int					handle_input(t_pipe *p);
 void				init_signals(void);
 
-/* process / child */
 void				child_process(t_pipe *p, int i);
 int					**init_pipes(int n);
 void				close_all_pipes(int **fd, int n);
@@ -128,7 +125,6 @@ void				init_pipeline_ctx(t_pipe *p, int **fd, int n, char **envp);
 /* ---------------------------- Parsing ------------------------------- */
 char				***parse_commands(char *input, int *nb_cmds, t_pipe *p);
 
-/* parsing helpers */
 t_cmd				*init_cmd_struct(void);
 void				init_argv(char **argv, int argc);
 void				init_process_params(t_process_params *pprm, t_params prm,
@@ -167,9 +163,9 @@ void				handle_redirs(t_cmd *cmd, int in_pipeline);
 int					here_doc(char *limiter, t_pipe *p);
 void				handle_heredoc_sigint(int sig);
 
-/* heredoc expansion */
 int					has_quotes(const char *s);
 char				*expand_heredoc_line(char *line, t_pipe *p);
+void				setup_child(t_pipe *p, int i, t_cmd *cmd, int in_pipeline);
 
 int					check_file_exists(char *file, t_pipe *p, int nb_cmds);
 int					check_file_readable(char *file, t_pipe *p, int nb_cmds);
@@ -232,14 +228,12 @@ void				expand_variable(const char *s, t_quote_state *st,
 						t_pipe *p);
 void				handle_backslash(const char *s, t_quote_state *st);
 
-/* word splitting helpers */
 int					count_words_ws(const char *s);
 char				**split_on_whitespace(const char *s);
 int					count_split_args(char **split);
 int					copy_split_to_argv(char **new_argv, char **split, int k);
 int					has_unquoted_variable(const char *s);
 
-/* argv rebuild helpers */
 int					count_total_args(char **argv, char **envp, int last_exit,
 						t_pipe *p);
 void				fill_new_argv(char **new_argv, char **argv, char **envp,
@@ -259,7 +253,6 @@ char				*strip_wrapping_quotes(const char *s);
 char				*remove_quotes(char *str);
 char				*extract_quoted_content(char *str);
 
-/* split_quote helpers (local utils) */
 char				*ft_get_next_word(const char **s, const char *delims);
 char				**ft_split_quote(const char *s, const char *delims);
 int					ft_is_delim(char ch, const char *delims);
@@ -270,4 +263,4 @@ const char			*ft_advance_delim(const char *s, const char *delims);
 char				**split_redirections(const char *token);
 char				**expand_redirect_tokens(char **tokens);
 
-#endif /* MINISHELL_H */
+#endif

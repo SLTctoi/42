@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:01 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:09:09 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static char	**copy_env_plus_var(char **envp, char *var)
 	i = 0;
 	while (envp && envp[i])
 	{
-		env[i] = envp[i];
+		env[i] = ft_strdup(envp[i]);
 		i++;
 	}
 	env[i] = var;
@@ -114,37 +114,6 @@ void	update_var_env(char ***envp, char *var, char *value)
 		free(var2);
 		return ;
 	}
-	free(*envp);
+	free_split(*envp);
 	*envp = env;
-}
-
-// filtre l'env pour ne garder que les var avec = (pour execve)
-char	**filter_env_for_exec(char **envp)
-{
-	int		i;
-	int		j;
-	int		count;
-	char	**env;
-
-	i = 0;
-	count = 0;
-	while (envp && envp[i])
-	{
-		if (ft_strchr(envp[i], '='))
-			count++;
-		i++;
-	}
-	env = malloc(sizeof(char *) * (count + 1));
-	if (!env)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (envp && envp[i])
-	{
-		if (ft_strchr(envp[i], '='))
-			env[j++] = envp[i];
-		i++;
-	}
-	env[j] = NULL;
-	return (env);
 }

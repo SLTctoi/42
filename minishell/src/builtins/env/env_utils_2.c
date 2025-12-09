@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:11:30 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/18 14:11:31 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:31:19 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,34 @@ char	**sorted_env(char **env)
 				swap_env(&copy[j], &copy[j + 1]);
 	}
 	return (copy);
+}
+
+// filtre l'env pour ne garder que les var avec = (pour execve)
+char	**filter_env_for_exec(char **envp)
+{
+	int		i;
+	int		j;
+	int		count;
+	char	**env;
+
+	i = -1;
+	count = 0;
+	while (envp && envp[++i])
+	{
+		if (ft_strchr(envp[i], '='))
+			count++;
+	}
+	env = malloc(sizeof(char *) * (count + 1));
+	if (!env)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (envp && envp[i])
+	{
+		if (ft_strchr(envp[i], '='))
+			env[j++] = envp[i];
+		i++;
+	}
+	env[j] = NULL;
+	return (env);
 }

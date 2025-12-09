@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:00:07 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 12:04:16 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,8 @@ void	free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-void	cleanup_minishell_resources(t_pipe *p)
+static void	cleanup_minishell_resources_utils(t_pipe *p)
 {
-	int	i;
-
 	if (p->fd && p->n > 1)
 	{
 		free_all_fd(p->fd, p->n - 1);
@@ -80,6 +78,13 @@ void	cleanup_minishell_resources(t_pipe *p)
 		free(p->pids);
 		p->pids = NULL;
 	}
+}
+
+void	cleanup_minishell_resources(t_pipe *p)
+{
+	int	i;
+
+	cleanup_minishell_resources_utils(p);
 	if (p->cmds_meta && p->nb_cmds > 0)
 	{
 		i = -1;

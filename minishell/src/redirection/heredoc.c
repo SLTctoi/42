@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:44:12 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/05 10:57:55 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:30:50 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static int	handle_heredoc_interrupt(int *fd, t_heredoc_ctx *ctx,
 	sigaction(SIGINT, old_sa, NULL);
 	rl_done = 0;
 	rl_replace_line("", 0);
-	rl_redisplay();
 	return (-1);
 }
 
@@ -73,7 +72,16 @@ static int	read_heredoc_lines(int *fd, t_heredoc_ctx *ctx,
 	{
 		line = readline("> ");
 		if (g_signal == 130)
+		{
+			g_signal = 0;
 			return (handle_heredoc_interrupt(fd, ctx, old_sa));
+		}
+		if (!line)
+		{
+			rl_free_line_state();
+			rl_cleanup_after_signal();
+			break ;
+		}
 		if (!process_heredoc_line(line, fd[1], ctx))
 			break ;
 	}

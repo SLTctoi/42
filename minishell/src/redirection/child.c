@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:41:26 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:57:18 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,29 @@ static void	handle_path_errors(char *cmd, t_pipe *p)
 		print_error_and_exit(cmd, "Permission denied", 126, p);
 }
 
-// ferme tous les heredoc_fd sauf celui de la commande courante
-static void	close_other_heredocs(t_pipe *p, int current_cmd)
+// exec une commande externe avec execve
+static void	exec_external_cmd(t_cmd *cmd, t_pipe *p, char *path)
 {
-	int	j;
+	char	**filtered_env;
 
-	j = 0;
-	while (j < p->n)
+	filtered_env = filter_env_for_exec(p->envp);
+	if (!filtered_env)
 	{
-		if (j != current_cmd && p->cmds_meta[j]->heredoc_fd >= 0)
-			close(p->cmds_meta[j]->heredoc_fd);
-		j++;
+		cleanup_minishell_resources(p);
+		exit(1);
 	}
-}
-
-// setup les in/out pour un processus enfant
-static void	setup_child(t_pipe *p, int i, t_cmd *cmd, int in_pipeline)
-{
-	if (i > 0)
-		dup2(p->fd[i - 1][0], STDIN_FILENO);
-	if (i < p->n - 1)
-		dup2(p->fd[i][1], STDOUT_FILENO);
-	close_all_pipes(p->fd, p->n - 1);
-	close_other_heredocs(p, i);
-	handle_redirs(cmd, in_pipeline);
+	execve(path, cmd->argv, filtered_env);
+	if (errno == EACCES || errno == EISDIR)
+		print_error_and_exit(cmd->argv[0], strerror(errno), 126, p);
+	perror("minishell");
+	cleanup_minishell_resources(p);
+	exit(127);
 }
 
 // exec les cmds de la bonne maniere builtin/execve
 static void	exec_cmd(t_cmd *cmd, t_pipe *p)
 {
 	char	*path;
-	char	**filtered_env;
 	int		exit_code;
 
 	if (is_builtin(cmd->argv[0]))
@@ -85,18 +77,7 @@ static void	exec_cmd(t_cmd *cmd, t_pipe *p)
 			handle_path_errors(cmd->argv[0], p);
 		print_error_and_exit(cmd->argv[0], "command not found", 127, p);
 	}
-	filtered_env = filter_env_for_exec(p->envp);
-	if (!filtered_env)
-	{
-		cleanup_minishell_resources(p);
-		exit(1);
-	}
-	execve(path, cmd->argv, filtered_env);
-	if (errno == EACCES || errno == EISDIR)
-		print_error_and_exit(cmd->argv[0], strerror(errno), 126, p);
-	perror("minishell");
-	cleanup_minishell_resources(p);
-	exit(127);
+	exec_external_cmd(cmd, p, path);
 }
 
 // permet d'exec une commande dans un processus enfant de la bonne manière
