@@ -63,7 +63,8 @@ SRCS = src/main/main.c \
 	src/utils/path.c \
 	src/utils/quotes.c \
 	src/utils/quotes_utils.c \
-	src/redirection/child_utils.c
+	src/redirection/child_utils.c \
+	src/utils/free_2.c
 
 OBJS = $(SRCS:.c=.o)
 

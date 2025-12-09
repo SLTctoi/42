@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:00:07 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 18:38:24 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/09 19:09:13 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,3 @@ void	cleanup_minishell_resources(t_pipe *p)
 	rl_clear_history();
 }
 
-void	cleanup_child_resources(t_pipe *p)
-{
-	if (p->envp)
-	{
-		free_split(p->envp);
-		p->envp = NULL;
-	}
-	rl_clear_history();
-}
