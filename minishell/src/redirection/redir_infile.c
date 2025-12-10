@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_infile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:49:09 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/07 12:14:53 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/10 13:43:44 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,5 @@ void	wait_and_store_exit(t_pipe *p, pid_t *pids, int n)
 		}
 	}
 	p->last_exit = last_exit_code;
+	free(pids);
 }

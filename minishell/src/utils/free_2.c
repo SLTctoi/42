@@ -14,10 +14,35 @@
 
 void	cleanup_child_resources(t_pipe *p)
 {
+	int	i;
+
+	if (p->cmds_meta && p->nb_cmds > 0)
+	{
+		i = -1;
+		while (++i < p->nb_cmds)
+			free_cmd(p->cmds_meta[i]);
+		free(p->cmds_meta);
+		p->cmds_meta = NULL;
+	}
+	if (p->cmds)
+	{
+		free_triple_pointer(p->cmds);
+		p->cmds = NULL;
+	}
 	if (p->envp)
 	{
 		free_split(p->envp);
 		p->envp = NULL;
+	}
+	if (p->fd && p->n > 1)
+	{
+		free_all_fd(p->fd, p->n - 1);
+		p->fd = NULL;
+	}
+	if (p->pids)
+	{
+		free(p->pids);
+		p->pids = NULL;
 	}
 	rl_clear_history();
 }

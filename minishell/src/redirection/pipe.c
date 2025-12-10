@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:45:21 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/08 20:20:33 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/10 13:43:44 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int	exec_parent_builtin(t_cmd **cmds, int n, t_pipe *p, pid_t *pids)
 	p->last_exit = exec_builtin(cmds[0]->argv, p);
 	if (fd)
 		free_all_fd(fd, n - 1);
-	free(pids);
+	if (pids)
+		free(pids);
 	return (1);
 }
 
@@ -102,7 +103,6 @@ void	execute_pipeline(t_cmd **cmds_meta, int n, char **envp, t_pipe *p)
 	init_signals();
 	if (p->fd)
 		free_all_fd(p->fd, n - 1);
-	free(p->pids);
 	p->pids = NULL;
 	p->fd = NULL;
 }
