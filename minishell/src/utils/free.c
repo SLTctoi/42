@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mchrispe <mchrispe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:00:07 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 19:09:13 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/10 11:10:01 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,3 @@ void	cleanup_minishell_resources(t_pipe *p)
 	p->nb_cmds = 0;
 	rl_clear_history();
 }
-
