@@ -50,23 +50,26 @@ static int	philosopher_util(t_philo *philo)
 		return (1);
 	}
 	if (philo->id % 2 == 0)
-		ft_usleep(philo->rules->time_to_eat);
+		usleep(1000);
+	else if (philo->rules->nb_philo % 2 != 0)
+		ft_usleep(1);
 	return (0);
 }
 
 static int	should_continue(t_philo *philo)
 {
-	int	result;
 	int	eaten;
+	int	died;
 
 	pthread_mutex_lock(&philo->meal_mutex);
 	eaten = philo->meals_eaten;
 	pthread_mutex_unlock(&philo->meal_mutex);
+	if (philo->rules->meals_required != -1)
+		return (eaten < philo->rules->meals_required);
 	pthread_mutex_lock(&philo->rules->died_mutex);
-	result = !philo->rules->someone_died && (philo->rules->meals_required == -1
-			|| eaten < philo->rules->meals_required);
+	died = philo->rules->someone_died;
 	pthread_mutex_unlock(&philo->rules->died_mutex);
-	return (result);
+	return (!died);
 }
 
 void	*philosopher_routine(void *arg)

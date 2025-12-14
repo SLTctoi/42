@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 10:55:49 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/25 16:20:50 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/14 20:28:21 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,16 @@ int	check_death(t_philo *philo)
 	long	time_since;
 	long	current;
 	int		should_die;
+	int		meals_done;
 
 	pthread_mutex_lock(&philo->meal_mutex);
 	current = get_time();
 	time_since = current - philo->last_meal;
+	meals_done = philo->meals_eaten;
 	pthread_mutex_unlock(&philo->meal_mutex);
+	if (philo->rules->meals_required != -1 
+		&& meals_done >= philo->rules->meals_required)
+		return (0);
 	should_die = time_since > philo->rules->time_to_die;
 	if (should_die)
 	{
@@ -47,8 +52,8 @@ int	check_meals(t_philo *philos)
 
 	if (philos->rules->meals_required == -1)
 		return (0);
-	i = -1;
 	full_count = 0;
+	i = -1;
 	while (++i < philos->rules->nb_philo)
 	{
 		pthread_mutex_lock(&philos[i].meal_mutex);
@@ -57,12 +62,7 @@ int	check_meals(t_philo *philos)
 		pthread_mutex_unlock(&philos[i].meal_mutex);
 	}
 	if (full_count == philos->rules->nb_philo)
-	{
-		pthread_mutex_lock(&philos->rules->died_mutex);
-		philos->rules->someone_died = 1;
-		pthread_mutex_unlock(&philos->rules->died_mutex);
 		return (1);
-	}
 	return (0);
 }
 
@@ -74,10 +74,12 @@ void	*monitor_routine(void *arg)
 	philos = (t_philo *)arg;
 	while (1)
 	{
+		if (check_meals(philos))
+			return (NULL);
 		i = -1;
 		while (++i < philos->rules->nb_philo)
 		{
-			if (check_death(&philos[i]) || check_meals(philos))
+			if (check_death(&philos[i]))
 				return (NULL);
 		}
 		usleep(1000);
