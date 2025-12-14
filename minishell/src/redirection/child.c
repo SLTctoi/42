@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:41:26 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 18:19:05 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/14 16:18:54 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	child_process(t_pipe *p, int i)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_IGN);
 	cmd = p->cmds_meta[i];
 	in_pipeline = (p->n > 1);
 	if (!cmd->argv || !cmd->argv[0])

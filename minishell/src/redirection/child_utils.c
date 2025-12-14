@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 11:33:22 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 18:22:09 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/14 16:11:09 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ void	setup_child(t_pipe *p, int i, t_cmd *cmd, int in_pipeline)
 		dup2(p->fd[i][1], STDOUT_FILENO);
 	close_all_pipes(p->fd, p->n - 1);
 	close_other_heredocs(p, i);
-	handle_redirs(cmd, in_pipeline);
+	handle_redirs(cmd, in_pipeline, p);
 }

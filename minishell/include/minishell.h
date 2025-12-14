@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 18:38:24 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/14 16:11:09 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ t_cmd				*create_single_cmd(char ***cmds, int i, int *redir_error,
 						t_params prm);
 
 /* -------------------------- Redirection ----------------------------- */
-void				handle_redirs(t_cmd *cmd, int in_pipeline);
+void				handle_redirs(t_cmd *cmd, int in_pipeline, t_pipe *p);
 int					here_doc(char *limiter, t_pipe *p);
 void				handle_heredoc_sigint(int sig);
 

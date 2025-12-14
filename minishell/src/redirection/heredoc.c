@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:44:12 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 18:27:56 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/14 17:48:01 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	setup_heredoc_signals(struct sigaction *old_sa)
 
 	sa.sa_handler = handle_heredoc_sigint;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
+	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, old_sa);
 }
 
@@ -60,7 +60,6 @@ static int	handle_heredoc_interrupt(int *fd, t_heredoc_ctx *ctx,
 	close(fd[0]);
 	sigaction(SIGINT, old_sa, NULL);
 	rl_done = 0;
-	rl_on_new_line();
 	return (-1);
 }
 
@@ -76,7 +75,6 @@ static int	read_heredoc_lines(int *fd, t_heredoc_ctx *ctx,
 		{
 			if (line)
 				free(line);
-			g_signal = 0;
 			return (handle_heredoc_interrupt(fd, ctx, old_sa));
 		}
 		if (!line)

@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:15:40 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 18:22:09 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/14 16:18:54 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,20 @@ static int	flag_n(char *s)
 }
 
 // print un string
-static void	print_clean(char *s)
+static int	print_clean(char *s)
 {
-	int	i;
+	int		i;
+	ssize_t	ret;
 
 	i = 0;
 	while (s[i])
-		write(1, &s[i++], 1);
+	{
+		ret = write(1, &s[i], 1);
+		if (ret < 0)
+			return (-1);
+		i++;
+	}
+	return (0);
 }
 
 // return l'index du premier arg (skip les flags)
@@ -58,9 +65,11 @@ int	builtin_echo(char **args, t_pipe *p)
 	nl = (i == 1);
 	while (args[i])
 	{
-		print_clean(args[i]);
+		if (print_clean(args[i]) < 0)
+			return (0);
 		if (args[i + 1])
-			write(1, " ", 1);
+			if (write(1, " ", 1) < 0)
+				return (0);
 		i++;
 	}
 	if (nl)

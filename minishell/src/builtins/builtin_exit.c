@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:17:52 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/09 18:38:24 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/14 17:13:06 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static int	safe_atol(const char *s, long *out)
 	i = 0;
 	sign = 1;
 	result = 0;
+	while (s[i] == ' ' || s[i] == '\t')
+		i++;
 	if (s[i] == '+' || s[i] == '-')
 		if (s[i++] == '-')
 			sign = -1;
@@ -39,7 +41,7 @@ static int	safe_atol(const char *s, long *out)
 	return (1);
 }
 
-// vérifie si s et un nombre entier (+/- marche)
+// vérifie si s et un nombre entier (+/- marche, espaces autorisés)
 static int	is_numeric(char *s)
 {
 	int	i;
@@ -47,33 +49,37 @@ static int	is_numeric(char *s)
 	i = 0;
 	if (!s || !s[0])
 		return (0);
+	while (s[i] == ' ' || s[i] == '\t')
+		i++;
 	if (s[i] == '+' || s[i] == '-')
 		i++;
-	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
-			return (0);
+	if (!s[i])
+		return (0);
+	while (s[i] >= '0' && s[i] <= '9')
 		i++;
-	}
-	return (1);
+	while (s[i] == ' ' || s[i] == '\t')
+		i++;
+	return (s[i] == '\0');
 }
 
 // gère les erreurs d'exit
-static void	exit_with_error(char *clean, int code, char *arg, t_pipe *p)
+static void	exit_with_error(char *clean, int code, t_pipe *p)
 {
 	if (code == 2)
 	{
 		write(2, "exit: ", 6);
-		write(2, arg, ft_strlen(arg));
+		write(2, clean, ft_strlen(clean));
 		write(2, ": numeric argument required\n", 28);
+		free(clean);
+		cleanup_minishell_resources(p);
+		exit(2);
 	}
 	else
+	{
 		write(2, "exit: too many arguments\n", 25);
-	free(clean);
-	cleanup_minishell_resources(p);
-	if (code == 2)
-		exit(2);
-	exit(1);
+		free(clean);
+		p->last_exit = 1;
+	}
 }
 
 // valide et traite l'argument d'exit
@@ -81,21 +87,16 @@ static int	process_exit_arg(char **args, t_pipe *p, char **clean_out)
 {
 	char	*clean;
 
-	if (!args[1])
-	{
-		cleanup_minishell_resources(p);
-		exit(p->last_exit);
-	}
 	clean = strip_all_quotes(args[1]);
 	if (!is_numeric(clean))
 	{
 		p->last_exit = 2;
-		exit_with_error(clean, 2, args[1], p);
+		exit_with_error(clean, 2, p);
+		return (0);
 	}
 	if (args[2])
 	{
-		p->last_exit = 1;
-		exit_with_error(clean, 1, args[1], p);
+		exit_with_error(clean, 1, p);
 		return (0);
 	}
 	*clean_out = clean;
@@ -110,12 +111,17 @@ int	builtin_exit(char **args, t_pipe *p)
 
 	if (isatty(STDIN_FILENO))
 		ft_putendl_fd("exit", 1);
+	if (!args[1])
+	{
+		cleanup_minishell_resources(p);
+		exit(p->last_exit);
+	}
 	if (!process_exit_arg(args, p, &clean))
 		return (1);
 	if (!safe_atol(clean, &code))
 	{
 		p->last_exit = 2;
-		exit_with_error(clean, 2, args[1], p);
+		exit_with_error(clean, 2, p);
 	}
 	free(clean);
 	cleanup_minishell_resources(p);
