@@ -32,9 +32,15 @@ static int	exec_parent_builtin(t_cmd **cmds, int n, t_pipe *p, pid_t *pids)
 	expand_vars_new(cmds[0]->argv, p->envp, p->last_exit, p);
 	p->last_exit = exec_builtin(cmds[0]->argv, p);
 	if (fd)
+	{
 		free_all_fd(fd, n - 1);
+		p->fd = NULL;
+	}
 	if (pids)
+	{
 		free(pids);
+		p->pids = NULL;
+	}
 	return (1);
 }
 

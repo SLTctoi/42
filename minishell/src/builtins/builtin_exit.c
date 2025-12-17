@@ -71,6 +71,7 @@ static void	exit_with_error(char *clean, int code, t_pipe *p)
 		write(2, clean, ft_strlen(clean));
 		write(2, ": numeric argument required\n", 28);
 		free(clean);
+		clean = NULL;
 		cleanup_minishell_resources(p);
 		exit(2);
 	}
@@ -78,6 +79,7 @@ static void	exit_with_error(char *clean, int code, t_pipe *p)
 	{
 		write(2, "exit: too many arguments\n", 25);
 		free(clean);
+		clean = NULL;
 		p->last_exit = 1;
 	}
 }
