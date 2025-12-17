@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:05:53 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/14 16:11:09 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/17 17:19:30 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <termios.h>
 # include <unistd.h>
 
-extern int			g_signal;
+extern volatile sig_atomic_t	g_signal;
 
 typedef struct s_cmd
 {

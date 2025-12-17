@@ -6,7 +6,7 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 18:30:00 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/14 18:15:44 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/17 17:34:29 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
 	g_signal = 130;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
+	write(1, "^C", 2);
 	rl_on_new_line();
-	rl_done = 1;
+	rl_replace_line("", 0);
 }

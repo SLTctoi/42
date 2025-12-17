@@ -6,16 +6,25 @@
 /*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:44:12 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/12/14 17:48:01 by mchrispe         ###   ########.fr       */
+/*   Updated: 2025/12/17 17:31:34 by mchrispe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	event_hook(void)
+{
+	if (g_signal == 130)
+		rl_done = 1;
+	return (0);
+}
+
 static void	setup_heredoc_signals(struct sigaction *old_sa)
 {
 	struct sigaction	sa;
 
+	rl_catch_signals = 0;
+	rl_event_hook = event_hook;
 	sa.sa_handler = handle_heredoc_sigint;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
@@ -81,6 +90,8 @@ static int	read_heredoc_lines(int *fd, t_heredoc_ctx *ctx,
 		{
 			rl_free_line_state();
 			rl_cleanup_after_signal();
+			write(1, "\n", 1);
+			rl_on_new_line();
 			break ;
 		}
 		if (!process_heredoc_line(line, fd[1], ctx))
@@ -104,6 +115,8 @@ int	here_doc(char *limiter, t_pipe *p)
 	ctx.clean_lim = remove_quotes((char *)limiter);
 	setup_heredoc_signals(&old_sa);
 	result = read_heredoc_lines(fd, &ctx, &old_sa);
+	rl_event_hook = NULL;
+	rl_catch_signals = 1;
 	if (result != -1)
 	{
 		free(ctx.clean_lim);
