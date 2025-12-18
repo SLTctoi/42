@@ -28,8 +28,6 @@ static void	cleanup_child_resources_utils(t_pipe *p)
 
 void	cleanup_child_resources(t_pipe *p)
 {
-	int	i;
-
 	cleanup_child_resources_utils(p);
 	if (p->cmds)
 	{
