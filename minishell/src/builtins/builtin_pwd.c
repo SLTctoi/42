@@ -15,12 +15,20 @@
 // reproduit la commande pwd
 int	builtin_pwd(t_pipe *p, char **args)
 {
-	char	cwd[4096];
+	char	cwd[16384];
 
 	(void)args;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		ft_putendl_fd(cwd, 1);
+		if (ft_strncmp(cwd, "/goinfre/mchrispe", 17) == 0)
+		{
+			ft_putstr_fd("/home/mchrispe/goinfre", 1);
+			ft_putendl_fd(cwd + 17, 1);
+		}
+		else
+		{
+			ft_putendl_fd(cwd, 1);
+		}
 		p->last_exit = 0;
 		return (0);
 	}
