@@ -20,15 +20,7 @@ int	builtin_pwd(t_pipe *p, char **args)
 	(void)args;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		if (ft_strncmp(cwd, "/goinfre/mchrispe", 17) == 0)
-		{
-			ft_putstr_fd("/home/mchrispe/goinfre", 1);
-			ft_putendl_fd(cwd + 17, 1);
-		}
-		else
-		{
-			ft_putendl_fd(cwd, 1);
-		}
+		ft_putendl_fd(cwd, 1);
 		p->last_exit = 0;
 		return (0);
 	}

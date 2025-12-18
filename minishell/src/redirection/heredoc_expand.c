@@ -44,6 +44,7 @@ void	handle_heredoc_sigint(int sig)
 	(void)sig;
 	g_signal = 130;
 	write(1, "^C", 2);
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 }

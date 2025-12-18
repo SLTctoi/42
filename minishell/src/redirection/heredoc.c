@@ -83,7 +83,6 @@ static int	read_heredoc_lines(int *fd, t_heredoc_ctx *ctx,
 		{
 			rl_free_line_state();
 			rl_cleanup_after_signal();
-			write(1, "\n", 1);
 			rl_on_new_line();
 			break ;
 		}

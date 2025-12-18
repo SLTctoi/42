@@ -25,5 +25,6 @@ int	main(int ac, char **av, char **envp)
 	while (handle_input(&p))
 		;
 	cleanup_minishell_resources(&p);
+	rl_clear_history();
 	return (p.last_exit);
 }
