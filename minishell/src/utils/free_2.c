@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	cleanup_child_resources(t_pipe *p)
+static void	cleanup_child_resources_utils(t_pipe *p)
 {
 	int	i;
 
@@ -24,6 +24,13 @@ void	cleanup_child_resources(t_pipe *p)
 		free(p->cmds_meta);
 		p->cmds_meta = NULL;
 	}
+}
+
+void	cleanup_child_resources(t_pipe *p)
+{
+	int	i;
+
+	cleanup_child_resources_utils(p);
 	if (p->cmds)
 	{
 		free_triple_pointer(p->cmds);

@@ -12,13 +12,6 @@
 
 #include "minishell.h"
 
-int	event_hook(void)
-{
-	if (g_signal == 130)
-		rl_done = 1;
-	return (0);
-}
-
 static void	setup_heredoc_signals(struct sigaction *old_sa)
 {
 	struct sigaction	sa;

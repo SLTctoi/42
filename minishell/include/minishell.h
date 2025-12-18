@@ -240,6 +240,7 @@ void				fill_new_argv(char **new_argv, char **argv, char **envp,
 						t_exp_params prm);
 char				**rebuild_argv_with_splitting(char **argv, char **envp,
 						int last_exit, t_pipe *p);
+int					event_hook(void);
 
 /* ---------------------------- Utilities ------------------------------- */
 char				*find_cmd(char *cmd, char **envp);
