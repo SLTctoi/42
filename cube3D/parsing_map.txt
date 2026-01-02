@@ -24,3 +24,9 @@ CHECK LES MAP .cub :
 
 !!!!!!!! je doit check si les vals dans la struct sont bon !!!!!!
 !!! pas oublier de free map dans la struct
+
+
+
+
+
+pour NO SO WE EA j'ai autorisé de faire "textures/nort  h.xpm" donc si y'a un espace dans le lien (a voir si ca marche avec la minilibx)
