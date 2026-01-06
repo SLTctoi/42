@@ -1,3 +1,9 @@
+#ifndef PHONEBOOK_HPP
+# define PHONEBOOK_HPP
+
+# include <string>
+# include <iostream>
+
 class PhoneBook {
     private:
         Contact contacts[8];
@@ -5,15 +11,6 @@ class PhoneBook {
     public:
         void add();
         void search();
-        void exit();
 };
 
-class Contact {
-    private:
-        std::string name;
-        std::string number;
-
-    public:
-        Contact(std::string n, std::string num);
-        void setname()
-}
+#endif
