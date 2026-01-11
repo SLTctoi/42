@@ -32,6 +32,7 @@ void Harl::_error(void) {
 }
 
 void Harl::complain(std::string level) {
+    // var de type tab de pointeur sur des fonctions
     void (Harl::*functions[])(void) = {
         &Harl::_debug,
         &Harl::_info,
