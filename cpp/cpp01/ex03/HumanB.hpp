@@ -2,21 +2,20 @@
 # define HUMANB_HPP
 
 # include <string>
-# include <iostream>
+# include "Weapon.hpp"
 
 class HumanB {
-    private:
-        std::string _Name;
-        Weapon::Weapon _Weapon;
+private:
+    std::string _Name;
+    Weapon *_Weapon;
 
-    public:
-        HumanB(std::string name);
-        ~HumanB();
-        
-        void attack();
-        std::string const getName();
-        std::string const getWeapon();
-        std::string setWeapon(std::string);
+public:
+    HumanB(const std::string &name);
+    ~HumanB();
+
+    void setWeapon(Weapon &weapon);
+    void attack() const;
 };
 
+// * sinon peut pas etre null ?
 #endif
