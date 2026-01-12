@@ -3,7 +3,7 @@
 
 # include <string>
 
-class Fixed {
+class ClapTrap {
     private:  
         std::string _Name;
         int _Hp;
@@ -11,7 +11,7 @@ class Fixed {
         int _Ad;
 
     public:
-        ClapTrap(std::string _Name);
+        ClapTrap(std::string name);
         ~ClapTrap();
 
         void attack(const std::string& target);
