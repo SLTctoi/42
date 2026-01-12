@@ -2,28 +2,29 @@
 # include <iostream>
 
 
-ClapTrap::ClapTrap(std::string name) : _Name(name), _Hp(10), _Ep(10), _Ad(0) {}
+ClapTrap::ClapTrap(std::string name) : _Name(name), _Hp(10), _Ep(10), _Ad(0) {
+    std::cout << "ClapTrap " << this->_Name << " is constructed!" << std::endl;
+}
 
-ClapTrap::~ClapTrap() {}
+ClapTrap::~ClapTrap() {
+    std::cout << "ClapTrap " << this->_Name << " is destroyed!" << std::endl;
+}
 
 void ClapTrap::attack(const std::string& target) {
-    if (this->_Ep > 0 && this->_Hp > 0)
-    {
-        std::cout << "ClapTrap " << this->_Name << " attacks " << target << " , causing " << this->_Ad << " Points of damage!" << std::endl;
-        this->_Ep--;
+    if (this->_Hp <= 0) {
+        std::cout << "ClapTrap " << this->_Name << " can't attack because he is dead" << std::endl;
     } else if (this->_Ep <= 0) {
         std::cout << "ClapTrap " << this->_Name << " can't attack because he has no energy points" << std::endl;
-    } else if (this->_Ad <= 0) {
-        std::cout << "ClapTrap " << this->_Name << " can't attack because he has no attack damage" << std::endl;
-    } else if (this->_Hp <= 0) {
-        std::cout << "ClapTrap " << this->_Name << " can't attack because he is dead" << std::endl;
+    } else {
+        std::cout << "ClapTrap " << this->_Name << " attacks " << target << ", causing " << this->_Ad << " points of damage!" << std::endl;
+        this->_Ep--;
     }
 }
 
 void ClapTrap::takeDamage(unsigned int amount) {
     if (this->_Hp <= 0){
         std::cout << "ClapTrap " << this->_Name << " can't take damage because he is dead" << std::endl;
-    } else if (this->_Hp > amount) {
+    } else if (this->_Hp > (int)amount) {
         this->_Hp -= amount;
         std::cout << "ClapTrap " << this->_Name << " lost " << amount << " hit points; he has " << this->_Hp << " hit points left" << std::endl;
     } else {
@@ -38,7 +39,7 @@ void ClapTrap::beRepaired(unsigned int amount) {
     } else if (this->_Ep > 0) {
         this->_Hp += amount;
         this->_Ep--;
-        std::cout << "ClapTrap " << this->_Name << " regains " << amount << " hit points"<< std::endl;
+        std::cout << "ClapTrap " << this->_Name << " regains " << amount << " hit points; he has " << this->_Hp << " hit points left" << std::endl;
     } else {
         std::cout << "ClapTrap " << this->_Name << " can't regains hit points because he has no energy points" << std::endl;
     }
