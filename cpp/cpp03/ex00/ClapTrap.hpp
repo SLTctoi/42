@@ -3,6 +3,7 @@
 
 # include <string>
 
+// forme canonique
 class ClapTrap {
     private:  
         std::string _Name;
