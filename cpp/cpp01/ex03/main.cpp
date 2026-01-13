@@ -14,6 +14,7 @@ int main()
     {
         Weapon club = Weapon("crude spiked club");
         HumanB Bab("Bab");
+        Bab.attack();
         Bab.setWeapon(club);
         Bab.attack();
         club.setType("some other type of club");
