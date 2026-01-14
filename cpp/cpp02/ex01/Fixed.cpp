@@ -29,7 +29,7 @@ Fixed::Fixed(const int value) {
 
 // roundf arrondis au chiffre le plus proche
 Fixed::Fixed(const float value) {
-    std::cout << "float constructor called" << std::endl;
+    std::cout << "Float constructor called" << std::endl;
     _rawBits = roundf(value * (1 << _fractionalBits));
 }
 
