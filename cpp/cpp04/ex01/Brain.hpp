@@ -4,8 +4,8 @@
 # include <string>
 
 class Brain {
-    protected:  
-        std::string _Brain[100];
+    private:  
+        std::string ideas[100];
     public:
         Brain();
         Brain(const Brain &copy);

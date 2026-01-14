@@ -5,9 +5,8 @@ Dog::Dog() : Animal("Dog") {
     std::cout << "Dog " << this->type << " is constructed!" << std::endl;
 }
 
-Dog::Dog(const Dog &copy) {
-    this->type = copy.getType();
-    std::cout << "Dog " << this->type << " is constructed!" << std::endl;
+Dog::Dog(const Dog &copy) : Animal(copy) {
+    std::cout << "Dog " << this->type << " is copied!" << std::endl;
 }
 Dog &Dog::operator=(const Dog &op) {
     if (this != &op)

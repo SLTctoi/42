@@ -11,7 +11,7 @@ WrongAnimal::WrongAnimal(const WrongAnimal &copy) {
 }
 
 WrongAnimal::WrongAnimal(std::string Type) : type(Type) {
-    std::cout << "Animal " << this->type << " is constructed!" << std::endl;
+    std::cout << "WrongAnimal " << this->type << " is constructed!" << std::endl;
 }
 
 WrongAnimal &WrongAnimal::operator=(const WrongAnimal &op) {

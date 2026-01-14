@@ -5,9 +5,8 @@ WrongCat::WrongCat() : WrongAnimal("Cat") {
     std::cout << "WrongCat " << this->type << " is constructed!" << std::endl;
 }
 
-WrongCat::WrongCat(const WrongCat &copy) {
-    this->type = copy.getType();
-    std::cout << "WrongCat " << this->type << " is constructed!" << std::endl;
+WrongCat::WrongCat(const WrongCat &copy) : WrongAnimal(copy) {
+    std::cout << "WrongCat " << this->type << " is copied!" << std::endl;
 }
 WrongCat &WrongCat::operator=(const WrongCat &op) {
     if (this != &op)

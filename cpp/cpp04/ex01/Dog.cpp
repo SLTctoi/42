@@ -6,14 +6,17 @@ Dog::Dog() : Animal("Dog") {
     std::cout << "Dog " << this->type << " is constructed!" << std::endl;
 }
 
-Dog::Dog(const Dog &copy) {
-    this->type = copy.getType();
-    std::cout << "Dog " << this->type << " is constructed!" << std::endl;
+Dog::Dog(const Dog &copy) : Animal(copy) {
+    _DogBrain = new Brain(*copy._DogBrain);
+    std::cout << "Dog " << this->type << " is copied!" << std::endl;
 }
 Dog &Dog::operator=(const Dog &op) {
-    if (this != &op)
-        this->type = op.getType();
-    std::cout << "Dog " << this->type << " is constructed!" << std::endl;
+    if (this != &op) {
+        Animal::operator=(op);
+        delete _DogBrain;
+        _DogBrain = new Brain(*op._DogBrain);
+    }
+    std::cout << "Dog assigned!" << std::endl;
     return *this;
 }
 

@@ -6,14 +6,17 @@ Cat::Cat() : Animal("Cat") {
     std::cout << "Cat " << this->type << " is constructed!" << std::endl;
 }
 
-Cat::Cat(const Cat &copy) {
-    this->type = copy.getType();
-    std::cout << "Cat " << this->type << " is constructed!" << std::endl;
+Cat::Cat(const Cat &copy) : Animal(copy) {
+    _CatBrain = new Brain(*copy._CatBrain);
+    std::cout << "Cat " << this->type << " is copied!" << std::endl;
 }
 Cat &Cat::operator=(const Cat &op) {
-    if (this != &op)
-        this->type = op.getType();
-    std::cout << "Cat " << this->type << " is constructed!" << std::endl;
+    if (this != &op) {
+        Animal::operator=(op);
+        delete _CatBrain;
+        _CatBrain = new Brain(*op._CatBrain);
+    }
+    std::cout << "Cat assigned!" << std::endl;
     return *this;
 }
 

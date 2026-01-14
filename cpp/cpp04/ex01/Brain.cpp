@@ -3,31 +3,29 @@
 
 Brain::Brain() {
     for (size_t i = 0; i < 100; i++)
-        _Brain[i] = "";
-    std::cout << "Brain " << this->_Brain << " is constructed!" << std::endl;
+        ideas[i] = "";
+    std::cout << "Brain is constructed!" << std::endl;
 }
 
 Brain::Brain(const Brain &copy) {
-    if (this != &copy) {
-        for (size_t i = 0; i < 100; i++) {
-            this->_Brain[i] = copy._Brain[i];
-        }
+    for (size_t i = 0; i < 100; i++) {
+        this->ideas[i] = copy.ideas[i];
     }
-    std::cout << "Brain " << this->_Brain << " is constructed!" << std::endl;
+    std::cout << "Brain is copied!" << std::endl;
 }
 
 Brain &Brain::operator=(const Brain &op) {
     if (this != &op) {
         for (size_t i = 0; i < 100; i++) {
-            this->_Brain[i] = op._Brain[i];
+            this->ideas[i] = op.ideas[i];
         }
     }
-    std::cout << "Brain " << this->_Brain << " is constructed!" << std::endl;
+    std::cout << "Brain assigned!" << std::endl;
     return *this;
 }
 
 Brain::~Brain() {
-    std::cout << "Brain " << this->_Brain << " is deconstructed!" << std::endl;
+    std::cout << "Brain is destroyed!" << std::endl;
 }
 
 void Brain::setBrain(int index, const std::string s) {
@@ -35,7 +33,7 @@ void Brain::setBrain(int index, const std::string s) {
         std::cout << "100 slots in the brain, from 0 to 99" << std::endl;
         return;
     }
-    this->_Brain[index] = s;
+    this->ideas[index] = s;
 }
 
 std::string Brain::getBrain(int index) const {
@@ -43,5 +41,5 @@ std::string Brain::getBrain(int index) const {
         std::cout << "100 slots in the brain, from 0 to 99" << std::endl;
         return "";
     }
-    return this->_Brain[index];
+    return this->ideas[index];
 }
