@@ -14,7 +14,7 @@ int main(void)
     clap2.takeDamage(3);
     clap2.takeDamage(5);
     clap2.takeDamage(10);
-    clap2.attack("target3"); // Should fail (dead)
+    clap2.attack("target3");
     std::cout << std::endl;
 
     std::cout << "Repairing :"<< std::endl;

@@ -8,6 +8,23 @@ ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
     std::cout << "ScavTrap " << _Name << " is constructed!" << std::endl;
 }
 
+ScavTrap::ScavTrap() : ClapTrap() {
+    _Hp = 100;
+    _Ep = 50;
+    _Ad = 20;
+    std::cout << "ClapTrap " << this->_Name << " default is constructed!" << std::endl;
+}
+
+ScavTrap &ScavTrap::operator=(const ScavTrap &op)
+{
+    std::cout << "Copy assignment operator called" << std::endl;
+    if (this != &op)
+    {
+        ClapTrap::operator=(op);
+    }
+    return *this;
+}
+
 ScavTrap::~ScavTrap() {
     std::cout << "ScavTrap " << _Name << " is destructed!" << std::endl;
 }

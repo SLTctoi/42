@@ -1,9 +1,25 @@
 # include "ClapTrap.hpp"
 # include <iostream>
 
+ClapTrap::ClapTrap() : _Hp(10), _Ep(10), _Ad(0) {
+    std::cout << "ClapTrap " << this->_Name << " default is constructed!" << std::endl;
+}
 
 ClapTrap::ClapTrap(std::string name) : _Name(name), _Hp(10), _Ep(10), _Ad(0) {
     std::cout << "ClapTrap " << this->_Name << " is constructed!" << std::endl;
+}
+
+ClapTrap &ClapTrap::operator=(const ClapTrap &op)
+{
+    std::cout << "Copy assignment operator called" << std::endl;
+    if (this != &op)
+    {
+        this->_Name = op._Name;
+        this->_Hp = op._Hp;
+        this->_Ep = op._Ep;
+        this->_Ad = op._Ad;
+    }
+    return *this;
 }
 
 ClapTrap::~ClapTrap() {

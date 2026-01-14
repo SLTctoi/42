@@ -12,7 +12,9 @@ class ClapTrap {
         int _Ad;
 
     public:
+        ClapTrap();
         ClapTrap(std::string name);
+        ClapTrap &operator=(const ClapTrap &other);
         ~ClapTrap();
 
         void attack(const std::string& target);
