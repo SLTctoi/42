@@ -40,6 +40,12 @@ int main(void)
     clap5.beRepaired(2);
     std::cout << std::endl;
 
+    std::cout << "Copy constructor :"<< std::endl;
+    ClapTrap clap6("Original");
+    ClapTrap clap7(clap6);
+    clap7.attack("target6");
+    std::cout << std::endl;
+
     std::cout << "Destructors :"<< std::endl;
     return 0;
 }

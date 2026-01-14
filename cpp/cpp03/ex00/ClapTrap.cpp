@@ -9,6 +9,10 @@ ClapTrap::ClapTrap(std::string name) : _Name(name), _Hp(10), _Ep(10), _Ad(0) {
     std::cout << "ClapTrap " << this->_Name << " is constructed!" << std::endl;
 }
 
+ClapTrap::ClapTrap(const ClapTrap &copy) : _Name(copy._Name), _Hp(copy._Hp), _Ep(copy._Ep), _Ad(copy._Ad) {
+    std::cout << "ClapTrap " << this->_Name << " is copied!" << std::endl;
+}
+
 ClapTrap &ClapTrap::operator=(const ClapTrap &op)
 {
     std::cout << "Copy assignment operator called" << std::endl;

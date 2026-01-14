@@ -12,7 +12,11 @@ ScavTrap::ScavTrap() : ClapTrap() {
     _Hp = 100;
     _Ep = 50;
     _Ad = 20;
-    std::cout << "ClapTrap " << this->_Name << " default is constructed!" << std::endl;
+    std::cout << "ScavTrap " << this->_Name << " default is constructed!" << std::endl;
+}
+
+ScavTrap::ScavTrap(const ScavTrap &copy) : ClapTrap(copy) {
+    std::cout << "ScavTrap " << _Name << " is copied!" << std::endl;
 }
 
 ScavTrap &ScavTrap::operator=(const ScavTrap &op)
