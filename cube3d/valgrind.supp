@@ -1,0 +1,24 @@
+{
+   <MLX_X11_writev_uninit>
+   Memcheck:Param
+   writev(vector[0])
+   fun:writev
+   obj:*/libxcb.so*
+}
+
+{
+   <MLX_X11_writev_uninit2>
+   Memcheck:Param
+   writev(vector[0])
+   ...
+   fun:_XSend
+   fun:_XReadEvents
+}
+
+{
+   <MinilibX_still_reachable>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XOpenDisplay
+}
