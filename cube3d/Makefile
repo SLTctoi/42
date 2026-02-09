@@ -1,6 +1,6 @@
 NAME = cub3D
 
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 INCLUDES = -I./includes -I./libft -I./minilibx-linux
 
@@ -24,6 +24,7 @@ SRCS = $(SRC_DIR)/main.c \
        $(PARSING_DIR)/parsing_map.c \
        $(PARSING_DIR)/parsing_line.c \
        $(PARSING_DIR)/parsing_assign.c \
+       $(PARSING_DIR)/parsing_config.c \
        $(PARSING_DIR)/parsing_color.c \
        $(PARSING_DIR)/parsing_extract.c \
        $(PARSING_DIR)/parsing_realloc.c \
@@ -36,6 +37,7 @@ SRCS = $(SRC_DIR)/main.c \
        $(VALIDATION_DIR)/validate_elements.c \
        $(PLAYER_DIR)/position.c \
        $(PLAYER_DIR)/move.c \
+       $(PLAYER_DIR)/direction.c \
        $(GAME_DIR)/init.c \
        $(GAME_DIR)/render_drawmap.c \
        $(GAME_DIR)/render_drawpixel.c \
@@ -80,10 +82,5 @@ fclean: clean
 
 re: fclean all
 
-valgrind: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible \
-		--track-origins=yes --suppressions=valgrind.supp ./$(NAME) map/test.cub
-
-.PHONY: all clean fclean re valgrind
 
 .PHONY: all clean fclean re

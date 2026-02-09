@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_extract.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bvan-duy <bvan-duy@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/04 12:33:17 by bvan-duy          #+#    #+#             */
+/*   Updated: 2026/02/04 12:33:19 by bvan-duy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 static char	*extract_quoted_value(char *line, int *pos, t_map *map)
@@ -25,10 +37,11 @@ static char	*extract_unquoted_value(char *line, int *pos)
 	int		end;
 
 	start = *pos;
-	while (line[*pos] && !ft_iswhitespace(line[*pos])
-		&& line[*pos] != '\n')
+	while (line[*pos] && !ft_iswhitespace(line[*pos]) && line[*pos] != '\n')
 		(*pos)++;
 	end = *pos;
+	while (line[*pos] && ft_iswhitespace(line[*pos]) && line[*pos] != '\n')
+		(*pos)++;
 	value = ft_substr(line, start, end - start);
 	return (value);
 }

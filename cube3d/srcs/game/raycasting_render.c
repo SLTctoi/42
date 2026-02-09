@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting_render.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bvan-duy <bvan-duy@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/04 12:55:54 by bvan-duy          #+#    #+#             */
+/*   Updated: 2026/02/04 12:55:56 by bvan-duy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 static void	draw_ceiling(t_game *game, int x, int draw_start)
@@ -5,7 +17,7 @@ static void	draw_ceiling(t_game *game, int x, int draw_start)
 	int	y;
 	int	color;
 
-	color = (game->map.C[0] << 16) | (game->map.C[1] << 8) | game->map.C[2];
+	color = (game->map.c[0] << 16) | (game->map.c[1] << 8) | game->map.c[2];
 	y = 0;
 	while (y < draw_start)
 	{
@@ -19,7 +31,7 @@ static void	draw_floor(t_game *game, int x, int draw_end)
 	int	y;
 	int	color;
 
-	color = (game->map.F[0] << 16) | (game->map.F[1] << 8) | game->map.F[2];
+	color = (game->map.f[0] << 16) | (game->map.f[1] << 8) | game->map.f[2];
 	y = draw_end + 1;
 	while (y < SCREEN_HEIGHT)
 	{
@@ -44,24 +56,24 @@ static void	init_texture_vars(t_game *game, t_ray *ray, int *tex_vars)
 
 static void	draw_textured_wall(t_game *game, t_ray *ray, int x, int *dims)
 {
-	t_texture	*tex;
-	int			tex_vars[2];
-	double		step;
-	double		tex_pos;
-	int			y;
-	int			tex_y;
+	t_wall_pixel	wp;
+	int				tex_vars[2];
+	int				color;
 
 	init_texture_vars(game, ray, tex_vars);
-	tex = select_texture(game, ray);
-	step = 1.0 * tex->height / dims[0];
-	tex_pos = (dims[1] - SCREEN_HEIGHT / 2 + dims[0] / 2) * step;
-	y = dims[1];
-	while (y <= dims[2])
+	wp.tex = select_texture(game, ray);
+	wp.tex_x = tex_vars[0];
+	wp.step = (double)wp.tex->height / dims[0];
+	wp.tex_pos = (dims[1] - SCREEN_HEIGHT / 2 + dims[0] / 2) * wp.step;
+	wp.x = x;
+	wp.y = dims[1];
+	while (wp.y <= dims[2])
 	{
-		tex_y = (int)tex_pos & (tex->height - 1);
-		tex_pos += step;
-		draw_pixel(game, x, y, get_texture_color(tex, tex_vars[0], tex_y));
-		y++;
+		color = get_texture_color(wp.tex, wp.tex_x,
+				(int)wp.tex_pos & (wp.tex->height - 1));
+		draw_pixel(game, wp.x, wp.y, color);
+		wp.tex_pos += wp.step;
+		wp.y++;
 	}
 }
 

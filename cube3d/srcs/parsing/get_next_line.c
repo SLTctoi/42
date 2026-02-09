@@ -1,114 +1,110 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bvan-duy <bvan-duy@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/04 12:32:00 by bvan-duy          #+#    #+#             */
+/*   Updated: 2026/02/04 12:32:02 by bvan-duy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
-static char *buffer; // now visible to all functions in this file
-// Frees the static buffer inside get_next_line
-void    gnl_cleanup(void)
+static char	*ft_join_and_free(char *buf, char *temp)
 {
-    if (buffer)
-    {
-        free(buffer);
-        buffer = NULL;
-    }
+	char	*new_buf;
+
+	new_buf = ft_strjoin(buf, temp);
+	free(buf);
+	return (new_buf);
 }
 
-static char	*ft_free_join(char *buffer, char *temp)
+static char	*ft_read_to_buffer(int fd, char *buf, t_map *map)
 {
-	char	*temp2;
+	char	temp[BUFFER_SIZE + 1];
+	int		bytes;
 
-	temp2 = ft_strjoin(buffer, temp);
-	free(buffer);
-	return (temp2);
-}
-
-static char	*ft_first_line(int fd, char *buffer, t_map *map)
-{
-	char	*temp;
-	int		br;
-
-	if (!buffer)
-		buffer = ft_calloc(1, 1);
-	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!temp)
-		exit_error(NULL, map);
-	br = 1;
-	while (br > 0)
+	if (!buf)
+		buf = ft_calloc(1, 1);
+	bytes = 1;
+	while (bytes > 0)
 	{
-		br = read(fd, temp, BUFFER_SIZE);
-		if (br == -1)
+		bytes = read(fd, temp, BUFFER_SIZE);
+		if (bytes == -1)
 		{
-			free(buffer);
-			free(temp);
+			free(buf);
 			exit_error(NULL, map);
 		}
-		temp[br] = '\0';
-		buffer = ft_free_join(buffer, temp);
-		if (ft_strchr(buffer, '\n'))
+		temp[bytes] = '\0';
+		buf = ft_join_and_free(buf, temp);
+		if (ft_strchr(buf, '\n'))
 			break ;
 	}
-	free(temp);
-	return (buffer);
+	return (buf);
 }
 
-static char	*ft_get_line(char *buffer, t_map *map)
+static char	*ft_extract_line(char *buf, t_map *map)
 {
+	char	*line;
 	int		i;
-	char	*s;
 
 	i = 0;
-	if (!buffer[i])
+	if (!buf[i])
 		return (NULL);
-	while (buffer[i] && buffer[i] != '\n')
+	while (buf[i] && buf[i] != '\n')
 		i++;
-	s = ft_calloc(i + 2, sizeof(char));
-	if (!s)
+	line = ft_calloc(i + 2, sizeof(char));
+	if (!line)
 		exit_error(NULL, map);
 	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
+	while (buf[i] && buf[i] != '\n')
 	{
-		s[i] = buffer[i];
+		line[i] = buf[i];
 		i++;
 	}
-	if (buffer[i] && buffer[i] == '\n')
-		s[i++] = '\n';
-	return (s);
+	if (buf[i] && buf[i] == '\n')
+		line[i] = '\n';
+	return (line);
 }
 
-static char	*ft_clear_first_line(char *buffer, t_map *map)
+static char	*ft_remove_first_line(char *buf, t_map *map)
 {
+	char	*new_buf;
 	int		i;
 	int		j;
-	char	*s;
 
 	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
+	while (buf[i] && buf[i] != '\n')
 		i++;
-	if (!buffer[i])
+	if (!buf[i])
 	{
-		free(buffer);
+		free(buf);
 		return (NULL);
 	}
-	s = ft_calloc((ft_strlen(buffer) - i), sizeof(char));
-	if (!s)
+	new_buf = ft_calloc(ft_strlen(buf) - i, sizeof(char));
+	if (!new_buf)
 		exit_error(NULL, map);
 	i++;
 	j = 0;
-	while (buffer[i])
-		s[j++] = buffer[i++];
-	s[j] = '\0';
-	free(buffer);
-	return (s);
+	while (buf[i])
+		new_buf[j++] = buf[i++];
+	new_buf[j] = '\0';
+	free(buf);
+	return (new_buf);
 }
 
-char	*get_next_line(int fd, t_map *map)
+char	*get_next_line(int fd, char **buf, t_map *map)
 {
-	char		*line;
+	char	*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		exit_error(ERROR_GNL, map);
-	buffer = ft_first_line(fd, buffer, map);
-	if (!buffer)
+	*buf = ft_read_to_buffer(fd, *buf, map);
+	if (!*buf)
 		return (NULL);
-	line = ft_get_line(buffer, map);
-	buffer = ft_clear_first_line(buffer, map);
+	line = ft_extract_line(*buf, map);
+	*buf = ft_remove_first_line(*buf, map);
 	return (line);
 }

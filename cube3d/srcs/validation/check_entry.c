@@ -1,38 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_entry.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bvan-duy <bvan-duy@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/04 12:16:57 by bvan-duy          #+#    #+#             */
+/*   Updated: 2026/02/04 12:17:02 by bvan-duy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
-// i already check if .cub , can open file, if the map is only 0 1 N S E W space and \name
-// i already check if no duplicate NO SO WE EA F C
-// i already check if map is the last and ni empty line in the map
-// i check if i have an element after NO SO WE ...
-
-
-// je dois check que pour NO SO WE EA ca se termine bien par .xpm sinon error
-// je dois check que pour F C c'est bien un code RGB en mode int,int,int
-
-// parsing and texture_is_valid just after 
-
-void textures_is_valid(t_map map)
+/*
+** Helper: check a single texture path for validity
+*/
+static void	check_texture(char *path, char *id, t_map *map)
 {
-    size_t len;
+	size_t	len;
 
-    len = ft_strlen(map.NO);
-    if (len < 4)
-        exit_error(ERROR_TEXTURE_PATH, &map);
-    if (ft_strcmp(".xpm", map.NO + (len - 4)) != 0)
-        error_xpm_ext("NO", &map);
-    len = ft_strlen(map.SO);
-    if (len < 4)
-        exit_error(ERROR_TEXTURE_PATH, &map);
-    if (ft_strcmp(".xpm", map.SO + (len - 4)) != 0)
-        error_xpm_ext("SO", &map);
-    len = ft_strlen(map.WE);
-    if (len < 4)
-        exit_error(ERROR_TEXTURE_PATH, &map);
-    if (ft_strcmp(".xpm", map.WE + (len - 4)) != 0)
-        error_xpm_ext("WE", &map);
-    len = ft_strlen(map.EA);
-    if (len < 4)
-        exit_error(ERROR_TEXTURE_PATH, &map);
-    if (ft_strcmp(".xpm", map.EA + (len - 4)) != 0)
-        error_xpm_ext("EA", &map);
+	if (!path)
+		exit_error(ERROR_TEXTURE_PATH, map);
+	len = ft_strlen(path);
+	if (len < 4)
+		exit_error(ERROR_TEXTURE_PATH, map);
+	if (ft_strcmp(".xpm", path + (len - 4)) != 0)
+		error_xpm_ext(id, map);
+}
+
+/*
+** Validate all four wall textures in the map
+*/
+void	textures_is_valid(t_map *map)
+{
+	check_texture(map->no, "NO", map);
+	check_texture(map->so, "SO", map);
+	check_texture(map->we, "WE", map);
+	check_texture(map->ea, "EA", map);
 }
