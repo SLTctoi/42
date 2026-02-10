@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate_player.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bvan-duy <bvan-duy@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/04 12:18:54 by bvan-duy          #+#    #+#             */
+/*   Updated: 2026/02/04 12:18:55 by bvan-duy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 static int	is_player(char c)
@@ -27,7 +39,7 @@ void	validate_player_count(t_map *map)
 		y++;
 	}
 	if (count == 0)
-		exit_error("Error: No player start position (N/S/E/W)\n", map);
+		exit_error(ERROR_NO_PLAYER, map);
 	if (count > 1)
-		exit_error("Error: Multiple player start positions\n", map);
+		exit_error(ERROR_MULTIPLE_PLAYERS, map);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate_map_closed.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bvan-duy <bvan-duy@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/04 12:18:13 by bvan-duy          #+#    #+#             */
+/*   Updated: 2026/02/04 12:18:15 by bvan-duy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 static int	is_valid_cell(char c)
@@ -15,7 +27,7 @@ static void	check_top_bottom(t_map *map, int y)
 	while (map->map[y][x])
 	{
 		if (is_valid_cell(map->map[y][x]))
-			exit_error("Error: Map not closed (top/bottom)\n", map);
+			exit_error(ERROR_MAP_NOT_CLOSED_TOP_BOT, map);
 		x++;
 	}
 }
@@ -30,12 +42,12 @@ static void	check_sides(t_map *map, int y)
 	while (map->map[y][x] == ' ')
 		x++;
 	if (x < len && is_valid_cell(map->map[y][x]))
-		exit_error("Error: Map not closed (left side)\n", map);
+		exit_error(ERROR_MAP_NOT_CLOSED_LEFT, map);
 	x = len - 1;
 	while (x >= 0 && map->map[y][x] == ' ')
 		x--;
 	if (x >= 0 && is_valid_cell(map->map[y][x]))
-		exit_error("Error: Map not closed (right side)\n", map);
+		exit_error(ERROR_MAP_NOT_CLOSED_RIGHT, map);
 }
 
 void	validate_map_closed(t_map *map)
@@ -45,7 +57,7 @@ void	validate_map_closed(t_map *map)
 
 	height = count_map_lines(map->map);
 	if (height == 0)
-		exit_error("Error: Empty map\n", map);
+		exit_error(ERROR_EMPTY_MAP, map);
 	check_top_bottom(map, 0);
 	check_top_bottom(map, height - 1);
 	y = 1;

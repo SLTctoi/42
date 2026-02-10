@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchrispe <mchrispe@student.s19.be>         +#+  +:+       +#+        */
+/*   By: bvan-duy <bvan-duy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:52:17 by mchrispe          #+#    #+#             */
-/*   Updated: 2025/11/26 00:19:40 by mchrispe         ###   ########.fr       */
+/*   Updated: 2026/02/04 13:21:49 by bvan-duy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-#include <stddef.h>
+# include <stddef.h>
 
 // Fonctions de la libc
 int					ft_iswhitespace(char c);
