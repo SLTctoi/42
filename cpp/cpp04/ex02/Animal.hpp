@@ -13,6 +13,7 @@ class Animal {
         Animal &operator=(const Animal &other);
         virtual ~Animal();
 
+        // 1 fonction virtuelle pure = classe abstraite (classe abstraite peut pas etre instanciee) 
         virtual void makeSound(void) const = 0;
         std::string getType(void) const;
 };
