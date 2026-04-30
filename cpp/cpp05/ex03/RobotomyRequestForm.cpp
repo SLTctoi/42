@@ -36,7 +36,6 @@ void RobotomyRequestForm::execute(const Bureaucrat& executor) const {
 
     std::cout << "* drilling noises * BZZZZZ BZZZZZ BZZZZZ" << std::endl;
     
-    // Seed once at program start would be better, but for simplicity:
     static bool seeded = false;
     if (!seeded) {
         std::srand(std::time(0));
